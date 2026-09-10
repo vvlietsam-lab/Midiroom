@@ -857,7 +857,9 @@ function generateDrums(rng, cfg) {
       notes.push({ step: s, midi: pitch, drum: true, velocity });
     });
     const isFill = (b % 4 === 3) && cfg.fills !== false;
-    if (style.id === 'dubstep') {
+    if (style.id === 'disco') {
+      add([0,4,8,12],DRUM_MAP.kick);add([4,12],DRUM_MAP.snare,100);add([4,12],DRUM_MAP.clap,80);add([2,6,10,14],DRUM_MAP.openhat,85);add([0,4,8,12],DRUM_MAP.hat,62);if(isFill)add([15],DRUM_MAP.snare,55);
+    } else if (style.id === 'dubstep') {
       add(b%2 ? [0,6,11] : [0,6], DRUM_MAP.kick);
       add([8], DRUM_MAP.snare);
       add([0,2,4,6,8,10,12,14], DRUM_MAP.hat, 80);
@@ -1321,6 +1323,15 @@ GENRES.push(
    progressions:['pedal','phryg'],note:'174 BPM · strakke two-step · donkere call-and-response frases',
    parts:{drums:{style:'dnb'},bass:{style:'reese',opts:{avoidKick:false}},screech:{style:'machine',opts:{density:'dicht',motion:'tonal'}},darkmelody:{style:'syncoop'}},
    energy:{kalm:['drums','bass'],normaal:['drums','bass','screech'],vol:['drums','bass','screech','darkmelody']}}
+);
+STYLES.bass.push(
+ {id:'disco',label:'Disco • octave groove',steps:[0,2,3,6,8,10,11,14],lens:[1.5,.7,.7,1.5,1.5,.7,.7,1.5],w:2,note:'gesyncopeerde octaafbas met ruimte tussen de noten'},
+ {id:'italo',label:'Italo • octave engine',steps:[0,2,4,6,8,10,12,14],lens:[1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5],w:2,note:'strakke achtsten, afwisselende octaven'}
+);
+STYLES.drums.push({id:'disco',label:'Disco • four-on-floor',w:2,note:'kwartkick, snare/clap op 2 en 4, open offbeat hats'});
+GENRES.push(
+ {id:'disco',label:'Disco',bpm:118,scale:'dorian',chordBars:2,chordSize:4,swing:10,progressions:['minorswing','twochord'],note:'118 BPM · funky octaafbas · septiemstabs en open hats',parts:{drums:{style:'disco'},bass:{style:'disco',opts:{octaveJump:true,avoidKick:false}},chords:{style:'charleston'},pluck:{style:'skip'},pad:{style:'whole'}},energy:{kalm:['drums','bass'],normaal:['drums','bass','chords'],vol:['drums','bass','chords','pluck','pad']}},
+ {id:'italo',label:'Italo disco',bpm:122,scale:'aeolian',chordBars:2,chordSize:3,swing:0,progressions:['euphoric','darkloop'],note:'122 BPM · sequencerbas · analoge akkoorden en arpeggio',parts:{drums:{style:'disco'},bass:{style:'italo',opts:{octaveJump:true,avoidKick:false,movement:false}},chords:{style:'pumped'},arp:{style:'up'},pad:{style:'whole'},lead:{style:'longshort'}},energy:{kalm:['drums','bass','pad'],normaal:['drums','bass','chords','arp'],vol:['drums','bass','chords','arp','pad','lead']}}
 );
 const ENERGY = ['kalm', 'normaal', 'vol'];
 

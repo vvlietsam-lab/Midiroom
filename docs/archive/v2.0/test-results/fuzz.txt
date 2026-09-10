@@ -1,0 +1,4 @@
+=== fuzz: 8000 sections, 44153 parts, 5974700 notes ===
+no invariant violations
+melodic score: avg 59.5  min -999  max 461.2
+empty parts: 0

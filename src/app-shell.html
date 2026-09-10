@@ -117,8 +117,11 @@ canvas{display:block;width:100%;touch-action:none}
     <button id="tab-tools" role="tab" data-view="tools" aria-selected="false" aria-controls="view-tools" tabindex="-1">Studio Tools</button>
     <button id="tab-ideas" role="tab" data-view="ideas" aria-selected="false" aria-controls="view-ideas" tabindex="-1">Idea Bank</button>
     <button id="tab-check" role="tab" data-view="check" aria-selected="false" aria-controls="view-check" tabindex="-1">MIDI Check</button>
+    <button id="tab-sound" role="tab" data-view="sound" aria-selected="false" aria-controls="view-sound" tabindex="-1">Sound Lab</button>
+    <button id="tab-arrange" role="tab" data-view="arrange" aria-selected="false" aria-controls="view-arrange" tabindex="-1">Arrangement</button>
+    <button id="tab-vocal" role="tab" data-view="vocal" aria-selected="false" aria-controls="view-vocal" tabindex="-1">Vocal Room</button>
   </nav>
-  <div class="version"><b>LOCAL STUDIO</b> / v2.0</div>
+  <div class="version"><b>LOCAL STUDIO</b> / v2.2</div>
 </header>
 <section id="view-generator" role="tabpanel" aria-labelledby="tab-generator">
 
@@ -140,7 +143,7 @@ canvas{display:block;width:100%;touch-action:none}
 </aside>
 
 <main>
-  <div class="workspace-heading"><div><div class="eyebrow" style="margin-bottom:7px">CREATE / MIDI</div><h2>Van idee naar eerste loop.</h2><p>Kies een groove. Maak hem van jou.</p></div><div class="action-row"><button id="reroll" title="Nieuwe seed en nieuwe MIDI">↻ Nieuwe variatie</button><button class="primary" id="gen">Genereer MIDI</button></div></div>
+  <div class="workspace-heading"><div><div class="eyebrow" style="margin-bottom:7px">WORKSPACE 01</div><h2>Session / MIDI</h2><p>Kies een groove. Maak hem van jou.</p></div><div class="action-row"><button id="reroll" title="Nieuwe seed en nieuwe MIDI">↻ Nieuwe variatie</button><button class="primary" id="gen">Genereer MIDI</button></div></div>
   <div class="session-controls"><div class="field"><label for="root">Grondtoon</label><select id="root"></select></div><div class="field"><label for="scale">Toonladder</label><select id="scale"></select></div>
     <div class="field"><label for="bpm">BPM</label><input type="number" id="bpm" value="160" min="40" max="300" step="1"></div>
     <div class="field"><label for="bars">Maten</label>
@@ -179,6 +182,8 @@ canvas{display:block;width:100%;touch-action:none}
 
 <button id="copyLink">Kopieer instellingenlink</button></div></details>
 
+  <p id="clipNotice" class="hint" hidden></p><div class="daw-toolbar"><div class="action-row"><button id="undoTake" disabled title="Ctrl/Cmd+Z">↶ Undo</button><button id="redoTake" disabled title="Ctrl/Cmd+Shift+Z">↷ Redo</button><button id="storeA">Bewaar A</button><button id="recallA" disabled>Terug naar A</button><button id="clearMix">Reset M/S</button><button id="toggleMixer" aria-expanded="false">Mixer</button></div><span id="historyHint" class="hint" role="status"></span></div>
+  <div id="mixerPanel" class="mixer-grid" hidden></div>
   <div class="roll-head">
     <div class="meta" id="meta">Nog niets gegenereerd.</div>
     <div class="transport">
@@ -370,6 +375,7 @@ function collectState(){
     const artS=document.querySelector('[data-art="'+id+'"]');
     st.p[id]={on:cb&&cb.checked?1:0,st:sel?sel.value:'',oc:octaves[id],op,vy:varies[id],ar:artS?artS.value:''};
   });
+  st.x=studioState();
   return st;
 }
 let lastHash='';
@@ -385,6 +391,7 @@ function restoreFromHash(){
   if(!location.hash||location.hash.length<3) return;
   let st; try{ st=JSON.parse(decodeURIComponent(location.hash.slice(1))); }catch(e){ return; }
   st=normalizeState(st);
+  restoreStudioState(st.x);
   restoring=true;
   try{
     const set=(id,v)=>{ if(v!=null&&$(id)) $(id).value=v; };
@@ -466,12 +473,13 @@ function resetPartDefaults(id){
   });
 }
 function applyGenre(id,newSeedToo){
+  restoring=true;
   activeGenre=id;
   PART_ORDER.forEach(pid=>{muted[pid]=false;soloed[pid]=false;});
   document.querySelectorAll('[data-genre]').forEach(b=>b.classList.toggle('on',b.dataset.genre===id));
   const g=GENRES.find(x=>x.id===id);
   $('genreNote').textContent=g?(g.free?g.note:g.label+' — '+g.note):'';
-  if(!g||g.free){ generate(); return; }
+  if(!g||g.free){ restoring=false; generate(); return; }
 
   const lvl=ENERGY[+$('energy').value]||'normaal';
   if(newSeedToo) $('seed').value=newSeed();
@@ -509,6 +517,7 @@ function applyGenre(id,newSeedToo){
     const sl=document.querySelector('[data-style="'+pid+'"]');
     if(sl) sl.dispatchEvent(new Event('change',{bubbles:false}));
   });
+  restoring=false;
   generate();
 }
 
@@ -530,6 +539,7 @@ $('seed').addEventListener('keydown',e=>{ if(e.key==='Enter') generate(); });
 
 /* ---- generate ---- */
 function generate(){
+  if(restoring)return;
   const parts=Array.from(document.querySelectorAll('[data-part]')).filter(c=>c.checked).map(c=>c.dataset.part);
   if(!parts.length){
     current=null; $('meta').textContent='Selecteer minstens één instrument.'; $('play').disabled=true; saveToHash(); refreshWorkspace();
@@ -574,13 +584,15 @@ function generate(){
       bpm, parts, partOpts, tries:120,
     });
     current.bpm=bpm;
+    vocalLinked=false;
+    baseLoop=JSON.parse(JSON.stringify(current));
     const wasPlaying=playing;
     stopAudio();
     rollCache=null; drawRoll(); writeReadout(); buildExports(); updateStyleLabels();
     $('meta').innerHTML='<b>'+NOTE_NAMES[+$('root').value]+' '+SCALES[$('scale').value].name+'</b>  ·  '+
       current.meta.progression.label+'  ·  <b>'+bpm+'</b> BPM  ·  '+current.meta.bars+' maten'+
       (current.arrangement?' ('+current.meta.structure.label+')':'')+'  ·  seed <b>'+escapeHtml($('seed').value)+'</b>';
-    saveToHash(); renderStudio(); logEntry(); refreshWorkspace();
+    saveToHash(); renderStudio(); logEntry(); refreshWorkspace(); rememberTake();
     if(wasPlaying) playAll();
   }catch(err){
     $('readout').innerHTML='<div class="err">Genereren mislukt: '+escapeHtml(err.message)+'</div>';
@@ -611,6 +623,7 @@ function playheadX(playhead){
   return playhead/rollMap.totalTicks*(rollMap.W-52)+48;
 }
 function drawRoll(playhead){
+  if(typeof updateDaw==='function')updateDaw(playhead);
   if(!current||!current.parts.length){ clearRoll(); return; }
   const W=cv.clientWidth||600;
   if(!rollCache || rollW!==W){ paintRoll(W); rollW=W; }      // no recursion: paint at most once
@@ -806,7 +819,7 @@ function notesFor(filename){
   saveToHash();
   const g=GENRES.find(x=>x.id===activeGenre);
   const stru=STRUCTURES.find(x=>x.id===$('structure').value);
-  return buildNotesMd({
+  const noteText=buildNotesMd({
     filename, root:+$('root').value, scale:$('scale').value, progression:$('prog').value,
     bpm:current.bpm, bars:current.meta.bars, chordSize:+$('chordSize').value, chordBars:+$('chordBars').value,
     swing:+$('swing').value||0, seed:$('seed').value,
@@ -822,8 +835,9 @@ function notesFor(filename){
         style:p.part&&p.part.rhythmLabel?p.part.rhythmLabel:(document.querySelector('[data-style="'+p.id+'"]')||{}).value||'',
         articulation:artSel?(ARTICULATIONS.find(a=>a.id===artSel.value)||{label:'—'}).label:'—' };
     }),
-    url:location.href,
+    url:location.href, 
   });
+  return noteText + (current.vocalTiming||current.meta.structure?.id==='custom'?'\n\n## Exact herstellen\nDit is een bewerkte clip. De instellingenlink herstelt alleen generatorinstellingen, niet deze noten. Bewaar MIDI en exporteer de Idea Bank voor exact herstel. Vocal-audio en synthpresets zitten niet in MIDI.\n':'');
 }
 function download(bytes,name){
   const blob=new Blob([bytes],{type:'audio/midi'});
@@ -902,12 +916,7 @@ function unlockAudio(){
 function updateAudioStatus(){
   const el=$('audioStatus'); if(!el) return;
   if(!AC){ el.textContent=''; return; }
-  const bits=['audio: '+AC.state];
-  if(AC.sampleRate) bits.push(Math.round(AC.sampleRate/1000)+' kHz');
-  if(playing) bits.push(scheduledCount+' stemmen gepland');
-  let msg=bits.join('  ·  ');
-  if(AC.state!=='running') msg+='   — tik nog een keer op Afspelen; op iPhone moet de zijschakelaar uit stil staan';
-  el.textContent=msg;
+  el.textContent=AC.state==='running'?(playing?'Preview speelt · Spatie om te stoppen':''):'Audio staat gepauzeerd. Druk op Play om te hervatten.';
 }
 function track(node,until){ live.push({n:node,u:until}); return node; }
 function pruneLive(now){
@@ -1034,8 +1043,8 @@ function buildQueue(){
   const q=[];
   current.parts.forEach(p=>{
     if(!audible(p.id)) return;
-    const v=VOICES[p.id]||VOICES.lead;
-    p.events.forEach(e=>q.push({t:e.tick*tickSec, v, f:mtof(e.midi), d:Math.max(0.05,e.dur*tickSec), vel:e.vel, midi:e.midi}));
+    const v=soundPatches[p.id]?((a,o,t,f,d,v)=>patchVoice(a,o,t,f,d,v,soundPatches[p.id])):(VOICES[p.id]||VOICES.lead);
+    p.events.forEach(e=>q.push({bus:p.id,t:e.tick*tickSec, v, f:mtof(e.midi), d:Math.max(0.05,e.dur*tickSec), vel:e.vel, midi:e.midi}));
   });
   if($('clickKick').checked){
     const spb=60/current.bpm;
@@ -1046,7 +1055,7 @@ function buildQueue(){
 }
 function fire(ev,t){
   if(ev.v==='click') clickKick(AC,master,t);
-  else ev.v(AC,master,t,ev.f,ev.d,ev.vel,ev.midi);
+  else ev.v(AC,mixerBuses[ev.bus]||master,t,ev.f,ev.d,ev.vel,ev.midi);
 }
 function schedTick(){
   if(!playing||!current) return;
@@ -1071,6 +1080,7 @@ function schedTick(){
 }
 function playAll(){
   if(!current||!current.parts.length) return;
+  if(vocalLinked&&current.vocalTiming)$('loop').checked=false;
   stopAudio();
   unlockAudio();
   const a=ac();
@@ -1082,10 +1092,12 @@ function playAll(){
   const audibleCount=Math.max(1,current.parts.filter(p=>audible(p.id)).length);
   master.gain.value=Math.min(0.95, (1.6/Math.sqrt(audibleCount))*(Number($('vol').value)/100));
   master.connect(limiter); limiter.connect(a.destination);
+  buildMixerBuses(a);
 
   queue=buildQueue(); qIdx=0; qPass=0;
   sectionDur=current.meta.bars*4*(60/current.bpm);
   anchor=a.currentTime+0.18;
+  scheduleLinkedVocal(a,anchor);
   playing=true; scheduledCount=0;
   $('play').disabled=true; $('stop').disabled=false;
   schedTick();
@@ -1109,12 +1121,13 @@ function stopAudio(){
   if(schedTimer){ clearInterval(schedTimer); schedTimer=null; }
   if(statusTimer){ clearInterval(statusTimer); statusTimer=null; }
   live.forEach(o=>{ try{ o.n.stop(0); }catch(e){} });
+  disposeMixerBuses();
   live=[]; queue=[]; qIdx=0; qPass=0;
   if(master){ try{ master.disconnect(); }catch(e){} master=null; }
   if(limiter){ try{ limiter.disconnect(); }catch(e){} limiter=null; }
   $('play').disabled=!current; $('stop').disabled=true;
   updateAudioStatus();
-  if(current) drawRoll();
+  drawRoll();
 }
 $('play').addEventListener('click',playAll);
 $('stop').addEventListener('click',stopAudio);
@@ -1128,6 +1141,8 @@ document.addEventListener('keydown',e=>{
 });
 
 /*__WORKSPACE__*/
+/*__PRODUCTION__*/
+/*__DAW__*/
 
 paintMS();
 renderLog();

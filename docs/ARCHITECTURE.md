@@ -1,46 +1,37 @@
-# Architectuur — MIDIROOM 2.0
+# Architectuur — MIDIROOM 2.1
 
-| Bestand | Verantwoordelijkheid |
-|---|---|
-| `src/core.js` | Schalen, stijlbanken, genres, muzikale generatie, arrangementen, MIDI-writer, notities |
-| `src/app-shell.html` | HTML-shell, bestaande UI-state, instrumentbediening, canvas, Web Audio en exports |
-| `src/theme.css` | Moderne vormgeving, responsieve lay-out en interactiestaten |
-| `src/workspace.js` | Tabnavigatie, invoervalidatie, Idea Bank, Studio Tools en MIDI Check |
-| `build.js` | Vult de drie inline markers en schrijft `index.html` |
-| `test/` | Fuzz, DOM, audio, referentiestatistiek, regressie en optionele browser-QA |
+De basis uit 2.0 staat in `docs/archive/v2.0/ARCHITECTURE.md`.
 
-## Muzikale keten
+## Productietoestand
 
-1. Seed + instrument-ID + variatienummer maken een onafhankelijke PRNG.
-2. Schaal en akkoordenschema bepalen de beschikbare toonhoogtes.
-3. Stijlen bepalen ritme, nootlengtes en eventuele contour.
-4. Melodische partijen evalueren kandidaten; nieuwe screeches gebruiken vaste frases met gecontroleerde antwoorden.
-5. Registers worden afgestemd op instrument en octaafinstelling. Expliciete screech-octaafaccenten verruimen het toegestane bereik.
-6. `renderPart` maakt afgeronde ticks, begrenst duur tot het clipeinde en verwijdert dezelfde-toonoverlap. Bass en Screech zijn ook over verschillende toonhoogtes monofonisch.
-7. MIDI-export schrijft tempo/maatsoort, note-on/off en een gelijk eindtijdstip voor alle tracks.
+Generatorstate blijft compatibel met bestaande URL-velden. Een nieuw veld `x` bevat mixerinstellingen, synthpatches en sectiedefinities. `cleanStudioState()` begrenst dit materiaal. Exacte clips staan alleen in undo/A-snapshots en Idea Bank, niet in de URL. `cleanClip()` valideert instrument-IDs, nootgetallen, duur, range en clipgrenzen; maximaal 50.000 noten per snapshot.
 
-Akkoorden van grootte 2 zijn grondtoon + diatonische kwint. Groottes 3–5 stapelen tertsen. De gekozen modus kan de kwint verminderen; die schaaltrouw blijft bewust behouden.
+Idea Bank exporteert `{app:'MIDIROOM',version:3,ideas:[...]}`. Een idee heeft `state`, `clip`, `source`, `id`, `name` en `date`. v2-imports zonder clip vallen terug op generatie. Audio wordt nooit in dit formaat opgeslagen.
 
-## Afhankelijkheden
+## Audio
 
-De generatievolgorde begint met Kick, Lead, Chords. Harmony kan de lead volgen, Chords kunnen zijn ritme volgen, Pad kan akkoordvoicings lenen, Bass kan voor Kick uitwijken en Drums kunnen dubbele kicks vermijden. Afhankelijke partijen worden intern voorbereid zonder ze automatisch te exporteren.
+De bestaande scheduler blijft eigenaar van preview-playback. Elke instrumentstem krijgt een gainbus en indien ondersteund een StereoPannerNode. Sound Lab vervangt voor geselecteerde melodische instrumenten de voice-functie in de queue. Nieuwe synthnoten lezen de actuele patch; reeds klinkende envelopes worden niet retroactief herschreven.
 
-Arrangementen genereren secties apart met subseeds. Sectie-instrumentatie blijft een subset van de aangevinkte instrumenten. Stilte in een breakdown met uitsluitend percussie is geldig. Na samenvoegen wordt dezelfde-toonoverlap opnieuw begrensd.
+Sound Lab: 2 osc → lowpass → optionele waveshaper → amplitude envelope → instrumentbus → master/limiter. Nodes worden na afloop ontkoppeld. De vocal gebruikt een BufferSource en eigen gain, daarna dezelfde master. Starttijd is `anchor + offset`. De gegenereerde MIDI-tijdstippen zijn `seconden × BPM × 480 / 60`; in de scheduler volgt de inverse. Er is geen afzonderlijke timer voor vocal versus MIDI.
 
-## MIDI
+## Arrangement
 
-SMF type 1; 480 ticks per kwartnoot; 4/4. `buildMidi(tracks, tempo, totalTicks)` accepteert optioneel de cliplengte. De UI geeft die altijd door. Zonder lengte blijft de oorspronkelijke API bruikbaar en eindigt een track bij zijn laatste event.
+`arrangeClip(source, sections)` herhaalt source-events binnen elke sectie en trimt nootduur op sectieranden. Een masker bepaalt welke instrumenten meedoen; een factor schaalt velocities naar 1–127. Maximaal 16 secties, ieder 1–32 maten, totaal 256. De bron blijft apart bewaard zodat klikken op 'Maak arrangement' niet telkens het vorige arrangement als bron verdubbelt.
 
-MIDI-kanaal 10 is gereserveerd voor Drums; de 15 melodische kanalen slaan dat kanaal over. Trackdata wordt lineair opgebouwd met push in plaats van herhaald kopiëren voor iedere delta.
+## Vocalanalyse
 
-## Preview
+Browser decoding → OfflineAudioContext mono/8 kHz → Float32Array naar een Blob Worker → analyse.
 
-Eén blijvende AudioContext, een korte vooruitkijkende scheduler en getraceerde nodes voor stop/cleanup. Volume 0 is exact 0 gain. Mute en solo wijzigen alleen preview; de UI benoemt dit. Syntheseklanken zijn eenvoudige klankschetsen. De metronoom is een previewhulp.
+De eigen pitchschatter gebruikt een cumulatief genormaliseerde verschilfunctie, minima, interpolatie en median smoothing. Framing: 1024 samples, hop 160. Zoekgebied circa 65–650 Hz. Op basis van stabiele pitchwissels, onderbrekingen en amplitudeaanzetten worden segmenten gevormd. Een duurgewogen chromahistogram wordt gecorreleerd met 24 majeur/mineurprofielen; de top 3 wordt aangeboden.
 
-Canvas is een niet-bewerkbare weergave, met instelbaar instrumentfilter en nootnamen. Verborgen tabbladen gebruiken `hidden`; bij terugkeer wordt de canvas opnieuw getekend.
+De key-profielfamilie is de bekende Krumhansl-Schmuckler-aanpak, ook beschreven in de [music21 documentatie](https://music21.org/music21docs/moduleReference/moduleAnalysisDiscrete.html). MIDIROOM gebruikt hiervoor eigen JavaScript, niet music21 als dependency. De eigen segmentatie en zekerheidslabels zijn heuristisch en niet wetenschappelijk gekalibreerd.
 
-## Data en overdracht
+`vocalMelodyEvents` maakt een lagere stem in de gekozen ladder, met dezelfde gevonden onset-seconden. De sparse-modus neemt om en om een segment. Deze functie voert geen akkoordherkenning, woordherkenning, source separation of beat-warp uit. Grenzen en testdekking staan in TEST_REPORT.
 
-Instellingen staan in de URL-hash; de hash blijft compatibel met de bestaande veldnamen. Onbekende of ongeldige waarden worden genegeerd/genormaliseerd. Tekst zoals seeds en ideenamen wordt escaped vóór HTML-weergave.
+## Build
 
-Favorieten staan in lokale browseropslag en kunnen als JSON worden verplaatst. `index.html` is zelfstandig en bevat geen externe runtime-assets. Versie 2 bewaart instellingen, geen gegenereerde eventsnapshot; exacte archivering gebeurt met de MIDI-export en de projectversie.
+`build.js` verwijdert de CommonJS-export van core en vocal-engine, en voegt de inhoud met shell/theme/workspace/production samen tot één offline `index.html`. Blob Workers worden uit de inline analysefunctie opgebouwd. Er zijn geen CDN/runtime-netwerkafhankelijkheden.
+
+## Interface 2.2
+
+`src/daw.js` voegt globale transportbediening, een keyboard dialog, trackfilter en visuele zoom toe. De bestaande playback- en exportfuncties blijven de bron van waarheid. View-state wordt niet meegeschreven naar URL/Idea Bank. De canvas-resolutie volgt layoutwijzigingen via ResizeObserver.

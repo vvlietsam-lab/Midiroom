@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "truthNotes": 13,
+  "matchedPitchAndOnsets": 13,
+  "segments": 13,
+  "topKeys": [
+    {
+      "root": 9,
+      "scale": "aeolian",
+      "score": 0.8978953061427091
+    },
+    {
+      "root": 9,
+      "scale": "ionian",
+      "score": 0.6350957499243722
+    },
+    {
+      "root": 4,
+      "scale": "aeolian",
+      "score": 0.6034383444455818
+    }
+  ],
+  "certainty": "redelijk",
+  "fixture": "synthetic harmonic tone sequence; no real singer validation"
+}

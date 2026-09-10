@@ -13,14 +13,17 @@ function normalizeState(raw){
     (EXTRAS[id]||[]).forEach(e=>{const v=p.op&&p.op[e.key];op[e.key]=e.options?(e.options.includes(v)?v:e.def):(v==null?+e.def:+!!v);});
     st.p[id]={on:+!!p.on,st:choose(p.st,['',...STYLES[PART_DEFS[id].styles].map(x=>x.id)],''),oc:num(p.oc,-3,3,0),vy:num(p.vy,0,100000,0),ar:choose(p.ar,ARTICULATIONS.map(x=>x.id),'auto'),op};
   });
+  st.x=cleanStudioState(s.x);
   return st;
 }
 function selectView(view){
-  ['generator','tools','ideas','check'].forEach(id=>{$('view-'+id).hidden=id!==view;const tab=$('tab-'+id);tab.setAttribute('aria-selected',id===view);tab.tabIndex=id===view?0:-1;});
+  ['generator','tools','ideas','check','sound','arrange','vocal'].forEach(id=>{$('view-'+id).hidden=id!==view;const tab=$('tab-'+id);tab.setAttribute('aria-selected',id===view);tab.tabIndex=id===view?0:-1;});
   if(view==='generator'){rollCache=null;drawRoll();}
   if(view==='tools'){renderStudio();renderTools();}
   if(view==='ideas')renderIdeas();
   if(view==='check')renderCheck();
+  if(view==='sound')renderSound();
+  if(view==='arrange')renderArrangement();
 }
 document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>selectView(b.dataset.view)));
 document.querySelector('.topnav').addEventListener('keydown',e=>{
@@ -58,7 +61,7 @@ const BANK_KEY='midiroom.ideas.v2';
 let ideas=[],bankStorageError=false;
 function cleanIdea(item){
   if(!item||typeof item!=='object'||!item.state||typeof item.state!=='object'||!item.state.p)throw new Error('Ongeldig idee: instellingen ontbreken.');
-  return {id:String(item.id||Date.now()+'-'+Math.random()).slice(0,100),name:String(item.name||'Naamloze take').slice(0,80),date:String(item.date||new Date().toISOString()).slice(0,50),state:normalizeState(item.state)};
+  return {id:String(item.id||Date.now()+'-'+Math.random()).slice(0,100),name:String(item.name||'Naamloze take').slice(0,80),date:String(item.date||new Date().toISOString()).slice(0,50),state:normalizeState(item.state),clip:cleanClip(item.clip),source:cleanClip(item.source)};
 }
 try {const data=JSON.parse(localStorage.getItem(BANK_KEY)||'[]');if(Array.isArray(data))ideas=data.slice(0,100).map(cleanIdea);}catch(e){bankStorageError=true;}
 function persistIdeas(){
@@ -69,7 +72,9 @@ function saveIdea(){
   if(!current){bankNotice('Genereer eerst een take met minstens één instrument.');return;}
   if(ideas.length>=100){bankNotice('Je bank bevat 100 ideeën. Exporteer de bank en verwijder enkele takes.');return;}
   const name=$('ideaName').value.trim()||((GENRES.find(g=>g.id===activeGenre)||GENRES[0]).label+' / '+$('seed').value);
-  ideas.unshift(cleanIdea({id:Date.now()+'-'+newSeed(),name,date:new Date().toISOString(),state:collectState()}));
+  const idea=cleanIdea({id:Date.now()+'-'+newSeed(),name,date:new Date().toISOString(),state:collectState(),clip:current,source:baseLoop});
+  if(new Blob([JSON.stringify({app:'MIDIROOM',version:3,ideas:[idea,...ideas]})]).size>12000000){bankNotice('Je bank is vol (12 MB). Exporteer en verwijder enkele takes.');return;}
+  ideas.unshift(idea);
   const saved=persistIdeas();$('ideaName').value='';renderIdeas();bankNotice(saved?'Take bewaard.':'Alleen tijdelijk bewaard: browseropslag niet beschikbaar. Exporteer je bank.');
 }
 function renderIdeas(){
@@ -84,21 +89,22 @@ $('saveIdea').onclick=saveIdea;
 $('saveIdeaQuick').onclick=()=>{selectView('ideas');saveIdea();};
 $('ideaList').addEventListener('click',e=>{
   const load=e.target.closest('[data-load-idea]');
-  if(load){const idea=ideas[+load.dataset.loadIdea];if(!idea)return;PART_ORDER.forEach(id=>{muted[id]=false;soloed[id]=false;});location.hash=encodeURIComponent(JSON.stringify(idea.state));restoreFromHash();generate();paintMS();selectView('generator');return;}
+  if(load){const idea=ideas[+load.dataset.loadIdea];if(!idea)return;PART_ORDER.forEach(id=>{muted[id]=false;soloed[id]=false;});location.hash=encodeURIComponent(JSON.stringify(idea.state));restoreFromHash();if(idea.clip){stopAudio();current=clone(idea.clip);baseLoop=clone(idea.source||idea.clip);vocalLinked=false;redrawCurrent();rememberTake();}else generate();paintMS();selectView('generator');return;}
   const del=e.target.closest('[data-delete-idea]');if(del){const i=+del.dataset.deleteIdea;ideas.splice(i,1);const saved=persistIdeas();renderIdeas();bankNotice(saved?'Take verwijderd.':'Verwijderd uit deze sessie; browseropslag kon niet worden bijgewerkt.');}
 });
 function downloadJson(value,name){const blob=new Blob([JSON.stringify(value,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},400);}
-$('exportIdeas').onclick=()=>downloadJson({app:'MIDIROOM',version:2,ideas},'MIDIROOM_ideas.json');
+$('exportIdeas').onclick=()=>downloadJson({app:'MIDIROOM',version:3,ideas},'MIDIROOM_ideas.json');
 $('importIdeas').onclick=()=>$('ideaFile').click();
 $('ideaFile').addEventListener('change',async e=>{
   const f=e.target.files[0];if(!f)return;
   try{
-    if(f.size>2000000)throw new Error('Bestand is te groot (max. 2 MB).');
-    const data=JSON.parse(await f.text());if(data.app!=='MIDIROOM'||data.version!==2||!Array.isArray(data.ideas))throw new Error('Kies een MIDIROOM Idea Bank-bestand (versie 2).');
+    if(f.size>12000000)throw new Error('Bestand is te groot (max. 12 MB).');
+    const data=JSON.parse(await f.text());if(data.app!=='MIDIROOM'||![2,3].includes(data.version)||!Array.isArray(data.ideas))throw new Error('Kies een MIDIROOM Idea Bank-bestand (versie 2 of 3).');
     if(data.ideas.length>100)throw new Error('Maximaal 100 ideeën per bank.');
     const incoming=data.ideas.map(cleanIdea),known=new Set(ideas.map(x=>x.id)),add=[];
     incoming.forEach(x=>{if(!known.has(x.id)){known.add(x.id);add.push(x);}});
     if(ideas.length+add.length>100)throw new Error('Samen meer dan 100 ideeën. Exporteer en maak eerst ruimte.');
+    if(new Blob([JSON.stringify({app:'MIDIROOM',version:3,ideas:[...add,...ideas]})]).size>12000000)throw new Error('Samen groter dan 12 MB. Maak eerst ruimte.');
     ideas=[...add,...ideas];const saved=persistIdeas();renderIdeas();bankNotice(add.length+' ideeën geïmporteerd.'+(saved?'':' Exporteer ze: browseropslag niet beschikbaar.'));
   }catch(err){bankNotice('Import mislukt: '+err.message);}finally{e.target.value='';}
 });
@@ -139,6 +145,6 @@ function refreshWorkspace(){
   $('rollInfo').textContent=current?current.meta.bars+' maten · '+(current.meta.bars*240/current.bpm).toFixed(1)+' s · 480 PPQ':'480 PPQ · 4/4';
   $('saveIdeaQuick').disabled=!current;$('saveIdea').disabled=!current;$('exportCheck').disabled=!current;$('exportBrief').disabled=!current;
   $('play').disabled=!current||playing;
-  paintMS();renderTools();renderCheck();
+  paintMS();renderTools();renderCheck();refreshProduction();
 }
 renderIdeas();

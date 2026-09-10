@@ -117,12 +117,12 @@ setTimeout(() => {
   win.eval('unlockAudio()');
   ok(win.eval('unlockTried') === true, 'unlock runs');
   ok(win.eval('silentEl !== null'), 'silent media element created for the iOS ringer switch');
-  ok(/audio: running/.test($('audioStatus').textContent), 'status line reports a running context: "' + $('audioStatus').textContent.slice(0, 60) + '"');
+  ok($('audioStatus').textContent === (win.eval('playing') ? 'Preview speelt · Spatie om te stoppen' : ''), 'running context has no suspension warning');
 
   // suspended context must surface a hint instead of failing silently
   win.__AC.state = 'suspended';
   win.eval('updateAudioStatus()');
-  ok(/zijschakelaar|nog een keer/.test($('audioStatus').textContent), 'suspended context shows a hint');
+  ok(/gepauzeerd.*Play/.test($('audioStatus').textContent), 'suspended context shows a hint');
   win.__AC.state = 'running';
 
   // volume control reaches the master gain

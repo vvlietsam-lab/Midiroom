@@ -1,4 +1,4 @@
-# Overdracht — MIDIROOM 2.2
+# Overdracht — MIDIROOM 2.1
 
 Sam wil een DAW-achtige, toegankelijke productieassistent. Sound design en arrangement kosten hem evenveel tijd. Hij waardeert knoppen zoals solo. De laatste uitbreiding vroeg ook automatische vocal-keydetectie en een melodie die het zangritme volgt.
 
@@ -45,11 +45,3 @@ De tegenstem volgt geschatte nootaanzetten en pitchcontour, niet ieder woord of 
 4. Bouw arrangementtransities en clip-locks verder uit. Houd de huidige offline zip-overdracht in stand.
 
 Tests en precieze grenzen staan in `docs/TEST_REPORT.md`; historisch materiaal uit 2.0 staat onder `docs/archive/v2.0/`.
-
-## 2.2 interface-overdracht
-
-`src/daw.js` wordt na production.js en vóór de eerste generatie ingeladen. Het verplaatst de bestaande transportnodes naar een globale dock; dupliceer geen IDs of playbackhandlers. Het bevat trackfilters, focusmodus, een native dialog-snelmenu en zoom/follow. `drawRoll` roept `updateDaw` aan. ResizeObserver ververst canvaspixels bij layoutwijzigingen; de window-resize fallback blijft bestaan. Houd vroege DOM-guards intact.
-
-`src/theme.css` bevat onderaan de 2.2-studio-overrides. Visuele state gebruikt native controls en aria-attributen; M/S blijven preview-only. Deze release verandert de MIDI-compositie en vocalanalyse niet. Toekomstige prioriteit: noten bewerken met quantize/transpose op exacte snapshots, daarna echte vocalfixtures; geen extra decoratieve meters zonder gemeten audio.
-
-Tests: `npm run test:daw` vereist dezelfde Playwright/Chromium-omgeving als de andere browsersuites. Zie TEST_REPORT voor exacte uitgevoerde scope.

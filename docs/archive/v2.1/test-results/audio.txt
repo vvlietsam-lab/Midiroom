@@ -16,14 +16,14 @@
   ok   lead: oscillators created (28)
   ok   lead: gain envelope rises above zero (11/11 voices)
   ok   lead: every oscillator has start < stop (0 bad)
-  ok   harmony: oscillators created (46)
-  ok   harmony: gain envelope rises above zero (17/17 voices)
+  ok   harmony: oscillators created (16)
+  ok   harmony: gain envelope rises above zero (7/7 voices)
   ok   harmony: every oscillator has start < stop (0 bad)
-  ok   screech: oscillators created (13)
-  ok   screech: gain envelope rises above zero (6/6 voices)
+  ok   screech: oscillators created (19)
+  ok   screech: gain envelope rises above zero (8/8 voices)
   ok   screech: every oscillator has start < stop (0 bad)
-  ok   darkmelody: oscillators created (37)
-  ok   darkmelody: gain envelope rises above zero (14/14 voices)
+  ok   darkmelody: oscillators created (31)
+  ok   darkmelody: gain envelope rises above zero (12/12 voices)
   ok   darkmelody: every oscillator has start < stop (0 bad)
   ok   melody: oscillators created (28)
   ok   melody: gain envelope rises above zero (11/11 voices)
@@ -31,13 +31,13 @@
   ok   pluck: oscillators created (13)
   ok   pluck: gain envelope rises above zero (14/14 voices)
   ok   pluck: every oscillator has start < stop (0 bad)
-  ok   arp: oscillators created (25)
-  ok   arp: gain envelope rises above zero (26/26 voices)
+  ok   arp: oscillators created (21)
+  ok   arp: gain envelope rises above zero (22/22 voices)
   ok   arp: every oscillator has start < stop (0 bad)
   ok   no invalid automation
   ok   unlock runs
   ok   silent media element created for the iOS ringer switch
-  ok   running context has no suspension warning
+  ok   status line reports a running context: "audio: running  ·  48 kHz"
   ok   suspended context shows a hint
   ok   volume slider lowers the master gain (0.508 -> 0.185)
 

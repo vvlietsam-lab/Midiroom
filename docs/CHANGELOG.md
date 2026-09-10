@@ -49,3 +49,20 @@
 ## 1.1
 
 Aangeleverde basis: bestaande MIDI-generator, acht genre-presets, twaalf instrumenten, Web Audio, arrangementpresets, URL-state en sessienotities. Het oorspronkelijke archief blijft de bron voor historische vergelijking.
+
+## 2.1 — productie en vocals
+
+- Disco en Italo disco, bijbehorende bass-patronen en disco-drums.
+- Preview-mixer met echte gain/pan, M/S-reset, undo/redo en A-take.
+- Sound Lab met zes synth-startpunten, waveform/cutoff/Q/attack/release/drive/detune en klankrecept-export.
+- Arrangementwerkruimte met secties, instrumentkeuzes, duplicatie/volgorde en lengte/velocity.
+- Vocal Room met lokale audio-invoer, waveform, Worker-analyse, key-kandidaten, aanzetdetectie, timingvolgende melodie en gezamenlijke playback.
+- Exacte MIDI-snapshots en bronclip in Idea Bank; exportversie 3, import v2/v3, bestandsgrootte begrensd tot 12 MB.
+- Genrekeuze telt als één undo-stap; tussentijdse gedeeltelijke preset-generaties onderdrukt.
+- Bij herladen is bankvalidatie veilig vóór productie-initialisatie; regressie voor dit TDZ-probleem.
+- Percussiemixer verwijst niet meer naar niet-bestaande melodische soundsettings.
+- Eigen arrangement-/vocalresultaten krijgen een melding over exact bewaren en URL-beperkingen.
+
+## 2.2.0
+
+Compacte DAW-shell; globale transportbalk met maat/tel; verticale mixerfaders; uniforme knoppen en M/S-kleuren; instrumentzoeker/actief-filter; piano-rollzoom/follow/focus; doorzoekbaar snelmenu. Escape-focus hersteld en canvasresolutie volgt layoutwijzigingen. Gewone audio-statusmeldingen vervangen technische contexttekst.

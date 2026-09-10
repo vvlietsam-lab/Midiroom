@@ -53,3 +53,9 @@ Deze vragen blokkeren versie 2.0 niet, maar bepalen de volgende investering:
 4. Moet de app strikt één offline HTML-bestand blijven, of is een lokale desktop/companion-versie later acceptabel?
 
 Begin met de antwoorden op 1 en 2. Bouw eerst één aantoonbaar snellere productiestap, vervolgens de volgende.
+
+## Update na 2.1
+
+Sound Lab, sectie-arrangementen, undo/A en automatische vocal-key/aanzetanalyse hebben nu een eerste implementatie. De gebruiker noemt sound design en arrangement als even grote tijdvreters en geeft de voorkeur aan DAW-achtige bediening.
+
+De eerstvolgende kwaliteitsstap is validatie met echte, door de gebruiker aangeleverde vocals en een corrigeerbare nootlane. Maak de gedetecteerde noten en ritmes bewerkbaar vóór je meer automatische arrangementbeslissingen toevoegt. Verbeter daarna frase-afhankelijke akkoorden, antwoordmelodieën in zangpauzes en hoorbare transitions. MIDI-import/locks blijven waardevol maar zijn nog niet gebouwd.

@@ -11,22 +11,22 @@
   ok   playback resumes after regenerate
   ok   play does not front-load every oscillator (33 at t=0)
   ok   60s of looped playback runs clean
-  ok   scheduler keeps feeding voices (5560 total)
-  ok   node list stays bounded during looping (174)
+  ok   scheduler keeps feeding voices (5820 total)
+  ok   node list stays bounded during looping (190)
   ok   no scheduling on a closed context while looping
   ok   still playing after 60s with loop on
   ok   stop clears the node list
   ok   playback stops by itself when loop is off
-  ok   30 random UI actions, 30 generations, 0 empty-selection states
+  ok   400 random UI actions, 400 generations, 0 empty-selection states
   ok   no runtime errors during stress
   ok   no closed-context scheduling during stress
-  ok   1 exported files start with MThd
-  ok   124 style combinations all generate
+  ok   17 exported files start with MThd
+  ok   121 style combinations all generate
   ok   all 12 parts + combined export (13)
   ok   four articulations give four different length sets
   ok   staccato really is short
-  ok   screech stays on a handful of pitches (2)
-  ok   screech uses several distinct note lengths (11)
+  ok   screech stays on a handful of pitches (7)
+  ok   screech uses several distinct note lengths (25)
   ok   the through-composed arp uses one note length, as the corpus does (1)
   ok   the cycle arp keeps an accent length (2)
   ok   mute toggles
@@ -41,23 +41,23 @@
   ok   settings written to the URL
   ok   settings restored from the URL
   ok   copy-link button does not throw
-  ok   drums land on drum-rack pitches [36,38]
+  ok   drums land on drum-rack pitches [36,38,42]
   ok   empty selection message
   ok   play with nothing selected does not crash
   ok   recovers after re-enabling a part
   ok   a two-bar harmonic rhythm holds the chord across the bar line
   ok   a one-bar harmonic rhythm changes chord every bar (m1 [0,3,7] vs m2 [0,3,7] | prog=euphoric chordBars=2 root=0 scale=aeolian style=Heel)
-  ok   48 genre-en-energie combinaties genereren
+  ok   42 genre-en-energie combinaties genereren
   ok   geen enkele combinatie levert nul noten (0)
   ok   genres afspelen zonder fouten
   ok   de house-lead begint niet elke maat op dezelfde plek (2 verschillende offsets)
-  ok   de house-lead speelt dubbele noten (19 gestapelde aanslagen)
+  ok   de house-lead speelt dubbele noten (149 gestapelde aanslagen)
   ok   house zet swing aan (14%)
   ok   gabber-screech is staccato, langste noot 0.75 zestiende
-  ok   structuur "uit": 4 maten, 78 noten
+  ok   structuur "uit": 32 maten, 639 noten
   ok   structuur "short": 32 maten, 559 noten
-  ok   structuur "full": 64 maten, 1053 noten
-  ok   structuur "dropOnly": 16 maten, 322 noten
+  ok   structuur "full": 64 maten, 1060 noten
+  ok   structuur "dropOnly": 16 maten, 320 noten
   ok   de volledige structuur is 64 maten
   ok   zes secties met markeringen
   ok   het matenveld staat uit zolang een structuur actief is
@@ -85,7 +85,7 @@
   ok   studiopaneel volgt de toonsoort
   ok   sessielog groeit mee (2)
   ok   log heeft herstelknoppen
-  ok   herstellen zet de seed terug (E7X57J)
+  ok   herstellen zet de seed terug (07F7X4)
   ok   log exporteert als markdown-tabel
   ok   log leegmaken werkt
   ok   bpm edge values handled

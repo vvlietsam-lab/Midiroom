@@ -48,8 +48,8 @@
   ],
   "performance": {
     "runs": 30,
-    "maxMs": 12,
-    "meanMs": 10
+    "maxMs": 6,
+    "meanMs": 5
   },
   "errors": [],
   "externalRequests": []
