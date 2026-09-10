@@ -1,0 +1,30 @@
+vergelijking met het referentiecorpus  (mijn waarde / referentie / afwijking)
+
+screech → screech
+   pitchesPerBar 1.99/1.23 ⚠+62%   notesPerBar 3.58/2.21 ⚠+62%   uniquePitches 3.98/1.95 ⚠+104%   ambitus 15.48/4.55 ⚠+240%   unisonShare 0.539/0.792
+   velocity 72-90 (ref 80-80)   lengtes 131 (ref 30)
+screech → gabber
+   pitchesPerBar 3.05/2.16   notesPerBar 5.4/3.68 ⚠+47%   uniquePitches 9.83/4.67 ⚠+110%   ambitus 22.75/11.6 ⚠+96%   unisonShare 0.313/0.37
+   velocity 72-90 (ref 80-80)   lengtes 103 (ref 10)
+arp → arp
+   pitchesPerBar 6.56/5.5   notesPerBar 11.51/10.4   uniquePitches 9.67/7.6   ambitus 15.05/18.2   unisonShare 0/0.021 ⚠-100%
+   velocity 79-94 (ref 80-100)   lengtes 1 (ref 1)
+darkmelody → darkmelody
+   pitchesPerBar 3.91/3.42   notesPerBar 7.48/5.29   uniquePitches 5.97/6.4   ambitus 8.6/13.05   unisonShare 0.274/0.196
+   velocity 91-108 (ref 98-98)   lengtes 5 (ref 7)
+lead → lead
+   pitchesPerBar 4.3/3.28   notesPerBar 6.41/5.44   uniquePitches 9.27/7   ambitus 15.98/12   unisonShare 0.125/0.194
+   velocity 97-114 (ref 100-112)   lengtes 14 (ref 11)
+chords → chords
+   pitchesPerBar 3/3.44   notesPerBar 14.7/16.31   uniquePitches 7.65/9   ambitus 11.92/12.5   unisonShare 0/0
+   velocity 98-113 (ref 100-112)   lengtes 8 (ref 11)
+   akkoordafstanden mijn {"3":1688,"4":1292,"5":1566,"6":158}  ref {"3":88,"4":124,"5":136}
+bass → bass
+   pitchesPerBar 1/1.28   notesPerBar 1/1.16   uniquePitches 3.4/5.5   ambitus 8.25/8.25   unisonShare 0.121/0
+   velocity 104-110 (ref 100-101)   lengtes 1 (ref 6)
+pad → pad
+   pitchesPerBar 3/3.5   notesPerBar 3.02/3.09   uniquePitches 6.62/9   ambitus 11.05/12.5   unisonShare 0/0
+   velocity 103-109 (ref 100-101)   lengtes 3 (ref 5)
+   akkoordafstanden mijn {"3":346,"4":285,"5":318,"6":19}  ref {"3":17,"4":24,"5":25}
+
+afwijkingen groter dan 45%: 8

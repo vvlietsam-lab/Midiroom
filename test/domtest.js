@@ -8,9 +8,11 @@ let oscCreated = 0, ctxClosed = 0, startCalls = 0;
 
 const html = fs.readFileSync(require('path').join(__dirname,'..','index.html'), 'utf8');
 const dom = new JSDOM(html, {
-  url: 'https://local.test/kickroom.html',
+  url: 'https://local.test/midiroom.html',
   runScripts: 'dangerously', pretendToBeVisual: true,
   beforeParse(win) {
+    win.HTMLMediaElement.prototype.play = () => Promise.resolve();
+    win.HTMLMediaElement.prototype.pause = () => {};
     win.HTMLCanvasElement.prototype.getContext = function () {
       const noop = () => {};
       return new Proxy({}, { get: (t, k) => (k === 'measureText' ? () => ({ width: 8 }) : noop), set: () => true });
@@ -422,7 +424,7 @@ setTimeout(async () => {
   $('exports').children[0].click();
   ok(blobs.length === 2, 'de export levert twee bestanden op (' + blobs.length + ')');
   const md = await blobText(win, blobs[1]);
-  ok(/^# KICKROOM/.test(md), 'notes.md begint met een kop');
+  ok(/^# MIDIROOM/.test(md), 'notes.md begint met een kop');
   ['Toonsoort', 'Camelot', 'Seed', 'Secties', 'Sporen in het MIDI-bestand', 'Delaytijden', 'Kick stemmen', 'Harmonisch mixen', 'reproduceren']
     .forEach(k => ok(md.includes(k), 'notes.md bevat de sectie "' + k + '"'));
   ok(/\| Drop \| 16 maten \|/.test(md), 'notes.md noemt de secties van de structuur');
@@ -449,7 +451,7 @@ setTimeout(async () => {
   doc.querySelectorAll('[data-restore]')[1].dispatchEvent(new win.MouseEvent('click', { bubbles: true }));
   ok(win.eval("$('seed').value") === restoreSeed, 'herstellen zet de seed terug (' + restoreSeed + ')');
   const logMd = win.eval('logAsMarkdown()');
-  ok(/^# KICKROOM sessielog/.test(logMd) && logMd.split('\n').length > 4, 'log exporteert als markdown-tabel');
+  ok(/^# MIDIROOM sessielog/.test(logMd) && logMd.split('\n').length > 4, 'log exporteert als markdown-tabel');
   $('clearLog').click();
   ok(win.eval('sessionLog.length') === 0, 'log leegmaken werkt');
 

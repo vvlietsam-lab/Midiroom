@@ -1,81 +1,92 @@
-# KICKROOM
+# MIDIROOM 2.0
 
-Regelgebaseerde MIDI-generator voor hard dance, house en techno. Eén HTML-bestand, geen model, geen API-sleutel, geen internetverbinding. Dubbelklikken en werken.
+Offline MIDI-generator en productiewerkruimte. Voor hard dance, techno, house, dubstep, drum & bass en UK garage. Gebouwd op de aangeleverde KICKROOM 1.1-code.
 
-De generator maakt geen noten willekeurig. Hij bouwt een motief, varieert dat over de frase, en gooit zwakke varianten weg met een scorefunctie. Alle ritmes en akkoordschema's zijn met de hand ingevoerd uit het genre, niet gegenereerd. De statistische instellingen zijn gekalibreerd tegen een corpus van 111 referentie-MIDI's.
+## Meteen openen
 
-## Snel starten
+1. Pak de volledige zip uit.
+2. Open **index.html** in Chrome, Edge, Firefox of Safari.
+3. Kies een genre, toonsoort en instrumenten. Download MIDI en sleep het in je DAW.
 
-```bash
-git clone <deze repo>
-cd kickroom
-open index.html          # of dubbelklik het bestand
+Geen installatie, account, API-key of internet nodig om de app te gebruiken. Alle code en vormgeving zitten in `index.html`. De browserpreview gebruikt eenvoudige synths; het MIDI-bestand bevat geen Serum-preset, audio of effectautomatisering.
+
+## Wat is nieuw?
+
+- **MIDIROOM**-naam, graphite/lime-palet, compacte instrumentenlijst met drie groepen en apart te openen instellingen.
+- **13 genre-presets** plus Vrij: de acht bestaande genres, Dubstep, Drum & bass, Liquid DnB, UK garage en Neurofunk.
+- **21 screechstijlen**: dertien bestaande stijlen plus Call & response, Triplet bursts, Machine stutter, Late answer, Tension climb, Broken phrase, Reverse pull en Hold & cut. Nieuwe stijlen hebben frase- en toonbewegingsopties.
+- **Studio Tools:** sampletranspositie, loopduur, stretchfactor, toonsoort/akkoorden, kickfrequenties, delaytijden en productiebrief.
+- **Idea Bank:** takes opslaan, exact herstellen binnen deze versie, bewaren in browseropslag en JSON-import/export.
+- **MIDI Check:** timing, bereik, overlap, chromatische noten, dubbele kicks en aandachtspunten voor het low end.
+- Piano roll met notenliniaal en filter per instrument.
+- Bugfixes voor volume 0, kwintakkoorden, vrije modus herstellen, instrumentselectie in arrangementen, MIDI-cliplengte, drumkanalen en invoer via seed/URL.
+
+## Bediening
+
+- **Checkbox:** instrument aan of uit. **›:** instellingen open/dicht, zonder het instrument te wijzigen.
+- **M / S:** mute / solo voor de preview. MIDI-export bevat alle ingeschakelde instrumenten.
+- **↻ per instrument:** alleen die partij variëren. Afhankelijke partijen, zoals harmonie die de lead volgt, kunnen bewust mee veranderen.
+- **Nieuwe variatie:** nieuwe seed. **Genereer MIDI:** opnieuw genereren met dezelfde instellingen.
+- **Akkoorden, structuur & groove:** akkoordenschema, arrangement, seed, swing en humanize.
+- **Spatie:** afspelen/stoppen, behalve wanneer je een invoerveld of knop bedient.
+- De metronoom staat standaard uit en wordt nooit geëxporteerd.
+
+Een genre kiezen past het tempo en de instrumentinstellingen aan. De energieslider past het genre opnieuw toe. Een arrangement verdeelt de ingeschakelde partijen over secties; het voegt geen uitgeschakelde instrumenten toe. Een breakdown kan dus stil zijn als je uitsluitend percussie kiest.
+
+## Ableton / MIDI
+
+- Standard MIDI File type 1, 480 PPQ, 4/4, tempo-event en één track per instrument.
+- Drum Rack-mapping: kick 36, snare 38, clap 39, closed hat 42, open hat 46, ride 51.
+- Drums gebruiken MIDI-kanaal 10. Melodische instrumenten vermijden dit kanaal.
+- Elke geëxporteerde track eindigt op de ingestelde maatgrens, inclusief een eventuele stille staart.
+- Zet het tempo van je DAW zelf gelijk aan de export. Controleer de cliplengte na import; DAW-importgedrag kan verschillen.
+- Nootnamen gebruiken de conventie MIDI 60 = C4. Ableton kan dezelfde noot met een ander octaafnummer tonen; de MIDI-nummers en frequenties zijn leidend.
+- Een MIDI-download levert ook een `_notes.md` met de context van de sessie. Sommige browsers vragen toestemming voor meerdere downloads.
+- De notities bij een losse partij beschrijven de volledige sessie als productiecontext, inclusief de andere partijen.
+
+## Ideeën meenemen
+
+Idea Bank bewaart maximaal 100 takes per browser/origin. Bij lokale `file://`-bestanden kan browseropslag afhankelijk zijn van het bestandspad. Gebruik **Exporteer bank** voordat je de app verplaatst, de browser wist of een andere computer gebruikt. Import voegt unieke IDs toe en overschrijft bestaande ideeën niet.
+
+Opgeslagen takes bewaren instellingen en seed, geen audiopresets. Een seed is reproduceerbaar met dezelfde instellingen **en generatorversie**; MIDI uit 1.1 kan door de bugfixes en nieuwe stijlbanken anders zijn in 2.0. Bewaar je MIDI-export voor archivering.
+
+## Verder met Claude of GitHub
+
+De zip bevat broncode, buildscript, lockfile, tests en overdrachtsdocumenten. Geef bij voorkeur de **hele zip** aan je volgende assistent, met `docs/HANDOVER.md` als startpunt. Bewerk `src/`, voer de build uit en lever opnieuw een complete zip aan.
+
+```sh
+npm ci
+npm run build
+npm test
 ```
 
-Er is geen build- of installatiestap nodig om het te gebruiken. Alleen om te ontwikkelen:
+Een nieuwe complete broncode-zip maken: `npm run pack:zip` (Python 3 vereist). De zip komt naast de projectmap.
 
-```bash
-npm install              # jsdom, alleen voor de tests
-npm run build            # src/ -> index.html
-npm test                 # alle vier de testsuites
+De build zelf heeft geen dependencies. Tests gebruiken jsdom. Uitgebreider:
+
+```sh
+npm run test:fuzz
+npm run test:regression
 ```
 
-### Op GitHub Pages
+Echte browserchecks zijn optioneel en vereisen Playwright en Chromium:
 
-Push de repo, ga naar Settings > Pages, kies branch `main` en map `/ (root)`. `index.html` staat in de root, dus de app is direct live.
+```sh
+npm install --no-save playwright
+npx playwright install chromium
+npm run test:browser
+```
 
-## Wat het maakt
+`CHROMIUM_EXECUTABLE` kan naar een al geïnstalleerde Chromium wijzen. `QA_OUTPUT` kiest de map voor screenshots/testdownloads.
 
-| | |
-|---|---|
-| Partijen | 12 — Drums, Kick, Bass, Chords, Pad, Lead, Harmony, Screech, Dark melody, Melody, Pluck, Arp |
-| Stijlen | 81 handmatig ingevoerde ritmepatronen |
-| Akkoordschema's | 13 |
-| Toonladders | 7 |
-| Genre-voorinstellingen | 8 |
-| Structuren | Kort (32 maten), Volledig (64 maten), Alleen drop (16 maten) |
+Voor GitHub: commit de uitgepakte projectinhoud inclusief `src/`, `index.html`, `package-lock.json` en `.github/`. De aanwezige workflow test pushes en pull requests. De kant-en-klare `index.html` kan als statische pagina worden gehost; er is geen server nodig.
 
-Export levert een MIDI type 1 met elke partij als eigen spoor, plus een `_notes.md` met alle muzikale en technische gegevens.
+## Documentatie
 
-## Genres
+- `docs/HANDOVER.md` — context en aandachtspunten voor de volgende assistent.
+- `docs/ARCHITECTURE.md` — code-indeling en muzikale keten.
+- `docs/CHANGELOG.md` — concrete wijzigingen en bugfixes.
+- `docs/TEST_REPORT.md` — uitgevoerde tests en hun grenzen.
+- `docs/ROADMAP.md` — kritisch vervolgplan richting een productieassistent.
 
-| Genre | BPM | Toonladder | Kenmerk |
-|---|---|---|---|
-| Rawstyle | 155 | Frygisch | screech op één noot, offbeat bas, tonale kick |
-| Rawphoric | 150 | Natuurlijk mineur | lead met harmonie, akkoorden op hetzelfde ritme, aangehouden bas |
-| Gabber | 180 | Frygisch dominant | korte stabs die wel van noot wisselen, rollende kick |
-| Frenchcore | 205 | Frygisch | doorlopende tonale kickroll, dichte screech |
-| Hardtechno | 150 | Mineur pentatonisch | één akkoord, hypnotische arp, doorlopende achtstenbas |
-| House | 125 | Dorisch | dubbele noten en frasen die over de maatstreep heen lopen |
-| Melodic techno | 124 | Natuurlijk mineur | trage harmonie, wandelende arp, donkere melodie |
-| Euphoric hardstyle | 150 | Natuurlijk mineur | zangerige lead, reverse bass, pompende akkoorden |
-
-Een genre zet tempo, toonladder, schema-pool, harmonisch ritme, akkoordopbouw, swing, welke partijen aanstaan en per partij de stijl, articulatie en opties. Daarna is alles nog los bij te stellen.
-
-## Hoe de noten tot stand komen
-
-Zie [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). Kort:
-
-1. **Motief** — één cel in maat 1, uit een contourbank, met tel 1 en 3 op akkoordtonen.
-2. **Variatie** — transponeren naar het volgende akkoord in schaaltrappen, staartnoot wijzigen, octaafsprong op de piek, fill in de turnaround. Maten 5-8 antwoorden op 1-4.
-3. **Scoren** — 120 varianten per generatie, beoordeeld op intervalverdeling, herhalingsgraad, pieklocatie, ambitus, akkoordverankering en onderling verschil tussen de maten. De hoogste wint.
-4. **Nootlengtes** — lengte is het gat min een vaste release (gemeten 0,38-0,5 zestiende in het corpus), niet een percentage.
-
-## Kalibratie tegen echte muziek
-
-`reference/reference_targets.json` bevat gemeten waarden uit 111 referentie-MIDI's: toonhoogtes per maat, noten per maat, ambitus, herhalingsgraad, nootlengteverdeling, velocitybereik en akkoordafstanden. `npm run test:style` zet de generator daar tegenaan en rapporteert elke afwijking groter dan 45%.
-
-Die meting heeft echte fouten blootgelegd: velocities die veel te veel varieerden, een lead-scorefunctie die herhaalde noten afstrafte terwijl het corpus 19% herhaling heeft, akkoorden in grondligging waar het corpus omkeringen gebruikt, en een arp die elke zestiende vulde in plaats van te ademen.
-
-## Tests
-
-| Suite | Wat het controleert |
-|---|---|
-| `test/fuzz.js` | duizenden willekeurige generaties: noten binnen de toonladder, geldige MIDI-waarden, geen dubbele of overlappende noten, niets buiten de sectie, reproduceerbaarheid per seed |
-| `test/domtest.js` | de hele gebruikersinterface in jsdom: 91 assertions over genres, structuren, export, notes.md, studiopaneel, sessielog, mute/solo, afspelen |
-| `test/audiotest.js` | of elke stem daadwerkelijk een gain-envelope boven nul opbouwt, en of de iOS-ontgrendeling werkt |
-| `test/styletest.js` | de vergelijking met het referentiecorpus |
-
-## Licentie
-
-MIT. Zie [LICENSE](LICENSE).
+MIT-licentie zoals in het oorspronkelijke project.

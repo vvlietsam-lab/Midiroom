@@ -1,115 +1,46 @@
-# Architectuur
+# Architectuur — MIDIROOM 2.0
 
-## Bestanden
-
-    src/core.js          alle muzikale logica, geen DOM — te testen in node
-    src/app-shell.html   interface, canvas piano roll, Web Audio, export
-    build.js             plakt core.js in de shell -> index.html
-    index.html           het resultaat: één bestand, geen dependencies
-
-`core.js` exporteert onder node via `module.exports` en werkt in de browser doordat
-`build.js` dat blok afkapt en de rest inline zet.
-
-## De generatieketen
-
-### 1. Toonhoogtemateriaal
-
-Toonladders staan als halve-toonafstanden vanaf de grondtoon. Akkoorden worden gebouwd
-door schaaltertsen te stapelen (trap, trap+2, trap+4), waardoor de akkoordkwaliteit
-automatisch uit de modus volgt: dezelfde code geeft een mineurdrieklank in aeolisch en
-een verminderde in de zevende trap van harmonisch mineur.
-
-Twee functies doen al het corrigeren:
-
-- `snapToChord` — naar de dichtstbijzijnde akkoordtoon
-- `snapToScale` — naar de dichtstbijzijnde schaaltoon
-
-Beide rekenen met absolute toonhoogteklassen. Een eerdere versie vergeleek relatieve
-klassen tegen absolute, waardoor er noten buiten de toonsoort ontstonden.
-
-### 2. Ritme
-
-Stijlen zijn handmatig ingevoerde lijsten van aanslagen op een raster van 16 zestienden,
-optioneel met een parallelle lijst nootlengtes. Een stijl kan ook een `span` hebben die
-niet 16 is; dan loopt de cel door over de maatstreep en wordt hij door de hele sectie
-getegeld (`generatePhased`). Dat is het houserige effect waarbij de riff in elke maat
-op een andere plek valt.
-
-Sommige stijlen hebben een `cell`. Dan wordt de melodische contour per halve maat
-herhaald in plaats van uitgerekt over de hele maat. Zonder dat ontaardt een dicht ritme
-in een heen-en-weer tussen twee noten.
-
-### 3. Motief en variatie
-
-`buildMotif` legt een contour over de aanslagen van de eerste maat. Tel 1 en 3 worden op
-een akkoordtoon gezet, de rest op een schaaltoon. Voor de Melody-partij is het maximale
-interval binnen een maat begrensd op twee schaaltrappen.
-
-Daarna wordt per maat gevarieerd:
-
-| Positie in de frase | Bewerking |
+| Bestand | Verantwoordelijkheid |
 |---|---|
-| maat 1 | het motief zelf |
-| maat 2 | staartnoot wijzigen of een noot weglaten |
-| maat 3 | octaafsprong op de piek |
-| maat 4 | staartnoot wijzigen plus een fill |
-| frase 2 en verder | roterende variatie, zodat 16 maten blijven ontwikkelen |
+| `src/core.js` | Schalen, stijlbanken, genres, muzikale generatie, arrangementen, MIDI-writer, notities |
+| `src/app-shell.html` | HTML-shell, bestaande UI-state, instrumentbediening, canvas, Web Audio en exports |
+| `src/theme.css` | Moderne vormgeving, responsieve lay-out en interactiestaten |
+| `src/workspace.js` | Tabnavigatie, invoervalidatie, Idea Bank, Studio Tools en MIDI Check |
+| `build.js` | Vult de drie inline markers en schrijft `index.html` |
+| `test/` | Fuzz, DOM, audio, referentiestatistiek, regressie en optionele browser-QA |
 
-Transponeren naar het volgende akkoord gebeurt in schaaltrappen en wordt naar het
-naaste octaaf teruggebracht (`wrapShift`), anders klimt het motief per akkoord omhoog.
+## Muzikale keten
 
-### 4. Scoren
+1. Seed + instrument-ID + variatienummer maken een onafhankelijke PRNG.
+2. Schaal en akkoordenschema bepalen de beschikbare toonhoogtes.
+3. Stijlen bepalen ritme, nootlengtes en eventuele contour.
+4. Melodische partijen evalueren kandidaten; nieuwe screeches gebruiken vaste frases met gecontroleerde antwoorden.
+5. Registers worden afgestemd op instrument en octaafinstelling. Expliciete screech-octaafaccenten verruimen het toegestane bereik.
+6. `renderPart` maakt afgeronde ticks, begrenst duur tot het clipeinde en verwijdert dezelfde-toonoverlap. Bass en Screech zijn ook over verschillende toonhoogtes monofonisch.
+7. MIDI-export schrijft tempo/maatsoort, note-on/off en een gelijk eindtijdstip voor alle tracks.
 
-`bestMelodic` maakt 120 varianten en houdt de hoogst scorende. Het ritme wordt één keer
-vóór de lus gekozen: anders selecteert de score systematisch hetzelfde schaarse patroon.
+Akkoorden van grootte 2 zijn grondtoon + diatonische kwint. Groottes 3–5 stapelen tertsen. De gekozen modus kan de kwint verminderen; die schaaltrouw blijft bewust behouden.
 
-De score kijkt naar aantal unieke toonhoogtes tegenover een doelwaarde, intervalverdeling
-(stappen tegenover sprongen), herhalingsgraad tegenover een doelwaarde, opgeloste sprongen,
-één duidelijke piek laat in de frase, ambitus binnen een venster, akkoordverankering op de
-zware tellen, onderling verschil tussen de maten, tegenbeweging tussen opeenvolgende maten,
-en een aftrek als een sectie van 8 maten uit twee identieke helften bestaat.
+## Afhankelijkheden
 
-### 5. Nootlengtes
+De generatievolgorde begint met Kick, Lead, Chords. Harmony kan de lead volgen, Chords kunnen zijn ritme volgen, Pad kan akkoordvoicings lenen, Bass kan voor Kick uitwijken en Drums kunnen dubbele kicks vermijden. Afhankelijke partijen worden intern voorbereid zonder ze automatisch te exporteren.
 
-Lengte is het gat tot de volgende aanslag min een vaste release, of de in de stijl
-opgegeven lengte min die release. Vier articulaties: automatisch, grillig, legato,
-staccato. Velocity is gekoppeld aan lengte maar blijft dicht bij de basiswaarde, omdat
-het referentiecorpus vrijwel vlakke velocities heeft.
+Arrangementen genereren secties apart met subseeds. Sectie-instrumentatie blijft een subset van de aangevinkte instrumenten. Stilte in een breakdown met uitsluitend percussie is geldig. Na samenvoegen wordt dezelfde-toonoverlap opnieuw begrensd.
 
-### 6. Afhankelijkheden tussen partijen
+## MIDI
 
-Sommige partijen hebben een andere nodig. De generatievolgorde is daarom
-**kick, lead, chords, de rest**:
+SMF type 1; 480 ticks per kwartnoot; 4/4. `buildMidi(tracks, tempo, totalTicks)` accepteert optioneel de cliplengte. De UI geeft die altijd door. Zonder lengte blijft de oorspronkelijke API bruikbaar en eindigt een track bij zijn laatste event.
 
-- Harmony is de lead een diatonische terts of sext lager, op hetzelfde ritme
-- Chords kunnen exact de aanslagen van de lead overnemen (de rawphoric-formule)
-- Pad kan de stemvoering van Chords overnemen
-- Drums laat zijn kicklane weg als de Kick-partij aanstaat
-- Bass wijkt een zestiende uit waar hij op een kick zou vallen
+MIDI-kanaal 10 is gereserveerd voor Drums; de 15 melodische kanalen slaan dat kanaal over. Trackdata wordt lineair opgebouwd met push in plaats van herhaald kopiëren voor iedere delta.
 
-### 7. Registers
+## Preview
 
-Elke partij heeft een doelregister en een maximale ambitus. Na het genereren wordt de
-partij in octaven verschoven tot het gemiddelde bij het doel ligt, en worden uitschieters
-naar de mediaan gevouwen. Opties die de ambitus met opzet vergroten (octaafsprongen,
-arp-stijging) verruimen die grens, anders draait de registerfilter ze meteen terug.
+Eén blijvende AudioContext, een korte vooruitkijkende scheduler en getraceerde nodes voor stop/cleanup. Volume 0 is exact 0 gain. Mute en solo wijzigen alleen preview; de UI benoemt dit. Syntheseklanken zijn eenvoudige klankschetsen. De metronoom is een previewhulp.
 
-## Arrangementen
+Canvas is een niet-bewerkbare weergave, met instelbaar instrumentfilter en nootnamen. Verborgen tabbladen gebruiken `hidden`; bij terugkeer wordt de canvas opnieuw getekend.
 
-`generateArrangement` genereert elke sectie apart met een eigen subseed en variatienummer,
-verschuift de ticks en plakt de sporen achter elkaar. Na het plakken wordt over de hele
-track opnieuw op overlap gecontroleerd: een noot die tot het einde van een sectie doorklonk
-kan de eerste noot van de volgende overlappen.
+## Data en overdracht
 
-## MIDI wegschrijven
+Instellingen staan in de URL-hash; de hash blijft compatibel met de bestaande veldnamen. Onbekende of ongeldige waarden worden genegeerd/genormaliseerd. Tekst zoals seeds en ideenamen wordt escaped vóór HTML-weergave.
 
-Handgeschreven SMF type 1: variabele-lengte delta's, één spoor per partij, elk op een eigen
-kanaal, tempo en maatsoort in een eigen eerste spoor. Geen bibliotheek.
-
-## Audio
-
-E�n blijvende AudioContext die nooit gesloten wordt. Een lookahead-planner plant 0,45 seconde
-vooruit met een interval van 40 ms; alles in één keer plannen liep vast bij 32 maten met acht
-partijen. Op de master staat een compressor als limiter. Voor iOS is er een ontgrendeling met
-een leeg audiobuffertje binnen de klik plus een stil, doorlopend audio-element, want anders
-blijft WebAudio stil zolang de zijschakelaar op stil staat.
+Favorieten staan in lokale browseropslag en kunnen als JSON worden verplaatst. `index.html` is zelfstandig en bevat geen externe runtime-assets. Versie 2 bewaart instellingen, geen gegenereerde eventsnapshot; exacte archivering gebeurt met de MIDI-export en de projectversie.

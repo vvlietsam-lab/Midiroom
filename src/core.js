@@ -1,5 +1,5 @@
 /* ============================================================
-   KICKROOM — generator core v2
+   MIDIROOM — generator core v2
    Rule-based MIDI. No network, no model.
    Parts use normal MIDI roles; the genre lives in the style per part.
    ============================================================ */
@@ -67,7 +67,7 @@ const PROGRESSIONS = [
   { id: 'eight',      label: 'i–VI–III–VII–i–VI–iv–V', degs: [0, 5, 2, 6, 0, 5, 3, 4], note: 'schema over acht maten' },
 ];
 
-function chordDegrees(rootDeg, size) { const o = []; for (let i = 0; i < size; i++) o.push(rootDeg + 2 * i); return o; }
+function chordDegrees(rootDeg, size) { if (size === 2) return [rootDeg, rootDeg + 4]; const o = []; for (let i = 0; i < size; i++) o.push(rootDeg + 2 * i); return o; }
 function chordPitches(rootDeg, scaleSteps, rootMidi, size) {
   return chordDegrees(rootDeg, size).map(d => rootMidi + degToSemi(d, scaleSteps));
 }
@@ -81,6 +81,10 @@ function chordToneClasses(rootDeg, scaleSteps, size, rootMidi) {
    ============================================================ */
 const STYLES = {
   bass: [
+    { id: 'dubspace', label: 'Dubstep • ruimte', steps: [0, 3, 6, 10, 14], lens: [2, 1, 1, 3, 1], w: 2, note: 'subfrase met ruimte rond de halftime-snare' },
+    { id: 'reese', label: 'Reese • sustain', steps: [0, 10], lens: [9, 5], w: 2, note: 'lange basnoten met een anticipatie; Reese-klank maak je in je synth' },
+    { id: 'dnb', label: 'DnB • syncopated', steps: [0, 3, 6, 10, 14], lens: [2, 2, 3, 2, 1], w: 2, note: 'gesyncopeerde bas met korte turnaround' },
+    { id: 'ukg', label: 'Garage • bounce', steps: [0, 3, 7, 10, 14], lens: [2, 1, 2, 2, 1], w: 1, note: 'rusten en anticipaties voor een 2-step groove' },
     { id: 'offbeat',   label: 'Offbeat (reverse bass)', steps: [2, 6, 10, 14], w: 3, note: 'achtsten tussen de kicks door' },
     { id: 'rolling',   label: 'Rollend (16den)',        steps: [2, 3, 6, 7, 10, 11, 14, 15], w: 2, note: 'dubbele zestienden' },
     { id: 'gallop',    label: 'Gallop',                 steps: [2, 3, 6, 10, 11, 14], w: 2, note: 'dubbel-enkel-dubbel-enkel' },
@@ -147,6 +151,14 @@ const STYLES = {
     { id: 'broken',    label: 'Gebroken',               w: 1, note: 'vaste maar onregelmatige volgorde' },
   ],
   screech: [
+    { id: 'callresponse', label: 'Call & response', steps: [0, 2, 6, 8, 11, 14], lens: [1.6, 2.8, 1, 2.5, 1, 1.4], w: 3, modern: true, note: 'herkenbare vraag, gevarieerd antwoord over twee maten' },
+    { id: 'tripletburst', label: 'Triplet bursts', steps: [0, 4/3, 8/3, 8, 28/3, 32/3, 14], lens: [1, 1, 2, 1, 1, 2, 1], w: 2, modern: true, note: 'echte triolen: exact 160 ticks tussen aanslagen bij 480 PPQ' },
+    { id: 'machine', label: 'Machine stutter', steps: [0, .5, 1, 1.5, 4, 8, 8.5, 9, 12, 14], lens: [.45, .45, .45, .45, 2, .45, .45, 1.5, 1, 1], w: 2, modern: true, note: '32ste bursts afgewisseld met gaten' },
+    { id: 'answer', label: 'Late answer', steps: [2, 6, 9, 10, 13, 15], lens: [2, 1, .7, 1.5, 1, .7], w: 2, modern: true, note: 'laat de downbeat vrij; antwoordt op de kick' },
+    { id: 'rising', label: 'Tension climb', steps: [0, 4, 8, 10, 12, 13, 14, 15], lens: [3, 3, 1.5, 1.5, .8, .8, .8, .8], w: 2, modern: true, note: 'loopt op in toonhoogte en ritmische dichtheid' },
+    { id: 'broken', label: 'Broken phrase', steps: [0, 3, 5, 8, 11, 13, 15], lens: [1, 1.5, 1, 2, .8, 1, .6], w: 2, modern: true, note: 'gebroken syncopen met een herkenbaar tweematenmotief' },
+    { id: 'reverse', label: 'Reverse pull', steps: [1, 5, 7, 9, 13, 15], lens: [2.5, 1, .7, 2.5, 1, .7], w: 2, modern: true, note: 'anticiperende noten voor reverse envelopes in je synth' },
+    { id: 'longshort', label: 'Hold & cut', steps: [0, 8, 8.5, 9, 12, 14], lens: [6, .4, .4, 1.5, 1, 1], w: 2, modern: true, note: 'lange noot gevolgd door een korte stutter-respons' },
     { id: 'klassiek',  label: 'Klassiek',     steps: [0, 6, 8, 11, 12, 14],                 lens: [5.5, 1.67, 2.83, 0.83, 1.93, 2],      w: 3, note: 'lange kop, dan korte stoten' },
     { id: 'stotter',   label: 'Stotterend',   steps: [0, 1, 2, 4, 8, 9, 10, 12],            lens: [0.83, 0.67, 1.67, 4, 0.83, 0.67, 1.93, 4], w: 3, note: 'drie korte, één lange — twee keer per maat' },
     { id: 'langekop',  label: 'Lange kop',    steps: [0, 8, 10, 12],                        lens: [6, 1.67, 1.93, 4],                    w: 2, note: 'halve maat aanhouden, dan bewegen' },
@@ -170,6 +182,10 @@ const STYLES = {
     { id: 'zwaaiend',  label: 'Zwaaiend',      steps: [0, 3, 6, 10, 12, 14],             lens: [3, 3, 4, 2, 2, 2],       w: 2, note: 'ongelijke frasering' },
   ],
   drums: [
+    { id: 'dubstep', label: 'Dubstep • halftime', w: 2, note: 'snare op tel 3, gebroken kick en snelle hataccenten' },
+    { id: 'dnb', label: 'DnB • two-step', w: 2, note: 'snare op 2 en 4, kick op 1 en de & van 3' },
+    { id: 'liquid', label: 'Liquid • ghost groove', w: 1, note: 'DnB met zachte ghost-snares en luchtige hats' },
+    { id: 'ukg', label: 'UK garage • 2-step', w: 1, note: 'gebroken kicks, swung hats en snare op 2 en 4' },
     { id: 'hardstyle', label: 'Hardstyle', w: 3, note: 'kick op de kwarten, clap op 2 en 4, offbeat hats' },
     { id: 'uptempo',   label: 'Uptempo',   w: 2, note: 'kick op achtsten, 16den hats' },
     { id: 'techno',    label: 'Techno',    w: 2, note: 'open hat op de offbeat, clap op 2 en 4' },
@@ -740,6 +756,7 @@ function generateKick(rng, cfg) {
 function generateScreech(rng, cfg) {
   const { scaleSteps, rootMidi, prog, bars, chordSize } = cfg;
   const style = cfg.forcedRhythm || weightedPick(rng, STYLES.screech);
+  if (style.modern) return generateScreechPhrase(rng, cfg, style);
   const base = rootMidi;
   // reference material sits on the root 86% of the time; movement is the exception, not the rule
   const moveChance = cfg.wander ? 0.28 : 0.08;
@@ -783,6 +800,40 @@ function generateScreech(rng, cfg) {
   return { bars: barsOut, rhythmId: style.id, rhythmLabel: style.label, base };
 }
 
+// A stable two-bar motif; variation changes answers, never randomises every note.
+function generateScreechPhrase(rng, cfg, style) {
+  const {rootMidi, scaleSteps, prog, bars} = cfg;
+  const shape = rng.pick([[0,0,2,0,4,1,0,2], [0,1,0,4,2,1,0,-1], [0,0,-1,0,2,4,1,0]]);
+  const phrase = cfg.phrase || 'evolving';
+  const movement = cfg.motion || 'tonal';
+  const baseNotes = style.steps.map((step,i) => ({step, len:style.lens[i], index:i}));
+  const barsOut = [];
+  for (let b=0;b<bars;b++) {
+    const home = cfg.followChords ? prog[b % prog.length] : 0;
+    const answer = phrase !== 'fixed' && b % 2 === 1;
+    let hits = baseNotes.map(n=>({...n}));
+    if(answer) hits = hits.filter((n,i)=> i !== 1).map(n=>({...n,step:Math.min(15.5,n.step + (n.step>=8 && style.id !== 'tripletburst' ? .5 : 0))}));
+    if(cfg.density === 'sober') hits = hits.filter((n,i)=>i%2===0);
+    else if(cfg.density === 'normaal') hits = hits.filter((n,i)=>i!==3 || style.id==='tripletburst');
+    if(phrase==='evolving' && b%4===3 && cfg.density!=='sober') {
+      hits=hits.filter(n=>n.step<14);
+      [14,14.5,15,15.5].forEach((step,i)=>hits.push({step,len:.4,index:i+4}));
+    }
+    const notes=hits.map((n,i)=>{
+      let degree=0;
+      if(movement==='tonal') degree=shape[(n.index+(answer?2:0))%shape.length];
+      if(movement==='rising' || style.id==='rising') degree=Math.min(6,Math.floor(i/2));
+      if(movement==='falling') degree=Math.max(0,4-Math.floor(i/2));
+      if(movement==='root') degree=cfg.wander && i%4===3 ? 1 : 0;
+      let midi=rootMidi+degToSemi(home+degree,scaleSteps);
+      if(cfg.octaveAccent && i===hits.length-1 && b%2===1) midi+=12;
+      return {step:n.step,midi,len:Math.min(n.len,16-n.step)};
+    });
+    barsOut.push({bar:b,notes});
+  }
+  return {bars:barsOut,rhythmId:style.id,rhythmLabel:style.label,base:rootMidi};
+}
+
 function kickOnsetSet(kickPart) {
   const set = new Set();
   kickPart.bars.forEach(b => b.notes.forEach(n => set.add(b.bar * 16 + n.step)));
@@ -800,13 +851,29 @@ function generateDrums(rng, cfg) {
   for (let b = 0; b < bars; b++) {
     const notes = [];
     const dropKick = cfg.kickOnsets && cfg.noDoubleKick !== false;
-    const add = (steps, pitch) => steps.forEach(s => {
+    const add = (steps, pitch, velocity) => steps.forEach(s => {
       // a separate tuned Kick part already covers the low end; doubling it just phases
       if (pitch === DRUM_MAP.kick && dropKick && cfg.kickOnsets.has(b * 16 + s)) return;
-      notes.push({ step: s, midi: pitch, drum: true });
+      notes.push({ step: s, midi: pitch, drum: true, velocity });
     });
     const isFill = (b % 4 === 3) && cfg.fills !== false;
-    if (style.id === 'hardstyle') {
+    if (style.id === 'dubstep') {
+      add(b%2 ? [0,6,11] : [0,6], DRUM_MAP.kick);
+      add([8], DRUM_MAP.snare);
+      add([0,2,4,6,8,10,12,14], DRUM_MAP.hat, 80);
+      if(isFill) add([14,14.5,15,15.5], DRUM_MAP.hat, 60);
+    } else if(style.id === 'dnb' || style.id === 'liquid') {
+      add(b%2 ? [0,7,10] : [0,10], DRUM_MAP.kick);
+      add([4,12], DRUM_MAP.snare, 112);
+      add([0,2,4,6,8,10,12,14], DRUM_MAP.hat, 78);
+      if(style.id==='liquid') add([7,15], DRUM_MAP.snare, 46);
+      if(isFill) add([14,15], DRUM_MAP.snare, 64);
+    } else if(style.id === 'ukg') {
+      add(b%2 ? [0,7,10] : [0,6,10], DRUM_MAP.kick);
+      add([4,12], DRUM_MAP.snare);
+      add([2,5,7,10,13,15], DRUM_MAP.hat, 80);
+      if(isFill) add([15], DRUM_MAP.snare, 52);
+    } else if (style.id === 'hardstyle') {
       add([0, 4, 8, 12], DRUM_MAP.kick);
       add([4, 12], DRUM_MAP.clap);
       add([2, 6, 10, 14], DRUM_MAP.hat);
@@ -991,7 +1058,7 @@ function accentVelocity(step, rng, base, spread) {
 function renderPart(part, cfg, rng) {
   const gate = cfg.gate ?? 0.85;
   let flat = [];
-  part.bars.forEach(b => b.notes.forEach(n => flat.push({ abs: b.bar * 16 + n.step, midi: n.midi, len: n.len })));
+  part.bars.forEach(b => b.notes.forEach(n => flat.push({ abs: b.bar * 16 + n.step, midi: n.midi, len: n.len, velocity: n.velocity })));
   flat.sort((a, b) => a.abs - b.abs || a.midi - b.midi);
   // one note per pitch per onset — a doubled note reads as a stuck note in a DAW
   const seen = new Set();
@@ -1007,7 +1074,7 @@ function renderPart(part, cfg, rng) {
   const drift = cfg.timingHumanize ? Math.round(TICK16 * 0.06) : 0;
   const art = cfg.articulation || 'auto';
   const events = flat.map(f => {
-    const span = Math.max(1, nextOf[f.abs] - f.abs);
+    const span = Math.max(0.25, nextOf[f.abs] - f.abs);
     const declared = (typeof f.len === 'number' && f.len > 0) ? f.len : null;
     let lenSteps;
     const base = declared != null ? declared : span;
@@ -1020,12 +1087,12 @@ function renderPart(part, cfg, rng) {
     let tick = f.abs * TICK16;
     if (swing && (f.abs % 2 === 1)) tick += Math.round(swing * TICK16 * 0.5);
     if (drift) tick += Math.round(rng.range(-drift, drift));
-    tick = Math.max(0, tick);
+    tick = Math.max(0, Math.min(total * TICK16 - 1, Math.round(tick)));
     return {
       tick,
-      dur: Math.max(30, Math.round(lenSteps * TICK16)),
+      dur: Math.min(total * TICK16 - tick, Math.max(30, Math.round(lenSteps * TICK16))),
       midi: f.midi,
-      vel: Math.max(28, Math.min(127,
+      vel: f.velocity != null ? f.velocity : Math.max(28, Math.min(127,
             accentVelocity(f.abs % 16, rng, cfg.velBase ?? 100, spread)
             + (declared != null ? Math.round(Math.min(3, declared)) - 2 : 0))),
     };
@@ -1038,6 +1105,11 @@ function renderPart(part, cfg, rng) {
     if (prev && prev.tick + prev.dur > e.tick) prev.dur = Math.max(1, e.tick - prev.tick - 1);
     lastByPitch.set(e.midi, e);
   });
+  // Bass and screech are monophonic phrases, including when pitches change.
+  if (cfg.kind === 'bass' || cfg.kind === 'screech') {
+    for (let i=0;i<events.length-1;i++) if(events[i].tick+events[i].dur>events[i+1].tick)
+      events[i].dur=Math.max(1,events[i+1].tick-events[i].tick);
+  }
   return events;
 }
 
@@ -1073,18 +1145,20 @@ function trackChunk(name, events, tempo, extra = {}) {
   let last = 0;
   const ch = extra.channel ?? 0;
   list.forEach(ev => {
-    data = data.concat(vlq(Math.max(0, ev.t - last)));
+    data.push(...vlq(Math.max(0, ev.t - last)));
     data.push((ev.type ? 0x90 : 0x80) | ch, ev.midi & 127, ev.type ? ev.vel : 0);
     last = ev.t;
   });
-  data = data.concat(vlq(0), [0xFF, 0x2F, 0x00]);
+  data = data.concat(vlq(Math.max(0, (extra.endTick || last) - last)), [0xFF, 0x2F, 0x00]);
   return chunk('MTrk', data);
 }
-function buildMidi(tracks, tempo) {
+function buildMidi(tracks, tempo, totalTicks = 0) {
   const n = tracks.length + 1;
   const header = chunk('MThd', [0, 1, (n >> 8) & 255, n & 255, (TPQ >> 8) & 255, TPQ & 255]);
-  let out = header.concat(trackChunk('Tempo', [], tempo));
-  tracks.forEach((t, i) => { out = out.concat(trackChunk(t.name, t.events, null, { channel: i % 16 })); });
+  let out = header.concat(trackChunk('Tempo', [], tempo, {endTick:totalTicks}));
+  const channels = [0,1,2,3,4,5,6,7,8,10,11,12,13,14,15];
+  let melodicIndex=0;
+  tracks.forEach(t => { const ch=t.id==='drums'||t.name==='Drums'?9:channels[melodicIndex++ % channels.length]; out = out.concat(trackChunk(t.name, t.events, null, { channel: ch, endTick:totalTicks })); });
   return Uint8Array.from(out);
 }
 
@@ -1104,6 +1178,8 @@ const EXTRAS = {
   drums: [{ key: 'fills', label: 'Fill in de vierde maat', def: true },
            { key: 'noDoubleKick', label: 'Geen kick als de Kick-partij aanstaat', def: true }],
   screech: [{ key: 'density', label: 'Dichtheid', options: ['sober', 'normaal', 'dicht'], def: 'normaal' },
+            { key: 'phrase', label: 'Frase • nieuwe stijlen', options: ['fixed', 'call-response', 'evolving'], def: 'evolving' },
+            { key: 'motion', label: 'Toonbeweging • nieuwe stijlen', options: ['root', 'tonal', 'rising', 'falling'], def: 'tonal' },
             { key: 'followChords', label: 'Volgt het akkoordenschema', def: false },
             { key: 'wander', label: 'Meer notenwisseling', def: false },
             { key: 'octaveAccent', label: 'Octaafaccenten', def: true }],
@@ -1122,18 +1198,18 @@ const EXTRAS = {
   harmony: [{ key: 'sixths', label: 'Sext in plaats van terts', def: false }],
 };
 const PART_DEFS = {
-  drums:  { label: 'Drums',  colour: '#8C8C8C', centre: 0,  span: 0,  gate: 0.45, velBase: 104, styles: 'drums', fixedPitch: true },
-  kick:   { label: 'Kick',   colour: '#B4634A', centre: 33, span: 7,  gate: 0.90, velBase: 112, styles: 'kick' },
-  bass:   { label: 'Bass',   colour: '#6E8894', centre: 40, span: 8,  gate: 0.55, velBase: 100, styles: 'bass' },
-  chords: { label: 'Chords', colour: '#C8B560', centre: 60, span: 10, gate: 0.95, velBase: 104, styles: 'chords', sustain: true },
-  pad:    { label: 'Pad',    colour: '#8E7BA8', centre: 64, span: 12, gate: 1.00, velBase: 100, styles: 'pad',    sustain: true },
-  screech:{ label: 'Screech',colour: '#E23A2E', centre: 71, span: 9,  gate: 0.90, velBase: 80, styles: 'screech', release: 0.45 },
-  lead:   { label: 'Lead',   colour: '#FF5A1F', centre: 72, span: 12, gate: 0.90, velBase: 104, styles: 'lead',   melodic: true },
-  darkmelody:{label:'Dark melody', colour:'#7A5C8E', centre: 67, span: 12, gate: 0.75, velBase: 98, styles: 'darkmelody', release: 0.5 },
-  harmony:{ label: 'Harmony',colour: '#C9713F', centre: 68, span: 12, gate: 0.90, velBase: 96,  styles: 'lead' },
-  melody: { label: 'Melody', colour: '#D8A34B', centre: 74, span: 11, gate: 0.95, velBase: 98,  styles: 'melody', melodic: true, maxDegStep: 2 },
-  pluck:  { label: 'Pluck',  colour: '#7FA07A', centre: 76, span: 12, gate: 0.35, velBase: 96,  styles: 'pluck',  melodic: true },
-  arp:    { label: 'Arp',    colour: '#5F9EA0', centre: 74, span: 19, gate: 0.55, velBase: 86,  styles: 'arp' },
+  drums:  { label: 'Drums',  colour: '#9AA9BC', centre: 0,  span: 0,  gate: 0.45, velBase: 104, styles: 'drums', fixedPitch: true },
+  kick:   { label: 'Kick',   colour: '#F1AC75', centre: 33, span: 7,  gate: 0.90, velBase: 112, styles: 'kick' },
+  bass:   { label: 'Bass',   colour: '#67C5F0', centre: 40, span: 8,  gate: 0.55, velBase: 100, styles: 'bass' },
+  chords: { label: 'Chords', colour: '#E2CC78', centre: 60, span: 10, gate: 0.95, velBase: 104, styles: 'chords', sustain: true },
+  pad:    { label: 'Pad',    colour: '#A692E8', centre: 64, span: 12, gate: 1.00, velBase: 100, styles: 'pad',    sustain: true },
+  screech:{ label: 'Screech',colour: '#F784A5', centre: 71, span: 9,  gate: 0.90, velBase: 80, styles: 'screech', release: 0.45 },
+  lead:   { label: 'Lead',   colour: '#C0ED7B', centre: 72, span: 12, gate: 0.90, velBase: 104, styles: 'lead',   melodic: true },
+  darkmelody:{label:'Dark melody', colour:'#B7A1E8', centre: 67, span: 12, gate: 0.75, velBase: 98, styles: 'darkmelody', release: 0.5 },
+  harmony:{ label: 'Harmony',colour: '#8CDDAD', centre: 68, span: 12, gate: 0.90, velBase: 96,  styles: 'lead' },
+  melody: { label: 'Melody', colour: '#ECD6A0', centre: 74, span: 11, gate: 0.95, velBase: 98,  styles: 'melody', melodic: true, maxDegStep: 2 },
+  pluck:  { label: 'Pluck',  colour: '#74D9B5', centre: 76, span: 12, gate: 0.35, velBase: 96,  styles: 'pluck',  melodic: true },
+  arp:    { label: 'Arp',    colour: '#74D6DA', centre: 74, span: 19, gate: 0.55, velBase: 86,  styles: 'arp' },
 };
 const GENRES = [
   { id: 'free', label: 'Vrij', free: true, note: 'geen voorinstelling — alles zelf' },
@@ -1224,6 +1300,28 @@ const GENRES = [
     },
     energy: { kalm: ['bass', 'pad', 'melody'], normaal: ['kick', 'bass', 'chords', 'melody'], vol: ['drums', 'kick', 'bass', 'chords', 'pad', 'melody', 'lead'] } },
 ];
+GENRES.push(
+  {id:'dubstep',label:'Dubstep',bpm:140,scale:'phrygian',chordBars:2,chordSize:3,swing:0,
+   progressions:['pedal','phryg','darkloop'], note:'140 BPM · halftime snare op 3 · ruimte voor bass sound design',
+   parts:{drums:{style:'dubstep'},bass:{style:'dubspace',opts:{avoidKick:false}},screech:{style:'callresponse',opts:{density:'normaal',motion:'root'}},pad:{style:'whole'}},
+   energy:{kalm:['drums','bass'],normaal:['drums','bass','screech'],vol:['drums','bass','screech','pad']}},
+  {id:'dnb',label:'Drum & bass',bpm:174,scale:'aeolian',chordBars:2,chordSize:3,swing:0,
+   progressions:['darkloop','twochord','pedal'],note:'174 BPM · two-step drums · gesyncopeerde bas',
+   parts:{drums:{style:'dnb'},bass:{style:'dnb',opts:{avoidKick:false}},pad:{style:'whole'},lead:{style:'stab'},screech:{style:'broken'}},
+   energy:{kalm:['drums','bass'],normaal:['drums','bass','pad'],vol:['drums','bass','pad','lead','screech']}},
+  {id:'liquid',label:'Liquid DnB',bpm:172,scale:'dorian',chordBars:2,chordSize:4,swing:0,
+   progressions:['minorswing','twochord','darkloop'],note:'172 BPM · ghost-snares · lange subnoten en warme septiemen',
+   parts:{drums:{style:'liquid'},bass:{style:'reese',opts:{avoidKick:false}},chords:{style:'offstab'},pad:{style:'whole',opts:{followChords:true}},pluck:{style:'skip'}},
+   energy:{kalm:['bass','pad'],normaal:['drums','bass','pad','chords'],vol:['drums','bass','pad','chords','pluck']}},
+  {id:'ukgarage',label:'UK garage',bpm:132,scale:'dorian',chordBars:2,chordSize:4,swing:28,
+   progressions:['minorswing','twochord'],note:'132 BPM · 2-step drums · swing en korte akkoordstabs',
+   parts:{drums:{style:'ukg'},bass:{style:'ukg',opts:{avoidKick:false}},chords:{style:'charleston'},pluck:{style:'skip'}},
+   energy:{kalm:['drums','bass'],normaal:['drums','bass','chords'],vol:['drums','bass','chords','pluck']}},
+  {id:'neuro',label:'Neurofunk',bpm:174,scale:'phrygian',chordBars:4,chordSize:3,swing:0,
+   progressions:['pedal','phryg'],note:'174 BPM · strakke two-step · donkere call-and-response frases',
+   parts:{drums:{style:'dnb'},bass:{style:'reese',opts:{avoidKick:false}},screech:{style:'machine',opts:{density:'dicht',motion:'tonal'}},darkmelody:{style:'syncoop'}},
+   energy:{kalm:['drums','bass'],normaal:['drums','bass','screech'],vol:['drums','bass','screech','darkmelody']}}
+);
 const ENERGY = ['kalm', 'normaal', 'vol'];
 
 const ARTICULATIONS = [
@@ -1314,7 +1412,7 @@ function generateSection(params) {
     else continue;
 
     if (!def.fixedPitch) {
-      const spanUsed = def.span + (ex.octaveJump ? 12 : 0) + (ex.rise ? 12 : 0);
+      const spanUsed = def.span + (ex.octaveJump ? 12 : 0) + (ex.rise ? 12 : 0) + (id === 'screech' && ex.octaveAccent ? 12 : 0);
       fitRegister(part, def.centre + octaveOffset * 12, spanUsed);
     }
     const dyadMap = { terts: 2, kwart: 3, kwint: 4, octaaf: 7 };
@@ -1372,7 +1470,7 @@ function sectionParts(genre, section, fallbackParts) {
     if (!list.includes('bass')) list.push('bass');
   }
   if (section.riser && !list.includes('arp')) list.push('arp');
-  return [...new Set(list)];
+  return [...new Set(list)].filter(id => fallbackParts.includes(id));
 }
 
 function generateArrangement(params, structureId, genre) {
@@ -1385,7 +1483,7 @@ function generateArrangement(params, structureId, genre) {
     const parts = sectionParts(genre, sec, params.parts);
     const partOpts = JSON.parse(JSON.stringify(params.partOpts || {}));
     parts.forEach(pid => {
-      partOpts[pid] = partOpts[pid] || {};
+      partOpts[pid] = partOpts[pid] || JSON.parse(JSON.stringify((genre && genre.parts && genre.parts[pid]) || {}));
       partOpts[pid].opts = partOpts[pid].opts || {};
       partOpts[pid].vary = (partOpts[pid].vary || 0) + si;      // each section is a variation, not a copy
       if (sec.riser) {
@@ -1498,9 +1596,9 @@ function buildNotesMd(st) {
   const prog = PROGRESSIONS.find(p => p.id === st.progression) || PROGRESSIONS[0];
   const chords = spellProgression(st.root, st.scale, st.progression, st.chordSize);
   const L = [];
-  L.push('# ' + (st.filename || 'KICKROOM export'));
+  L.push('# ' + (st.filename || 'MIDIROOM export'));
   L.push('');
-  L.push('Gegenereerd met KICKROOM, een regelgebaseerde MIDI-generator (geen model, geen API).');
+  L.push('Gegenereerd met MIDIROOM, een regelgebaseerde MIDI-generator (geen model, geen API).');
   L.push('Dit bestand hoort bij de MIDI-export met dezelfde naam.');
   L.push('');
   L.push('## Muzikale gegevens');
@@ -1561,7 +1659,7 @@ function buildNotesMd(st) {
   L.push('');
   L.push('## Om dit exact te reproduceren');
   L.push('');
-  L.push('Open KICKROOM en zet: toonsoort ' + NOTE_NAMES[st.root] + ' ' + scaleName + ', ' + st.bpm + ' BPM, schema ' + prog.label + ', seed `' + st.seed + '`.');
+  L.push('Open MIDIROOM en zet: toonsoort ' + NOTE_NAMES[st.root] + ' ' + scaleName + ', ' + st.bpm + ' BPM, schema ' + prog.label + ', seed `' + st.seed + '`.');
   if (st.url) { L.push(''); L.push('Of open deze link, die de hele instelling bevat:'); L.push(''); L.push('    ' + st.url); }
   L.push('');
   return L.join('\n');

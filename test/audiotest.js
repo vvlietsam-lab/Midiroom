@@ -8,6 +8,8 @@ const voiceLog = [];
 const dom = new JSDOM(html, {
   url: 'https://local.test/k.html', runScripts: 'dangerously', pretendToBeVisual: true,
   beforeParse(win) {
+    win.HTMLMediaElement.prototype.play=()=>Promise.resolve();
+    win.HTMLMediaElement.prototype.pause=()=>{};
     win.HTMLCanvasElement.prototype.getContext = function () {
       const noop = () => {};
       return new Proxy({}, { get: (t, k) => (k === 'measureText' ? () => ({ width: 8 }) : noop), set: () => true });

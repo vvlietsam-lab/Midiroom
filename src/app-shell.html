@@ -3,14 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>KICKROOM — MIDI-generator</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<title>MIDIROOM — MIDI-generator</title>
 <style>
 :root{
-  --ink:#0F0D0B; --panel:#17130F; --panel-2:#211B15; --line:#3A3028;
-  --bone:#EDE6DA; --dim:#9C9184; --signal:#FF5A1F; --steel:#6E8894; --radius:3px;
+  --ink:#0F0D0B; --panel:#17130F; --panel-2:#211B15; --line:#303842;
+  --bone:#EDE6DA; --dim:#9C9184; --signal:#c0ed7b; --steel:#6E8894; --radius:3px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
@@ -108,13 +105,22 @@ canvas{display:block;width:100%;touch-action:none}
 .empty{padding:36px 20px;text-align:center;color:var(--dim)}
 .err{color:var(--signal);font-size:13px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/*__THEME__*/
 </style>
 </head>
 <body>
 <header>
-  <h1>KICK<span>ROOM</span></h1>
-  <div class="tagline">MIDI die je in Ableton sleept. Rekent lokaal, geen internet nodig.</div>
+  <h1><span class="brand-icon" aria-hidden="true"><i></i><i></i><i></i><i></i></span>MIDI<span>ROOM</span></h1>
+  <nav class="topnav" role="tablist" aria-label="Werkruimte">
+    <button id="tab-generator" role="tab" data-view="generator" aria-selected="true" aria-controls="view-generator">MIDI Generator</button>
+    <button id="tab-tools" role="tab" data-view="tools" aria-selected="false" aria-controls="view-tools" tabindex="-1">Studio Tools</button>
+    <button id="tab-ideas" role="tab" data-view="ideas" aria-selected="false" aria-controls="view-ideas" tabindex="-1">Idea Bank</button>
+    <button id="tab-check" role="tab" data-view="check" aria-selected="false" aria-controls="view-check" tabindex="-1">MIDI Check</button>
+  </nav>
+  <div class="version"><b>LOCAL STUDIO</b> / v2.0</div>
 </header>
+<section id="view-generator" role="tabpanel" aria-labelledby="tab-generator">
 
 <div class="genrebar">
   <div class="genres" id="genres"></div>
@@ -127,46 +133,41 @@ canvas{display:block;width:100%;touch-action:none}
 <div class="genrenote" id="genreNote"></div>
 
 <div class="wrap">
-<aside>
-  <div class="row">
-    <div class="field"><label for="root">Grondtoon</label><select id="root"></select></div>
-    <div class="field"><label for="scale">Toonladder</label><select id="scale"></select></div>
-  </div>
+<aside aria-label="Instrumenten">
+  <div class="sidebar-title"><span class="eyebrow">Instrumenten</span><span class="count" id="partCount">0 actief</span></div>
+  <div class="parts" id="parts"></div>
+  <div class="sidebar-footer">Vink aan om toe te voegen.<br>Open › voor stijl en variatie.<br><br>M = mute · S = solo · ↻ = variatie<br>Mute en solo gelden voor de preview.</div>
+</aside>
 
-  <div class="field">
+<main>
+  <div class="workspace-heading"><div><div class="eyebrow" style="margin-bottom:7px">CREATE / MIDI</div><h2>Van idee naar eerste loop.</h2><p>Kies een groove. Maak hem van jou.</p></div><div class="action-row"><button id="reroll" title="Nieuwe seed en nieuwe MIDI">↻ Nieuwe variatie</button><button class="primary" id="gen">Genereer MIDI</button></div></div>
+  <div class="session-controls"><div class="field"><label for="root">Grondtoon</label><select id="root"></select></div><div class="field"><label for="scale">Toonladder</label><select id="scale"></select></div>
+    <div class="field"><label for="bpm">BPM</label><input type="number" id="bpm" value="160" min="40" max="300" step="1"></div>
+    <div class="field"><label for="bars">Maten</label>
+      <select id="bars"><option>1</option><option>2</option><option>4</option><option selected>8</option><option>16</option><option>32</option></select>
+    </div></div>
+  <details class="panel advanced"><summary>Akkoorden, structuur &amp; groove</summary><div class="advanced-grid">  <div class="field">
     <label for="prog">Akkoordenschema</label>
     <select id="prog"></select>
     <div class="hint" id="progNote"></div>
   </div>
 
-  <div class="row">
-    <div class="field"><label for="bpm">BPM</label><input type="number" id="bpm" value="160" min="40" max="300" step="1"></div>
-    <div class="field"><label for="bars">Maten</label>
-      <select id="bars"><option>1</option><option>2</option><option>4</option><option selected>8</option><option>16</option><option>32</option></select>
-    </div>
     <div class="field"><label for="chordBars">Akkoord duurt</label>
       <select id="chordBars"><option value="1" selected>1 maat</option><option value="2">2 maten</option><option value="4">4 maten</option></select>
     </div>
     <div class="field"><label for="chordSize">Opbouw</label>
       <select id="chordSize"><option value="2">Kwint</option><option value="3" selected>Drieklank</option><option value="4">Septiem</option><option value="5">None</option></select>
     </div>
-  </div>
-
   <div class="field">
     <label for="structure">Structuur</label>
     <select id="structure"><option value="">Uit — één lus</option></select>
     <div class="hint" id="structureNote">Eén sectie van het gekozen aantal maten.</div>
   </div>
 
-  <div class="field">
-    <label>Partijen</label>
-    <div class="parts" id="parts"></div>
-  </div>
-
-  <div class="field">
+  <div class="field seed-field">
     <label for="seed">Seed</label>
     <input type="text" id="seed" value="">
-    <div class="hint">Dezelfde seed geeft altijd dezelfde MIDI. Noteer een seed die je goed vindt.</div>
+    <div class="hint">Dezelfde seed én instellingen geven dezelfde MIDI binnen deze versie.</div>
   </div>
 
   <div class="field">
@@ -176,37 +177,61 @@ canvas{display:block;width:100%;touch-action:none}
   <label class="check"><input type="checkbox" id="humanize" checked> velocities variëren</label>
   <label class="check"><input type="checkbox" id="timingHum"> timing licht variëren</label>
 
-  <button class="primary" id="gen">Genereer</button>
-  <button id="reroll">Nieuwe seed</button>
-  <button id="copyLink">Kopieer link naar deze instelling</button>
-</aside>
+<button id="copyLink">Kopieer instellingenlink</button></div></details>
 
-<main>
   <div class="roll-head">
     <div class="meta" id="meta">Nog niets gegenereerd.</div>
     <div class="transport">
       <button id="play">Afspelen</button>
       <button id="stop" disabled>Stop</button>
       <label class="check"><input type="checkbox" id="loop" checked> loop</label>
-      <label class="check"><input type="checkbox" id="clickKick" checked> kick op de tel</label>
-      <label class="check" style="gap:6px">volume <input type="range" id="vol" min="0" max="100" value="80" style="width:80px;accent-color:var(--signal)"></label>
+      <label class="check"><input type="checkbox" id="clickKick"> metronoom</label>
+      <label class="check" style="gap:6px">volume <input type="range" id="vol" aria-label="Previewvolume" min="0" max="100" value="55" style="width:80px;accent-color:var(--signal)"></label>
     </div>
   </div>
   <div class="meta" id="audioStatus"></div>
 
-  <div class="rollbox">
-    <canvas id="roll" height="360"></canvas>
+  <div class="rollbox"><div class="roll-title">Piano roll <select class="roll-filter" id="rollFilter" aria-label="Zichtbare partij"><option value="all">Alle instrumenten</option></select><span id="rollInfo">480 PPQ · 4/4</span></div>
+    <canvas id="roll" height="360" role="img" aria-label="Piano roll van de gegenereerde MIDI. Notenaantallen en bereik staan in de tabel hieronder."></canvas>
     <div class="legend" id="legend"></div>
   </div>
 
   <div class="exports" id="exports"></div>
   <div class="readout" id="readout"><div class="empty">Kies je toonsoort en druk op Genereer.</div></div>
-  <details class="panel" id="studioPanel">
+  <div class="action-row"><button id="saveIdeaQuick">+ Bewaar in Idea Bank</button></div>
+  <p class="footer-note">Preview met eenvoudige synthklanken. MIDI bepaalt noten en timing; de uiteindelijke screech, Reese of wobble maak je in Serum of een andere synth.</p>
+
+  <div class="hint">
+    Slepen naar Ableton: laat het bestand op een lege plek in de Arrangement of Session View vallen — elke partij wordt een eigen MIDI-track.
+    Het tempo staat in het bestand, maar Ableton neemt dat niet over; zet je set zelf op hetzelfde BPM.
+  </div>
+</main>
+</div>
+
+</section>
+<section class="tool-view" id="view-tools" role="tabpanel" aria-labelledby="tab-tools" hidden>
+  <div class="eyebrow">PRODUCE / TOOLS</div><h2>Meer maken. Minder omrekenen.</h2>
+  <p class="intro">Toonsoort en tempo volgen je huidige MIDI-sessie.</p><div class="tool-context" id="toolContext"></div>
+  <div class="tool-grid">
+    <article class="tool-card"><h3>Sample transponeren</h3><p>Van de grondtoon van je sample naar die van je sessie.</p><div class="row"><div class="field"><label for="sampleRoot">Sample staat in</label><select id="sampleRoot"></select></div><div class="field"><label for="sampleOctave">Extra octaaf</label><select id="sampleOctave"><option value="-12">−1</option><option value="0" selected>0</option><option value="12">+1</option></select></div></div><div class="tool-result" id="transposeResult"></div><p>Verschuift alleen de grondtoon; een majeurloop wordt hierdoor geen mineurloop.</p></article>
+    <article class="tool-card"><h3>Loop &amp; tempo</h3><p>Bereken de lengte van een loop en de stretchfactor naar je sessie.</p><div class="row"><div class="field"><label for="sourceBpm">Origineel BPM</label><input type="number" id="sourceBpm" min="20" max="400" value="130"></div><div class="field"><label for="toolBars">Maten (4/4)</label><input type="number" id="toolBars" min="1" max="512" value="8"></div></div><div class="tool-result" id="stretchResult"></div></article>
+  </div>
+  <div style="margin-top:24px">  <details class="panel" id="studioPanel" open>
     <summary>Studio — toonsoort, kick stemmen, delaytijden, harmonisch mixen</summary>
     <div class="panelbody" id="studio"></div>
   </details>
 
-  <details class="panel" id="logPanel">
+</div>
+  <button id="exportBrief">Download productiebrief (.md)</button>
+</section>
+<section class="tool-view" id="view-ideas" role="tabpanel" aria-labelledby="tab-ideas" hidden>
+  <div class="eyebrow">COLLECT / IDEAS</div><h2>Bewaar de goede takes.</h2>
+  <p class="intro">Favorieten blijven in deze browser. Exporteer je bank om hem mee te nemen of te back-uppen.</p>
+  <div class="bank-form"><input type="text" id="ideaName" maxlength="80" placeholder="Geef deze take een naam…" aria-label="Naam van je idee"><button class="primary" id="saveIdea">Bewaar huidige take</button></div>
+  <div class="notice" id="bankNotice" role="status" aria-live="polite"></div>
+  <div class="action-row"><button id="exportIdeas">Exporteer bank (.json)</button><button id="importIdeas">Importeer bank</button><input type="file" id="ideaFile" accept=".json,application/json" hidden></div>
+  <div class="idea-list" id="ideaList"></div>
+  <div class="eyebrow" style="margin:32px 0 16px">Sessielog</div>  <details class="panel" id="logPanel" open>
     <summary>Sessielog — alles wat je deze sessie hebt gegenereerd</summary>
     <div class="panelbody">
       <div class="logrows" id="logRows"></div>
@@ -217,12 +242,13 @@ canvas{display:block;width:100%;touch-action:none}
     </div>
   </details>
 
-  <div class="hint">
-    Slepen naar Ableton: laat het bestand op een lege plek in de Arrangement of Session View vallen — elke partij wordt een eigen MIDI-track.
-    Het tempo staat in het bestand, maar Ableton neemt dat niet over; zet je set zelf op hetzelfde BPM.
-  </div>
-</main>
-</div>
+</section>
+<section class="tool-view" id="view-check" role="tabpanel" aria-labelledby="tab-check" hidden>
+  <div class="eyebrow">REVIEW / MIDI</div><h2>Check je loop vóór de DAW.</h2>
+  <p class="intro">Controle op noten, timing en arrangement. Muzikaliteit en geluidskwaliteit beoordeel je met je eigen sounds.</p>
+  <div class="summary-metrics" id="checkMetrics"></div><div class="check-list" id="checkList"></div>
+  <button id="exportCheck" style="margin-top:20px">Download MIDI-check (.md)</button>
+</section>
 
 <script>
 /*__CORE__*/
@@ -246,15 +272,16 @@ PART_ORDER.forEach(id=>{
   const el=document.createElement('div'); el.className='part'; el.dataset.id=id;
   el.innerHTML=
     '<div class="part-top">'+
-      '<input type="checkbox" data-part="'+id+'" '+(DEFAULT_ON[id]?'checked':'')+'>'+
+      '<input type="checkbox" aria-label="'+def.label+' inschakelen" data-part="'+id+'" '+(DEFAULT_ON[id]?'checked':'')+'>'+
       '<span class="sw" style="background:'+def.colour+'"></span>'+
       '<span class="nm">'+def.label+'</span>'+
       '<span class="st" data-st="'+id+'">auto</span>'+
-      '<button class="small ms" data-mute="'+id+'" title="mute">M</button>'+
-      '<button class="small ms" data-solo="'+id+'" title="solo">S</button>'+
-      '<button class="small" data-vary="'+id+'" title="alleen deze partij opnieuw">&#8635;</button>'+
+      '<button class="small ms" data-mute="'+id+'" aria-label="'+def.label+' mute" title="mute">M</button>'+
+      '<button class="small ms" data-solo="'+id+'" aria-label="'+def.label+' solo" title="solo">S</button>'+
+      '<button class="small" data-vary="'+id+'" aria-label="'+def.label+' variatie" title="alleen deze partij opnieuw">&#8635;</button>'+
+      '<button data-edit="'+id+'" aria-label="'+def.label+' instellingen" aria-expanded="false" aria-controls="settings-'+id+'">›</button>'+
     '</div>'+
-    '<div class="part-body">'+
+    '<div class="part-body" id="settings-'+id+'">'+
       '<div class="field"><label>Stijl</label><select data-style="'+id+'"><option value="">Automatisch</option>'+
         bank.map(s=>'<option value="'+s.id+'">'+s.label+'</option>').join('')+
       '</select><div class="hint" data-note="'+id+'"></div></div>'+
@@ -275,25 +302,27 @@ PART_ORDER.forEach(id=>{
       '</div>'+
     '</div>';
   $('parts').appendChild(el);
-  if(DEFAULT_ON[id]) el.classList.add('open');
+  if(DEFAULT_ON[id]) el.classList.add('active');
 });
 const octaves={}, muted={}, soloed={}, varies={};
 PART_ORDER.forEach(id=>{ octaves[id]=0; muted[id]=false; soloed[id]=false; varies[id]=0; });
 function audible(id){
-  const anySolo=PART_ORDER.some(x=>soloed[x]);
+  const anySolo=PART_ORDER.some(x=>soloed[x] && current && current.parts.some(p=>p.id===x));
   return anySolo ? soloed[id] : !muted[id];
 }
 function paintMS(){
   PART_ORDER.forEach(id=>{
     const m=document.querySelector('[data-mute="'+id+'"]'), so=document.querySelector('[data-solo="'+id+'"]');
-    if(m) m.classList.toggle('on',muted[id]);
-    if(so) so.classList.toggle('on',soloed[id]);
+    if(m){ m.classList.toggle('on',muted[id]);m.setAttribute('aria-pressed',muted[id]); }
+    if(so){so.classList.toggle('on',soloed[id]);so.setAttribute('aria-pressed',soloed[id]);}
     const row=document.querySelector('.part[data-id="'+id+'"]');
     if(row) row.classList.toggle('dimmed',!audible(id));
   });
 }
 
 $('parts').addEventListener('click',e=>{
+  const edit=e.target.closest('[data-edit]');
+  if(edit){const row=edit.closest('.part');row.classList.toggle('open');edit.setAttribute('aria-expanded',row.classList.contains('open'));return;}
   const vb=e.target.closest('[data-vary]');
   if(vb){ e.preventDefault(); e.stopPropagation(); varies[vb.dataset.vary]++; generate(); return; }
   const mb=e.target.closest('[data-mute]');
@@ -310,13 +339,12 @@ $('parts').addEventListener('click',e=>{
   }
   const top=e.target.closest('.part-top');
   if(top && e.target.tagName!=='INPUT'){
-    const cb=top.querySelector('input'); cb.checked=!cb.checked;
-    cb.dispatchEvent(new Event('change',{bubbles:true}));
+    top.querySelector('[data-edit]').click();
   }
 });
 $('parts').addEventListener('change',e=>{
   if(e.target.dataset.part){
-    e.target.closest('.part').classList.toggle('open',e.target.checked);
+    e.target.closest('.part').classList.toggle('active',e.target.checked);
   }
   if(e.target.dataset.art||e.target.dataset.opt){ /* handled by generate below */ }
   if(e.target.dataset.style){
@@ -356,6 +384,7 @@ let restoring=false;
 function restoreFromHash(){
   if(!location.hash||location.hash.length<3) return;
   let st; try{ st=JSON.parse(decodeURIComponent(location.hash.slice(1))); }catch(e){ return; }
+  st=normalizeState(st);
   restoring=true;
   try{
     const set=(id,v)=>{ if(v!=null&&$(id)) $(id).value=v; };
@@ -372,7 +401,7 @@ function restoreFromHash(){
     $('swingVal').textContent=($('swing').value||0)+'%';
     Object.entries(st.p||{}).forEach(([id,v])=>{
       const cb=document.querySelector('[data-part="'+id+'"]');
-      if(cb){ cb.checked=!!v.on; const row=cb.closest('.part'); if(row) row.classList.toggle('open',!!v.on); }
+      if(cb){ cb.checked=!!v.on; const row=cb.closest('.part'); if(row) row.classList.toggle('active',!!v.on); }
       const sel=document.querySelector('[data-style="'+id+'"]');
       if(sel&&v.st!=null&&Array.from(sel.options).some(o=>o.value===v.st)) sel.value=v.st;
       if(typeof v.vy==='number') varies[id]=v.vy;
@@ -391,6 +420,7 @@ function restoreFromHash(){
       });
     });
     $('prog').dispatchEvent(new Event('change'));
+    const structure=STRUCTURES.find(x=>x.id===$('structure').value);$('structureNote').textContent=structure?structure.sections.map(sc=>sc.label+' '+sc.bars).join(' · '):'Eén sectie van het gekozen aantal maten.';
   }catch(e){}
   restoring=false;
 }
@@ -437,6 +467,7 @@ function resetPartDefaults(id){
 }
 function applyGenre(id,newSeedToo){
   activeGenre=id;
+  PART_ORDER.forEach(pid=>{muted[pid]=false;soloed[pid]=false;});
   document.querySelectorAll('[data-genre]').forEach(b=>b.classList.toggle('on',b.dataset.genre===id));
   const g=GENRES.find(x=>x.id===id);
   $('genreNote').textContent=g?(g.free?g.note:g.label+' — '+g.note):'';
@@ -447,7 +478,7 @@ function applyGenre(id,newSeedToo){
   $('bpm').value=g.bpm;
   $('scale').value=g.scale;
   const pool=g.progressions||['euphoric'];
-  $('prog').value=pool[Math.floor(Math.random()*pool.length)];
+  if(newSeedToo || !pool.includes($('prog').value)) $('prog').value=pool[Math.floor(Math.random()*pool.length)];
   $('prog').dispatchEvent(new Event('change'));
   $('chordBars').value=String(g.chordBars||1);
   $('chordSize').value=String(g.chordSize||3);
@@ -459,7 +490,7 @@ function applyGenre(id,newSeedToo){
   PART_ORDER.forEach(pid=>{
     resetPartDefaults(pid);
     const cb=document.querySelector('[data-part="'+pid+'"]');
-    if(cb){ cb.checked=on.has(pid); const row=cb.closest('.part'); if(row) row.classList.toggle('open',cb.checked); }
+    if(cb){ cb.checked=on.has(pid); const row=cb.closest('.part'); if(row) row.classList.toggle('active',cb.checked); }
     const d=(g.parts||{})[pid];
     if(!d) return;
     if(d.style){ const sel=document.querySelector('[data-style="'+pid+'"]');
@@ -501,11 +532,12 @@ $('seed').addEventListener('keydown',e=>{ if(e.key==='Enter') generate(); });
 function generate(){
   const parts=Array.from(document.querySelectorAll('[data-part]')).filter(c=>c.checked).map(c=>c.dataset.part);
   if(!parts.length){
-    current=null;
+    current=null; $('meta').textContent='Selecteer minstens één instrument.'; $('play').disabled=true; saveToHash(); refreshWorkspace();
     $('readout').innerHTML='<div class="err">Kies minstens één partij.</div>';
     $('exports').innerHTML=''; stopAudio(); clearRoll(); return;
   }
-  const bpm=Math.max(40,Math.min(300,+$('bpm').value||160));
+  const bpm=Math.max(40,Math.min(300,Math.round(+$('bpm').value||160)));
+  $('bpm').value=bpm;
   const partOpts={};
   parts.forEach(id=>{
     const sel=document.querySelector('[data-style="'+id+'"]');
@@ -547,17 +579,19 @@ function generate(){
     rollCache=null; drawRoll(); writeReadout(); buildExports(); updateStyleLabels();
     $('meta').innerHTML='<b>'+NOTE_NAMES[+$('root').value]+' '+SCALES[$('scale').value].name+'</b>  ·  '+
       current.meta.progression.label+'  ·  <b>'+bpm+'</b> BPM  ·  '+current.meta.bars+' maten'+
-      (current.arrangement?' ('+current.meta.structure.label+')':'')+'  ·  seed <b>'+$('seed').value+'</b>';
-    saveToHash(); renderStudio(); logEntry();
+      (current.arrangement?' ('+current.meta.structure.label+')':'')+'  ·  seed <b>'+escapeHtml($('seed').value)+'</b>';
+    saveToHash(); renderStudio(); logEntry(); refreshWorkspace();
     if(wasPlaying) playAll();
   }catch(err){
-    $('readout').innerHTML='<div class="err">Genereren mislukt: '+err.message+'</div>';
+    $('readout').innerHTML='<div class="err">Genereren mislukt: '+escapeHtml(err.message)+'</div>';
   }
 }
 function updateStyleLabels(){
   PART_ORDER.forEach(id=>{
     const el=document.querySelector('[data-st="'+id+'"]');
     const p=current&&current.parts.find(x=>x.id===id);
+    const style=document.querySelector('[data-style="'+id+'"]');const st=STYLES[PART_DEFS[id].styles].find(x=>style&&x.id===style.value);
+    document.querySelector('[data-note="'+id+'"]').textContent=st?st.note:'De generator kiest zelf een stijl.';
     el.textContent=p?(p.part.rhythmLabel||p.part.rhythmId||''):'auto';
   });
 }
@@ -574,7 +608,7 @@ function clearRoll(){
 }
 function playheadX(playhead){
   if(!rollMap) return null;
-  return playhead/rollMap.totalTicks*(rollMap.W-8)+4;
+  return playhead/rollMap.totalTicks*(rollMap.W-52)+48;
 }
 function drawRoll(playhead){
   if(!current||!current.parts.length){ clearRoll(); return; }
@@ -610,7 +644,7 @@ function paintRoll(W){
   ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,W,H);
   rollCache=null;
 
-  const all=[]; current.parts.forEach(p=>{const on=audible(p.id); p.events.forEach(e=>all.push({tick:e.tick,dur:e.dur,midi:e.midi,vel:on?e.vel:26,colour:p.colour}));});
+  const all=[]; current.parts.forEach(p=>{if($('rollFilter').value!=='all'&&$('rollFilter').value!==p.id)return;const on=audible(p.id); p.events.forEach(e=>all.push({tick:e.tick,dur:e.dur,midi:e.midi,vel:on?e.vel:26,colour:p.colour}));});
   if(!all.length){ rollMap=null; return; }
   let lo=Infinity, hi=-Infinity;
   all.forEach(e=>{ if(e.midi<lo)lo=e.midi; if(e.midi>hi)hi=e.midi; });
@@ -618,37 +652,44 @@ function paintRoll(W){
   const totalTicks=Math.max(1,current.meta.bars*4*TPQ);
   rollMap={W,totalTicks};
   const rows=Math.max(1,hi-lo+1), rh=Math.max(1.8,(H-22)/rows);
-  const x=t=>t/totalTicks*(W-8)+4, y=m=>(hi-m)*rh+11;
+  const x=t=>t/totalTicks*(W-52)+48, y=m=>(hi-m)*rh+18;
 
+  // Pitch ruler and subtle black-key lanes make the preview readable as MIDI.
+  for(let m=lo;m<=hi;m++){
+    const black=[1,3,6,8,10].includes(((m%12)+12)%12), yy=y(m);
+    ctx.fillStyle=black?'#11161c':'#171d24';ctx.fillRect(46,yy,W-46,rh);
+    ctx.fillStyle=black?'#1c242d':'#2c3640';ctx.fillRect(0,yy,43,Math.max(1,rh-1));
+    if(rh>=12||m%12===0){ctx.fillStyle='#b9c8d8';ctx.font='11px monospace';ctx.fillText(midiName(m),5,yy+Math.min(rh-1,12));}
+  }
   const showBeats=current.meta.bars<=16;
   const labelEvery=current.meta.bars>32?8:4;
   for(let b=0;b<=current.meta.bars;b++){
     const px=x(b*4*TPQ);
-    ctx.strokeStyle='#3A3028'; ctx.lineWidth=1;
+    ctx.strokeStyle='#303842'; ctx.lineWidth=1;
     ctx.beginPath(); ctx.moveTo(px,0); ctx.lineTo(px,H); ctx.stroke();
     if(b<current.meta.bars){
       if(showBeats) for(let q=1;q<4;q++){
         const pq=x((b*4+q)*TPQ);
-        ctx.strokeStyle='#241E18'; ctx.beginPath(); ctx.moveTo(pq,0); ctx.lineTo(pq,H); ctx.stroke();
+        ctx.strokeStyle='#202730'; ctx.beginPath(); ctx.moveTo(pq,0); ctx.lineTo(pq,H); ctx.stroke();
       }
       if(showBeats||b%labelEvery===0){
-        ctx.fillStyle='#6B6055'; ctx.font='11px "IBM Plex Mono", monospace'; ctx.fillText(String(b+1),px+4,11);
+        ctx.fillStyle='#9caabc'; ctx.font='11px "IBM Plex Mono", monospace'; ctx.fillText(String(b+1),px+4,11);
       }
     }
   }
   if(current.meta.marks){
     current.meta.marks.forEach(m=>{
       const px=x(m.bar*4*TPQ);
-      ctx.fillStyle='rgba(255,90,31,0.10)';
+      ctx.fillStyle='rgba(192,237,123,0.10)';
       ctx.fillRect(px,0,Math.max(1,x((m.bar+m.bars)*4*TPQ)-px),13);
-      ctx.strokeStyle='var(--signal)'; ctx.strokeStyle='#FF5A1F'; ctx.lineWidth=1;
+      ctx.strokeStyle='var(--signal)'; ctx.strokeStyle='#c0ed7b'; ctx.lineWidth=1;
       ctx.beginPath(); ctx.moveTo(px,0); ctx.lineTo(px,H); ctx.stroke();
-      ctx.fillStyle='#FF9D6E'; ctx.font='700 10px "Archivo", sans-serif';
+      ctx.fillStyle='#c0ed7b'; ctx.font='700 10px "Archivo", sans-serif';
       ctx.fillText(m.label.toUpperCase(),px+4,10);
     });
   }
   const rootPc=+$('root').value;
-  if(rows<=90) for(let m=lo;m<=hi;m++) if(((m%12)+12)%12===rootPc){ ctx.fillStyle='rgba(255,90,31,0.055)'; ctx.fillRect(0,y(m),W,rh); }
+  if(rows<=90) for(let m=lo;m<=hi;m++) if(((m%12)+12)%12===rootPc){ ctx.fillStyle='rgba(192,237,123,0.055)'; ctx.fillRect(46,y(m),W-46,rh); }
   all.forEach(e=>{
     const w=Math.max(1.5,x(e.tick+e.dur)-x(e.tick)-1);
     ctx.fillStyle=e.colour; ctx.globalAlpha=0.42+0.58*(e.vel/127);
@@ -721,7 +762,7 @@ function logEntry(){
     parts:current.parts.map(p=>p.label).join(', '),
     hash:location.hash, at:new Date().toTimeString().slice(0,5),
   };
-  const key=JSON.stringify([e.seed,e.root,e.scale,e.prog,e.bpm,e.bars,e.parts]);
+  const key=JSON.stringify(collectState());
   if(sessionLog.length&&sessionLog[0].key===key) return;
   e.key=key; sessionLog.unshift(e);
   if(sessionLog.length>40) sessionLog.pop();
@@ -730,7 +771,7 @@ function logEntry(){
 function renderLog(){
   if(!sessionLog.length){ $('logRows').innerHTML='<p class="hint">Nog niets gegenereerd deze sessie.</p>'; return; }
   $('logRows').innerHTML=sessionLog.map((e,i)=>
-    '<div class="logrow"><b>'+e.seed+'</b>'+
+    '<div class="logrow"><b>'+escapeHtml(e.seed)+'</b>'+
     '<span>'+e.at+' · '+NOTE_NAMES[e.root]+' '+SCALES[e.scale].name+' · '+e.bpm+' BPM · '+e.bars+' mt · '+(GENRES.find(g=>g.id===e.genre)||{label:'vrij'}).label+'</span>'+
     '<button class="small" data-restore="'+i+'">Herstel</button></div>').join('');
 }
@@ -740,7 +781,7 @@ $('logRows').addEventListener('click',ev=>{
   location.hash=e.hash; restoreFromHash(); generate();
 });
 function logAsMarkdown(){
-  const L=['# KICKROOM sessielog','','| Tijd | Seed | Toonsoort | BPM | Maten | Genre | Partijen |','|---|---|---|---|---|---|---|'];
+  const L=['# MIDIROOM sessielog','','| Tijd | Seed | Toonsoort | BPM | Maten | Genre | Partijen |','|---|---|---|---|---|---|---|'];
   sessionLog.slice().reverse().forEach(e=>L.push('| '+e.at+' | `'+e.seed+'` | '+NOTE_NAMES[e.root]+' '+SCALES[e.scale].name+
     ' | '+e.bpm+' | '+e.bars+' | '+(GENRES.find(g=>g.id===e.genre)||{label:'vrij'}).label+' | '+e.parts+' |'));
   return L.join('\n');
@@ -792,7 +833,7 @@ function download(bytes,name){
   setTimeout(()=>{URL.revokeObjectURL(a.href); a.remove();},400);
 }
 function fileStem(){
-  return 'KICKROOM_'+NOTE_NAMES[+$('root').value].replace('#','s')+'_'+current.bpm+'bpm_'+$('seed').value;
+  return 'MIDIROOM_'+NOTE_NAMES[+$('root').value].replace('#','s')+'_'+current.bpm+'bpm_'+$('seed').value.replace(/[^a-zA-Z0-9_-]/g,'_').slice(0,60);
 }
 function buildExports(){
   const box=$('exports'); box.innerHTML='';
@@ -801,7 +842,7 @@ function buildExports(){
   all.className='primary'; all.textContent='Alles als één MIDI-bestand';
   all.onclick=()=>{
     const stem=fileStem();
-    download(buildMidi(current.parts.map(p=>({name:p.label,events:p.events})),current.bpm), stem+'.mid');
+    download(buildMidi(current.parts.map(p=>({id:p.id,name:p.label,events:p.events})),current.bpm,current.meta.bars*4*TPQ), stem+'.mid');
     downloadText(notesFor(stem+'.mid'), stem+'_notes.md');
   };
   box.appendChild(all);
@@ -809,7 +850,7 @@ function buildExports(){
     const b=document.createElement('button'); b.textContent=p.label;
     b.onclick=()=>{
       const stem=fileStem()+'_'+p.id;
-      download(buildMidi([{name:p.label,events:p.events}],current.bpm), stem+'.mid');
+      download(buildMidi([{id:p.id,name:p.label,events:p.events}],current.bpm,current.meta.bars*4*TPQ), stem+'.mid');
       downloadText(notesFor(stem+'.mid'), stem+'_notes.md');
     };
     box.appendChild(b);
@@ -1039,7 +1080,7 @@ function playAll(){
   limiter.attack.value=0.003; limiter.release.value=0.15;
   master=a.createGain();
   const audibleCount=Math.max(1,current.parts.filter(p=>audible(p.id)).length);
-  master.gain.value=Math.min(0.95, (1.6/Math.sqrt(audibleCount))*((+$('vol').value||80)/80));
+  master.gain.value=Math.min(0.95, (1.6/Math.sqrt(audibleCount))*(Number($('vol').value)/100));
   master.connect(limiter); limiter.connect(a.destination);
 
   queue=buildQueue(); qIdx=0; qPass=0;
@@ -1071,14 +1112,14 @@ function stopAudio(){
   live=[]; queue=[]; qIdx=0; qPass=0;
   if(master){ try{ master.disconnect(); }catch(e){} master=null; }
   if(limiter){ try{ limiter.disconnect(); }catch(e){} limiter=null; }
-  $('play').disabled=false; $('stop').disabled=true;
+  $('play').disabled=!current; $('stop').disabled=true;
   updateAudioStatus();
   if(current) drawRoll();
 }
 $('play').addEventListener('click',playAll);
 $('stop').addEventListener('click',stopAudio);
 $('loop').addEventListener('change',()=>{ if(playing) playAll(); });
-$('vol').addEventListener('input',()=>{ if(master&&AC){ const n=Math.max(1,current.parts.filter(p=>audible(p.id)).length); master.gain.value=Math.min(0.95,(1.6/Math.sqrt(n))*((+$('vol').value||80)/80)); } });
+$('vol').addEventListener('input',()=>{ if(master&&AC){ const n=Math.max(1,current.parts.filter(p=>audible(p.id)).length); master.gain.value=Math.min(0.95,(1.6/Math.sqrt(n))*(Number($('vol').value)/100)); } });
 $('clickKick').addEventListener('change',()=>{ if(playing) playAll(); });
 document.addEventListener('keydown',e=>{
   if(e.code==='Space'&&!['INPUT','SELECT','TEXTAREA','BUTTON'].includes(e.target.tagName)){
@@ -1086,10 +1127,12 @@ document.addEventListener('keydown',e=>{
   }
 });
 
+/*__WORKSPACE__*/
+
 paintMS();
 renderLog();
 restoreFromHash();
-if(activeGenre==='free'){ applyGenre('rawstyle',false); } else { generate(); }
+if(!location.hash){ applyGenre('rawstyle',false); } else { generate(); }
 </script>
 </body>
 </html>

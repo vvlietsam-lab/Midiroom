@@ -3,14 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>KICKROOM — MIDI-generator</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<title>MIDIROOM — MIDI-generator</title>
 <style>
 :root{
-  --ink:#0F0D0B; --panel:#17130F; --panel-2:#211B15; --line:#3A3028;
-  --bone:#EDE6DA; --dim:#9C9184; --signal:#FF5A1F; --steel:#6E8894; --radius:3px;
+  --ink:#0F0D0B; --panel:#17130F; --panel-2:#211B15; --line:#303842;
+  --bone:#EDE6DA; --dim:#9C9184; --signal:#c0ed7b; --steel:#6E8894; --radius:3px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
@@ -108,13 +105,37 @@ canvas{display:block;width:100%;touch-action:none}
 .empty{padding:36px 20px;text-align:center;color:var(--dim)}
 .err{color:var(--signal);font-size:13px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+:root{--ink:#101216;--panel:#171a20;--panel-2:#20242c;--line:#303640;--bone:#eaf0f6;--dim:#a0abba;--signal:#c0ed7b;--steel:#67c5f0;--radius:9px;color-scheme:dark}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:16px}
+[hidden]{display:none!important} button,input,select{font-size:14px}button{min-height:36px;border-color:var(--line)}button:hover{background:#2b323b;border-color:#657487}button.primary{color:#1b2910}button.primary:hover{background:#d0f79d;border-color:#d0f79d}
+header{height:80px;padding:0 32px;align-items:center;flex-wrap:nowrap;gap:36px;background:var(--ink)}h1{font-family:inherit;font-size:23px;letter-spacing:-1px;white-space:nowrap}h1 span{color:var(--bone);font-weight:400}.brand-icon{display:inline-flex;align-items:center;gap:3px;height:27px;margin-right:11px;vertical-align:middle}.brand-icon i{width:4px;border-radius:2px;background:var(--signal)}.brand-icon i:nth-child(1){height:12px}.brand-icon i:nth-child(2){height:26px}.brand-icon i:nth-child(3){height:18px}.brand-icon i:nth-child(4){height:8px}
+.topnav{display:flex;gap:7px;height:100%;align-items:center;flex:1}.topnav button{height:40px;border:0;background:none;color:var(--dim);white-space:nowrap}.topnav button[aria-selected=true]{color:var(--bone);background:var(--panel-2)}.version{font-size:12px;color:var(--dim);font-family:monospace;white-space:nowrap}.version b{color:var(--signal);font-weight:500}
+.genrebar{padding:15px 32px;gap:20px;background:var(--ink)}.genres{flex-wrap:wrap;overflow:visible;gap:5px}.genres button{border-color:transparent;background:transparent;color:var(--dim);font-family:inherit;font-size:13px;padding:6px 10px;min-height:32px}.genres button.on{background:#283721;color:var(--signal);border-color:#40582f}.genrenote{padding:8px 32px;color:var(--dim);font-size:13px}.energy{font-size:13px}
+.wrap{grid-template-columns:310px minmax(0,1fr);min-height:calc(100vh - 177px)}aside{padding:24px 16px;gap:18px;background:#14171c}main{padding:26px 30px;gap:20px}.sidebar-title{display:flex;justify-content:space-between;align-items:center;padding:0 9px}.eyebrow{font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim)}.count{color:var(--signal);font:12px monospace}.parts{gap:5px}.part{background:transparent;border-color:transparent;overflow:visible;border-radius:8px}.part.active{background:#20252c;border-color:#303741}.part.open{border-color:#536145}.part-top{gap:7px;padding:11px 9px;flex-wrap:wrap;cursor:default}.part-top .nm{font-size:14px;font-weight:500;line-height:20px;cursor:pointer}.part-top input{width:15px;height:15px;accent-color:var(--signal)}.part-top .sw{width:4px;height:20px;border-radius:3px}.part-top .st{display:none}.part-top .ms{font-size:12px;min-height:26px;width:26px;padding:2px;background:transparent;border-color:transparent;color:var(--dim)}.part-top .ms.on{background:#40552f;color:var(--signal)}.part-top [data-vary]{font-size:18px;padding:0;min-height:26px;width:24px;border:0;background:none;color:var(--dim)}.part-top [data-edit]{padding:0;min-height:26px;width:24px;border:0;background:none;color:var(--dim);font-size:16px}.part-top [data-edit][aria-expanded=true]{color:var(--signal)}.part-body{padding:4px 12px 14px;gap:12px}.part-group{padding:16px 10px 5px;color:#7f8b9d;font-size:12px;text-transform:uppercase;letter-spacing:1.2px}.part-group:first-child{padding-top:0}.sidebar-footer{margin-top:8px;padding:14px 10px;border-top:1px solid var(--line);font-size:13px;color:var(--dim)}.field>label,.check,.oct{font-size:14px}.hint{font-size:13px}.dimmed{opacity:.6}
+.workspace-heading{display:flex;justify-content:space-between;gap:18px;align-items:center}.workspace-heading h2{font-size:25px;letter-spacing:-.7px;font-weight:600}.workspace-heading p{font-size:14px;color:var(--dim);margin-top:4px}.action-row{display:flex;gap:8px;flex-wrap:wrap}.action-row button{padding:10px 16px}.session-controls{display:grid;grid-template-columns:1fr 1.3fr .8fr .8fr;gap:14px;padding:18px;border:1px solid var(--line);background:var(--panel);border-radius:12px}.advanced{border:0;background:transparent}.advanced>summary{padding:8px 0;font-size:14px;font-weight:400;color:var(--dim)}.advanced-grid{padding:14px 0 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.advanced-grid>.row{display:contents}.advanced-grid .seed-field{grid-column:span 2}
+.rollbox{border-radius:12px;background:#14191f}.roll-title{padding:14px 18px;display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);font-size:14px;font-weight:500}.roll-title span{font:12px monospace;color:var(--dim)}.roll-head{gap:12px}.meta{font-size:13px}.transport{padding:10px 0;gap:12px}.transport .check{font-size:13px}.transport button{min-width:80px}#audioStatus{font-size:12px;min-height:18px;color:var(--dim)}.legend{padding:12px 18px;font-size:12px}.exports{gap:7px}.exports button{font-size:13px}.readout{border:0;background:none;padding:4px 0;font-family:inherit;font-size:13px}.readout td{padding:8px 12px;border-bottom:1px solid #252b34}.readout td:first-child{font-weight:500}.readout td:last-child{white-space:normal}.panel>summary{font-size:14px}.block h4{font-family:inherit;font-size:13px;letter-spacing:.8px;margin-bottom:14px}.block table{font-size:14px;font-family:inherit}.block td,.block th{padding:7px 8px 7px 0}.block p{font-size:14px}.panelbody{grid-template-columns:repeat(2,minmax(0,1fr));padding:20px;gap:28px}.tool-view{max-width:1200px;width:100%;margin:0 auto;padding:32px}.tool-view h2{font-size:26px;font-weight:600;letter-spacing:-.7px;margin:0}.intro{color:var(--dim);font-size:15px;margin:5px 0 24px}.tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.tool-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:24px;min-width:0}.tool-card h3{font-size:17px;font-weight:500;margin-bottom:8px}.tool-card p{font-size:14px;color:var(--dim);margin:8px 0 18px}.tool-card .row{margin:16px 0}.tool-result{padding:14px;border:1px solid #3a4e2d;background:#202b1c;border-radius:8px;font:14px/1.6 monospace;color:#d0eda9;margin-top:16px}.tool-context{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:20px 0}.pill{border:1px solid var(--line);border-radius:30px;padding:6px 12px;font-size:13px;color:var(--dim)}.idea-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px;margin:24px 0}.idea-card{padding:20px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}.idea-card h3{font-size:17px;overflow-wrap:anywhere;margin-bottom:6px}.idea-card p{font-size:13px;color:var(--dim);margin:8px 0 20px}.idea-card .action-row button{padding:7px 10px;font-size:13px}.bank-form{display:flex;gap:10px;max-width:620px}.bank-form input{min-width:0}.bank-form button{white-space:nowrap}.notice{font-size:14px;color:var(--signal);min-height:22px;margin:12px 0}.check-list{display:grid;gap:10px}.check-item{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--steel);border-radius:8px;padding:16px 20px}.check-item.warn{border-left-color:#efb577}.check-item.good{border-left-color:var(--signal)}.check-item h3{font-size:15px;font-weight:500}.check-item p{font-size:14px;color:var(--dim);margin-top:5px}.summary-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0}.metric{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px}.metric b{display:block;font:24px monospace;color:var(--bone)}.metric span{font-size:13px;color:var(--dim)}#studioPanel>summary,#logPanel>summary{display:none}#studioPanel,#logPanel{border:0}.empty{border:1px dashed var(--line);border-radius:12px}.footer-note{font-size:13px;color:var(--dim);line-height:1.6}#saveIdeaQuick{background:none}.roll-filter{background:transparent;border:0;padding:0 24px 0 0;width:auto;font-size:13px;color:var(--dim)}
+@media(min-width:1100px){aside{align-self:start;position:sticky;top:0;max-height:100vh;overflow-y:auto} .genrenote{min-height:36px}}
+@media(max-width:1100px){header{gap:18px;padding:0 20px}.version{display:none}main{padding:24px 20px}.wrap{grid-template-columns:285px minmax(0,1fr)}.workspace-heading{align-items:flex-start;flex-direction:column}.advanced-grid{grid-template-columns:1fr 1fr}.panelbody{grid-template-columns:1fr}}
+@media(max-width:760px){header{height:auto;padding:18px;flex-wrap:wrap;gap:14px}.topnav{flex-basis:100%;gap:4px;overflow-x:auto}.topnav button{font-size:13px;padding:6px 10px}.genrebar{padding:12px 18px}.genres{flex-wrap:nowrap;overflow-x:auto}.energy{width:100%}.genrenote{padding:8px 18px}.wrap{display:flex;flex-direction:column}main{order:0;padding:22px 16px}aside{order:1;border-top:1px solid var(--line);border-right:0}.session-controls{grid-template-columns:1fr 1fr;padding:14px}.advanced-grid{grid-template-columns:1fr 1fr}.workspace-heading{gap:14px}.workspace-heading h2{font-size:23px}.tool-view{padding:24px 16px}.tool-grid{grid-template-columns:1fr}.summary-metrics{grid-template-columns:1fr 1fr}.part-top{min-height:48px}.part-top .st{display:block;max-width:120px}.tool-card{padding:18px}.bank-form{flex-wrap:wrap}.roll-title{flex-wrap:wrap}.parts{display:grid;grid-template-columns:1fr 1fr}.part-group{grid-column:1/-1}.panelbody{padding:14px;overflow-x:auto}.meta{overflow-wrap:anywhere}}
+@media(max-width:430px){.parts{display:flex}.advanced-grid{display:flex;flex-direction:column}.tool-card .row{grid-template-columns:1fr}.transport{gap:9px}.roll-title span{font-size:12px}.readout td{white-space:normal}.session-controls{gap:10px}}
+
+main{gap:16px}#audioStatus:empty{display:none}.workspace-heading p{display:none}
+
 </style>
 </head>
 <body>
 <header>
-  <h1>KICK<span>ROOM</span></h1>
-  <div class="tagline">MIDI die je in Ableton sleept. Rekent lokaal, geen internet nodig.</div>
+  <h1><span class="brand-icon" aria-hidden="true"><i></i><i></i><i></i><i></i></span>MIDI<span>ROOM</span></h1>
+  <nav class="topnav" role="tablist" aria-label="Werkruimte">
+    <button id="tab-generator" role="tab" data-view="generator" aria-selected="true" aria-controls="view-generator">MIDI Generator</button>
+    <button id="tab-tools" role="tab" data-view="tools" aria-selected="false" aria-controls="view-tools" tabindex="-1">Studio Tools</button>
+    <button id="tab-ideas" role="tab" data-view="ideas" aria-selected="false" aria-controls="view-ideas" tabindex="-1">Idea Bank</button>
+    <button id="tab-check" role="tab" data-view="check" aria-selected="false" aria-controls="view-check" tabindex="-1">MIDI Check</button>
+  </nav>
+  <div class="version"><b>LOCAL STUDIO</b> / v2.0</div>
 </header>
+<section id="view-generator" role="tabpanel" aria-labelledby="tab-generator">
 
 <div class="genrebar">
   <div class="genres" id="genres"></div>
@@ -127,46 +148,41 @@ canvas{display:block;width:100%;touch-action:none}
 <div class="genrenote" id="genreNote"></div>
 
 <div class="wrap">
-<aside>
-  <div class="row">
-    <div class="field"><label for="root">Grondtoon</label><select id="root"></select></div>
-    <div class="field"><label for="scale">Toonladder</label><select id="scale"></select></div>
-  </div>
+<aside aria-label="Instrumenten">
+  <div class="sidebar-title"><span class="eyebrow">Instrumenten</span><span class="count" id="partCount">0 actief</span></div>
+  <div class="parts" id="parts"></div>
+  <div class="sidebar-footer">Vink aan om toe te voegen.<br>Open › voor stijl en variatie.<br><br>M = mute · S = solo · ↻ = variatie<br>Mute en solo gelden voor de preview.</div>
+</aside>
 
-  <div class="field">
+<main>
+  <div class="workspace-heading"><div><div class="eyebrow" style="margin-bottom:7px">CREATE / MIDI</div><h2>Van idee naar eerste loop.</h2><p>Kies een groove. Maak hem van jou.</p></div><div class="action-row"><button id="reroll" title="Nieuwe seed en nieuwe MIDI">↻ Nieuwe variatie</button><button class="primary" id="gen">Genereer MIDI</button></div></div>
+  <div class="session-controls"><div class="field"><label for="root">Grondtoon</label><select id="root"></select></div><div class="field"><label for="scale">Toonladder</label><select id="scale"></select></div>
+    <div class="field"><label for="bpm">BPM</label><input type="number" id="bpm" value="160" min="40" max="300" step="1"></div>
+    <div class="field"><label for="bars">Maten</label>
+      <select id="bars"><option>1</option><option>2</option><option>4</option><option selected>8</option><option>16</option><option>32</option></select>
+    </div></div>
+  <details class="panel advanced"><summary>Akkoorden, structuur &amp; groove</summary><div class="advanced-grid">  <div class="field">
     <label for="prog">Akkoordenschema</label>
     <select id="prog"></select>
     <div class="hint" id="progNote"></div>
   </div>
 
-  <div class="row">
-    <div class="field"><label for="bpm">BPM</label><input type="number" id="bpm" value="160" min="40" max="300" step="1"></div>
-    <div class="field"><label for="bars">Maten</label>
-      <select id="bars"><option>1</option><option>2</option><option>4</option><option selected>8</option><option>16</option><option>32</option></select>
-    </div>
     <div class="field"><label for="chordBars">Akkoord duurt</label>
       <select id="chordBars"><option value="1" selected>1 maat</option><option value="2">2 maten</option><option value="4">4 maten</option></select>
     </div>
     <div class="field"><label for="chordSize">Opbouw</label>
       <select id="chordSize"><option value="2">Kwint</option><option value="3" selected>Drieklank</option><option value="4">Septiem</option><option value="5">None</option></select>
     </div>
-  </div>
-
   <div class="field">
     <label for="structure">Structuur</label>
     <select id="structure"><option value="">Uit — één lus</option></select>
     <div class="hint" id="structureNote">Eén sectie van het gekozen aantal maten.</div>
   </div>
 
-  <div class="field">
-    <label>Partijen</label>
-    <div class="parts" id="parts"></div>
-  </div>
-
-  <div class="field">
+  <div class="field seed-field">
     <label for="seed">Seed</label>
     <input type="text" id="seed" value="">
-    <div class="hint">Dezelfde seed geeft altijd dezelfde MIDI. Noteer een seed die je goed vindt.</div>
+    <div class="hint">Dezelfde seed én instellingen geven dezelfde MIDI binnen deze versie.</div>
   </div>
 
   <div class="field">
@@ -176,37 +192,61 @@ canvas{display:block;width:100%;touch-action:none}
   <label class="check"><input type="checkbox" id="humanize" checked> velocities variëren</label>
   <label class="check"><input type="checkbox" id="timingHum"> timing licht variëren</label>
 
-  <button class="primary" id="gen">Genereer</button>
-  <button id="reroll">Nieuwe seed</button>
-  <button id="copyLink">Kopieer link naar deze instelling</button>
-</aside>
+<button id="copyLink">Kopieer instellingenlink</button></div></details>
 
-<main>
   <div class="roll-head">
     <div class="meta" id="meta">Nog niets gegenereerd.</div>
     <div class="transport">
       <button id="play">Afspelen</button>
       <button id="stop" disabled>Stop</button>
       <label class="check"><input type="checkbox" id="loop" checked> loop</label>
-      <label class="check"><input type="checkbox" id="clickKick" checked> kick op de tel</label>
-      <label class="check" style="gap:6px">volume <input type="range" id="vol" min="0" max="100" value="80" style="width:80px;accent-color:var(--signal)"></label>
+      <label class="check"><input type="checkbox" id="clickKick"> metronoom</label>
+      <label class="check" style="gap:6px">volume <input type="range" id="vol" aria-label="Previewvolume" min="0" max="100" value="55" style="width:80px;accent-color:var(--signal)"></label>
     </div>
   </div>
   <div class="meta" id="audioStatus"></div>
 
-  <div class="rollbox">
-    <canvas id="roll" height="360"></canvas>
+  <div class="rollbox"><div class="roll-title">Piano roll <select class="roll-filter" id="rollFilter" aria-label="Zichtbare partij"><option value="all">Alle instrumenten</option></select><span id="rollInfo">480 PPQ · 4/4</span></div>
+    <canvas id="roll" height="360" role="img" aria-label="Piano roll van de gegenereerde MIDI. Notenaantallen en bereik staan in de tabel hieronder."></canvas>
     <div class="legend" id="legend"></div>
   </div>
 
   <div class="exports" id="exports"></div>
   <div class="readout" id="readout"><div class="empty">Kies je toonsoort en druk op Genereer.</div></div>
-  <details class="panel" id="studioPanel">
+  <div class="action-row"><button id="saveIdeaQuick">+ Bewaar in Idea Bank</button></div>
+  <p class="footer-note">Preview met eenvoudige synthklanken. MIDI bepaalt noten en timing; de uiteindelijke screech, Reese of wobble maak je in Serum of een andere synth.</p>
+
+  <div class="hint">
+    Slepen naar Ableton: laat het bestand op een lege plek in de Arrangement of Session View vallen — elke partij wordt een eigen MIDI-track.
+    Het tempo staat in het bestand, maar Ableton neemt dat niet over; zet je set zelf op hetzelfde BPM.
+  </div>
+</main>
+</div>
+
+</section>
+<section class="tool-view" id="view-tools" role="tabpanel" aria-labelledby="tab-tools" hidden>
+  <div class="eyebrow">PRODUCE / TOOLS</div><h2>Meer maken. Minder omrekenen.</h2>
+  <p class="intro">Toonsoort en tempo volgen je huidige MIDI-sessie.</p><div class="tool-context" id="toolContext"></div>
+  <div class="tool-grid">
+    <article class="tool-card"><h3>Sample transponeren</h3><p>Van de grondtoon van je sample naar die van je sessie.</p><div class="row"><div class="field"><label for="sampleRoot">Sample staat in</label><select id="sampleRoot"></select></div><div class="field"><label for="sampleOctave">Extra octaaf</label><select id="sampleOctave"><option value="-12">−1</option><option value="0" selected>0</option><option value="12">+1</option></select></div></div><div class="tool-result" id="transposeResult"></div><p>Verschuift alleen de grondtoon; een majeurloop wordt hierdoor geen mineurloop.</p></article>
+    <article class="tool-card"><h3>Loop &amp; tempo</h3><p>Bereken de lengte van een loop en de stretchfactor naar je sessie.</p><div class="row"><div class="field"><label for="sourceBpm">Origineel BPM</label><input type="number" id="sourceBpm" min="20" max="400" value="130"></div><div class="field"><label for="toolBars">Maten (4/4)</label><input type="number" id="toolBars" min="1" max="512" value="8"></div></div><div class="tool-result" id="stretchResult"></div></article>
+  </div>
+  <div style="margin-top:24px">  <details class="panel" id="studioPanel" open>
     <summary>Studio — toonsoort, kick stemmen, delaytijden, harmonisch mixen</summary>
     <div class="panelbody" id="studio"></div>
   </details>
 
-  <details class="panel" id="logPanel">
+</div>
+  <button id="exportBrief">Download productiebrief (.md)</button>
+</section>
+<section class="tool-view" id="view-ideas" role="tabpanel" aria-labelledby="tab-ideas" hidden>
+  <div class="eyebrow">COLLECT / IDEAS</div><h2>Bewaar de goede takes.</h2>
+  <p class="intro">Favorieten blijven in deze browser. Exporteer je bank om hem mee te nemen of te back-uppen.</p>
+  <div class="bank-form"><input type="text" id="ideaName" maxlength="80" placeholder="Geef deze take een naam…" aria-label="Naam van je idee"><button class="primary" id="saveIdea">Bewaar huidige take</button></div>
+  <div class="notice" id="bankNotice" role="status" aria-live="polite"></div>
+  <div class="action-row"><button id="exportIdeas">Exporteer bank (.json)</button><button id="importIdeas">Importeer bank</button><input type="file" id="ideaFile" accept=".json,application/json" hidden></div>
+  <div class="idea-list" id="ideaList"></div>
+  <div class="eyebrow" style="margin:32px 0 16px">Sessielog</div>  <details class="panel" id="logPanel" open>
     <summary>Sessielog — alles wat je deze sessie hebt gegenereerd</summary>
     <div class="panelbody">
       <div class="logrows" id="logRows"></div>
@@ -217,16 +257,17 @@ canvas{display:block;width:100%;touch-action:none}
     </div>
   </details>
 
-  <div class="hint">
-    Slepen naar Ableton: laat het bestand op een lege plek in de Arrangement of Session View vallen — elke partij wordt een eigen MIDI-track.
-    Het tempo staat in het bestand, maar Ableton neemt dat niet over; zet je set zelf op hetzelfde BPM.
-  </div>
-</main>
-</div>
+</section>
+<section class="tool-view" id="view-check" role="tabpanel" aria-labelledby="tab-check" hidden>
+  <div class="eyebrow">REVIEW / MIDI</div><h2>Check je loop vóór de DAW.</h2>
+  <p class="intro">Controle op noten, timing en arrangement. Muzikaliteit en geluidskwaliteit beoordeel je met je eigen sounds.</p>
+  <div class="summary-metrics" id="checkMetrics"></div><div class="check-list" id="checkList"></div>
+  <button id="exportCheck" style="margin-top:20px">Download MIDI-check (.md)</button>
+</section>
 
 <script>
 /* ============================================================
-   KICKROOM — generator core v2
+   MIDIROOM — generator core v2
    Rule-based MIDI. No network, no model.
    Parts use normal MIDI roles; the genre lives in the style per part.
    ============================================================ */
@@ -294,7 +335,7 @@ const PROGRESSIONS = [
   { id: 'eight',      label: 'i–VI–III–VII–i–VI–iv–V', degs: [0, 5, 2, 6, 0, 5, 3, 4], note: 'schema over acht maten' },
 ];
 
-function chordDegrees(rootDeg, size) { const o = []; for (let i = 0; i < size; i++) o.push(rootDeg + 2 * i); return o; }
+function chordDegrees(rootDeg, size) { if (size === 2) return [rootDeg, rootDeg + 4]; const o = []; for (let i = 0; i < size; i++) o.push(rootDeg + 2 * i); return o; }
 function chordPitches(rootDeg, scaleSteps, rootMidi, size) {
   return chordDegrees(rootDeg, size).map(d => rootMidi + degToSemi(d, scaleSteps));
 }
@@ -308,6 +349,10 @@ function chordToneClasses(rootDeg, scaleSteps, size, rootMidi) {
    ============================================================ */
 const STYLES = {
   bass: [
+    { id: 'dubspace', label: 'Dubstep • ruimte', steps: [0, 3, 6, 10, 14], lens: [2, 1, 1, 3, 1], w: 2, note: 'subfrase met ruimte rond de halftime-snare' },
+    { id: 'reese', label: 'Reese • sustain', steps: [0, 10], lens: [9, 5], w: 2, note: 'lange basnoten met een anticipatie; Reese-klank maak je in je synth' },
+    { id: 'dnb', label: 'DnB • syncopated', steps: [0, 3, 6, 10, 14], lens: [2, 2, 3, 2, 1], w: 2, note: 'gesyncopeerde bas met korte turnaround' },
+    { id: 'ukg', label: 'Garage • bounce', steps: [0, 3, 7, 10, 14], lens: [2, 1, 2, 2, 1], w: 1, note: 'rusten en anticipaties voor een 2-step groove' },
     { id: 'offbeat',   label: 'Offbeat (reverse bass)', steps: [2, 6, 10, 14], w: 3, note: 'achtsten tussen de kicks door' },
     { id: 'rolling',   label: 'Rollend (16den)',        steps: [2, 3, 6, 7, 10, 11, 14, 15], w: 2, note: 'dubbele zestienden' },
     { id: 'gallop',    label: 'Gallop',                 steps: [2, 3, 6, 10, 11, 14], w: 2, note: 'dubbel-enkel-dubbel-enkel' },
@@ -374,6 +419,14 @@ const STYLES = {
     { id: 'broken',    label: 'Gebroken',               w: 1, note: 'vaste maar onregelmatige volgorde' },
   ],
   screech: [
+    { id: 'callresponse', label: 'Call & response', steps: [0, 2, 6, 8, 11, 14], lens: [1.6, 2.8, 1, 2.5, 1, 1.4], w: 3, modern: true, note: 'herkenbare vraag, gevarieerd antwoord over twee maten' },
+    { id: 'tripletburst', label: 'Triplet bursts', steps: [0, 4/3, 8/3, 8, 28/3, 32/3, 14], lens: [1, 1, 2, 1, 1, 2, 1], w: 2, modern: true, note: 'echte triolen: exact 160 ticks tussen aanslagen bij 480 PPQ' },
+    { id: 'machine', label: 'Machine stutter', steps: [0, .5, 1, 1.5, 4, 8, 8.5, 9, 12, 14], lens: [.45, .45, .45, .45, 2, .45, .45, 1.5, 1, 1], w: 2, modern: true, note: '32ste bursts afgewisseld met gaten' },
+    { id: 'answer', label: 'Late answer', steps: [2, 6, 9, 10, 13, 15], lens: [2, 1, .7, 1.5, 1, .7], w: 2, modern: true, note: 'laat de downbeat vrij; antwoordt op de kick' },
+    { id: 'rising', label: 'Tension climb', steps: [0, 4, 8, 10, 12, 13, 14, 15], lens: [3, 3, 1.5, 1.5, .8, .8, .8, .8], w: 2, modern: true, note: 'loopt op in toonhoogte en ritmische dichtheid' },
+    { id: 'broken', label: 'Broken phrase', steps: [0, 3, 5, 8, 11, 13, 15], lens: [1, 1.5, 1, 2, .8, 1, .6], w: 2, modern: true, note: 'gebroken syncopen met een herkenbaar tweematenmotief' },
+    { id: 'reverse', label: 'Reverse pull', steps: [1, 5, 7, 9, 13, 15], lens: [2.5, 1, .7, 2.5, 1, .7], w: 2, modern: true, note: 'anticiperende noten voor reverse envelopes in je synth' },
+    { id: 'longshort', label: 'Hold & cut', steps: [0, 8, 8.5, 9, 12, 14], lens: [6, .4, .4, 1.5, 1, 1], w: 2, modern: true, note: 'lange noot gevolgd door een korte stutter-respons' },
     { id: 'klassiek',  label: 'Klassiek',     steps: [0, 6, 8, 11, 12, 14],                 lens: [5.5, 1.67, 2.83, 0.83, 1.93, 2],      w: 3, note: 'lange kop, dan korte stoten' },
     { id: 'stotter',   label: 'Stotterend',   steps: [0, 1, 2, 4, 8, 9, 10, 12],            lens: [0.83, 0.67, 1.67, 4, 0.83, 0.67, 1.93, 4], w: 3, note: 'drie korte, één lange — twee keer per maat' },
     { id: 'langekop',  label: 'Lange kop',    steps: [0, 8, 10, 12],                        lens: [6, 1.67, 1.93, 4],                    w: 2, note: 'halve maat aanhouden, dan bewegen' },
@@ -397,6 +450,10 @@ const STYLES = {
     { id: 'zwaaiend',  label: 'Zwaaiend',      steps: [0, 3, 6, 10, 12, 14],             lens: [3, 3, 4, 2, 2, 2],       w: 2, note: 'ongelijke frasering' },
   ],
   drums: [
+    { id: 'dubstep', label: 'Dubstep • halftime', w: 2, note: 'snare op tel 3, gebroken kick en snelle hataccenten' },
+    { id: 'dnb', label: 'DnB • two-step', w: 2, note: 'snare op 2 en 4, kick op 1 en de & van 3' },
+    { id: 'liquid', label: 'Liquid • ghost groove', w: 1, note: 'DnB met zachte ghost-snares en luchtige hats' },
+    { id: 'ukg', label: 'UK garage • 2-step', w: 1, note: 'gebroken kicks, swung hats en snare op 2 en 4' },
     { id: 'hardstyle', label: 'Hardstyle', w: 3, note: 'kick op de kwarten, clap op 2 en 4, offbeat hats' },
     { id: 'uptempo',   label: 'Uptempo',   w: 2, note: 'kick op achtsten, 16den hats' },
     { id: 'techno',    label: 'Techno',    w: 2, note: 'open hat op de offbeat, clap op 2 en 4' },
@@ -967,6 +1024,7 @@ function generateKick(rng, cfg) {
 function generateScreech(rng, cfg) {
   const { scaleSteps, rootMidi, prog, bars, chordSize } = cfg;
   const style = cfg.forcedRhythm || weightedPick(rng, STYLES.screech);
+  if (style.modern) return generateScreechPhrase(rng, cfg, style);
   const base = rootMidi;
   // reference material sits on the root 86% of the time; movement is the exception, not the rule
   const moveChance = cfg.wander ? 0.28 : 0.08;
@@ -1010,6 +1068,40 @@ function generateScreech(rng, cfg) {
   return { bars: barsOut, rhythmId: style.id, rhythmLabel: style.label, base };
 }
 
+// A stable two-bar motif; variation changes answers, never randomises every note.
+function generateScreechPhrase(rng, cfg, style) {
+  const {rootMidi, scaleSteps, prog, bars} = cfg;
+  const shape = rng.pick([[0,0,2,0,4,1,0,2], [0,1,0,4,2,1,0,-1], [0,0,-1,0,2,4,1,0]]);
+  const phrase = cfg.phrase || 'evolving';
+  const movement = cfg.motion || 'tonal';
+  const baseNotes = style.steps.map((step,i) => ({step, len:style.lens[i], index:i}));
+  const barsOut = [];
+  for (let b=0;b<bars;b++) {
+    const home = cfg.followChords ? prog[b % prog.length] : 0;
+    const answer = phrase !== 'fixed' && b % 2 === 1;
+    let hits = baseNotes.map(n=>({...n}));
+    if(answer) hits = hits.filter((n,i)=> i !== 1).map(n=>({...n,step:Math.min(15.5,n.step + (n.step>=8 && style.id !== 'tripletburst' ? .5 : 0))}));
+    if(cfg.density === 'sober') hits = hits.filter((n,i)=>i%2===0);
+    else if(cfg.density === 'normaal') hits = hits.filter((n,i)=>i!==3 || style.id==='tripletburst');
+    if(phrase==='evolving' && b%4===3 && cfg.density!=='sober') {
+      hits=hits.filter(n=>n.step<14);
+      [14,14.5,15,15.5].forEach((step,i)=>hits.push({step,len:.4,index:i+4}));
+    }
+    const notes=hits.map((n,i)=>{
+      let degree=0;
+      if(movement==='tonal') degree=shape[(n.index+(answer?2:0))%shape.length];
+      if(movement==='rising' || style.id==='rising') degree=Math.min(6,Math.floor(i/2));
+      if(movement==='falling') degree=Math.max(0,4-Math.floor(i/2));
+      if(movement==='root') degree=cfg.wander && i%4===3 ? 1 : 0;
+      let midi=rootMidi+degToSemi(home+degree,scaleSteps);
+      if(cfg.octaveAccent && i===hits.length-1 && b%2===1) midi+=12;
+      return {step:n.step,midi,len:Math.min(n.len,16-n.step)};
+    });
+    barsOut.push({bar:b,notes});
+  }
+  return {bars:barsOut,rhythmId:style.id,rhythmLabel:style.label,base:rootMidi};
+}
+
 function kickOnsetSet(kickPart) {
   const set = new Set();
   kickPart.bars.forEach(b => b.notes.forEach(n => set.add(b.bar * 16 + n.step)));
@@ -1027,13 +1119,29 @@ function generateDrums(rng, cfg) {
   for (let b = 0; b < bars; b++) {
     const notes = [];
     const dropKick = cfg.kickOnsets && cfg.noDoubleKick !== false;
-    const add = (steps, pitch) => steps.forEach(s => {
+    const add = (steps, pitch, velocity) => steps.forEach(s => {
       // a separate tuned Kick part already covers the low end; doubling it just phases
       if (pitch === DRUM_MAP.kick && dropKick && cfg.kickOnsets.has(b * 16 + s)) return;
-      notes.push({ step: s, midi: pitch, drum: true });
+      notes.push({ step: s, midi: pitch, drum: true, velocity });
     });
     const isFill = (b % 4 === 3) && cfg.fills !== false;
-    if (style.id === 'hardstyle') {
+    if (style.id === 'dubstep') {
+      add(b%2 ? [0,6,11] : [0,6], DRUM_MAP.kick);
+      add([8], DRUM_MAP.snare);
+      add([0,2,4,6,8,10,12,14], DRUM_MAP.hat, 80);
+      if(isFill) add([14,14.5,15,15.5], DRUM_MAP.hat, 60);
+    } else if(style.id === 'dnb' || style.id === 'liquid') {
+      add(b%2 ? [0,7,10] : [0,10], DRUM_MAP.kick);
+      add([4,12], DRUM_MAP.snare, 112);
+      add([0,2,4,6,8,10,12,14], DRUM_MAP.hat, 78);
+      if(style.id==='liquid') add([7,15], DRUM_MAP.snare, 46);
+      if(isFill) add([14,15], DRUM_MAP.snare, 64);
+    } else if(style.id === 'ukg') {
+      add(b%2 ? [0,7,10] : [0,6,10], DRUM_MAP.kick);
+      add([4,12], DRUM_MAP.snare);
+      add([2,5,7,10,13,15], DRUM_MAP.hat, 80);
+      if(isFill) add([15], DRUM_MAP.snare, 52);
+    } else if (style.id === 'hardstyle') {
       add([0, 4, 8, 12], DRUM_MAP.kick);
       add([4, 12], DRUM_MAP.clap);
       add([2, 6, 10, 14], DRUM_MAP.hat);
@@ -1218,7 +1326,7 @@ function accentVelocity(step, rng, base, spread) {
 function renderPart(part, cfg, rng) {
   const gate = cfg.gate ?? 0.85;
   let flat = [];
-  part.bars.forEach(b => b.notes.forEach(n => flat.push({ abs: b.bar * 16 + n.step, midi: n.midi, len: n.len })));
+  part.bars.forEach(b => b.notes.forEach(n => flat.push({ abs: b.bar * 16 + n.step, midi: n.midi, len: n.len, velocity: n.velocity })));
   flat.sort((a, b) => a.abs - b.abs || a.midi - b.midi);
   // one note per pitch per onset — a doubled note reads as a stuck note in a DAW
   const seen = new Set();
@@ -1234,7 +1342,7 @@ function renderPart(part, cfg, rng) {
   const drift = cfg.timingHumanize ? Math.round(TICK16 * 0.06) : 0;
   const art = cfg.articulation || 'auto';
   const events = flat.map(f => {
-    const span = Math.max(1, nextOf[f.abs] - f.abs);
+    const span = Math.max(0.25, nextOf[f.abs] - f.abs);
     const declared = (typeof f.len === 'number' && f.len > 0) ? f.len : null;
     let lenSteps;
     const base = declared != null ? declared : span;
@@ -1247,12 +1355,12 @@ function renderPart(part, cfg, rng) {
     let tick = f.abs * TICK16;
     if (swing && (f.abs % 2 === 1)) tick += Math.round(swing * TICK16 * 0.5);
     if (drift) tick += Math.round(rng.range(-drift, drift));
-    tick = Math.max(0, tick);
+    tick = Math.max(0, Math.min(total * TICK16 - 1, Math.round(tick)));
     return {
       tick,
-      dur: Math.max(30, Math.round(lenSteps * TICK16)),
+      dur: Math.min(total * TICK16 - tick, Math.max(30, Math.round(lenSteps * TICK16))),
       midi: f.midi,
-      vel: Math.max(28, Math.min(127,
+      vel: f.velocity != null ? f.velocity : Math.max(28, Math.min(127,
             accentVelocity(f.abs % 16, rng, cfg.velBase ?? 100, spread)
             + (declared != null ? Math.round(Math.min(3, declared)) - 2 : 0))),
     };
@@ -1265,6 +1373,11 @@ function renderPart(part, cfg, rng) {
     if (prev && prev.tick + prev.dur > e.tick) prev.dur = Math.max(1, e.tick - prev.tick - 1);
     lastByPitch.set(e.midi, e);
   });
+  // Bass and screech are monophonic phrases, including when pitches change.
+  if (cfg.kind === 'bass' || cfg.kind === 'screech') {
+    for (let i=0;i<events.length-1;i++) if(events[i].tick+events[i].dur>events[i+1].tick)
+      events[i].dur=Math.max(1,events[i+1].tick-events[i].tick);
+  }
   return events;
 }
 
@@ -1300,18 +1413,20 @@ function trackChunk(name, events, tempo, extra = {}) {
   let last = 0;
   const ch = extra.channel ?? 0;
   list.forEach(ev => {
-    data = data.concat(vlq(Math.max(0, ev.t - last)));
+    data.push(...vlq(Math.max(0, ev.t - last)));
     data.push((ev.type ? 0x90 : 0x80) | ch, ev.midi & 127, ev.type ? ev.vel : 0);
     last = ev.t;
   });
-  data = data.concat(vlq(0), [0xFF, 0x2F, 0x00]);
+  data = data.concat(vlq(Math.max(0, (extra.endTick || last) - last)), [0xFF, 0x2F, 0x00]);
   return chunk('MTrk', data);
 }
-function buildMidi(tracks, tempo) {
+function buildMidi(tracks, tempo, totalTicks = 0) {
   const n = tracks.length + 1;
   const header = chunk('MThd', [0, 1, (n >> 8) & 255, n & 255, (TPQ >> 8) & 255, TPQ & 255]);
-  let out = header.concat(trackChunk('Tempo', [], tempo));
-  tracks.forEach((t, i) => { out = out.concat(trackChunk(t.name, t.events, null, { channel: i % 16 })); });
+  let out = header.concat(trackChunk('Tempo', [], tempo, {endTick:totalTicks}));
+  const channels = [0,1,2,3,4,5,6,7,8,10,11,12,13,14,15];
+  let melodicIndex=0;
+  tracks.forEach(t => { const ch=t.id==='drums'||t.name==='Drums'?9:channels[melodicIndex++ % channels.length]; out = out.concat(trackChunk(t.name, t.events, null, { channel: ch, endTick:totalTicks })); });
   return Uint8Array.from(out);
 }
 
@@ -1331,6 +1446,8 @@ const EXTRAS = {
   drums: [{ key: 'fills', label: 'Fill in de vierde maat', def: true },
            { key: 'noDoubleKick', label: 'Geen kick als de Kick-partij aanstaat', def: true }],
   screech: [{ key: 'density', label: 'Dichtheid', options: ['sober', 'normaal', 'dicht'], def: 'normaal' },
+            { key: 'phrase', label: 'Frase • nieuwe stijlen', options: ['fixed', 'call-response', 'evolving'], def: 'evolving' },
+            { key: 'motion', label: 'Toonbeweging • nieuwe stijlen', options: ['root', 'tonal', 'rising', 'falling'], def: 'tonal' },
             { key: 'followChords', label: 'Volgt het akkoordenschema', def: false },
             { key: 'wander', label: 'Meer notenwisseling', def: false },
             { key: 'octaveAccent', label: 'Octaafaccenten', def: true }],
@@ -1349,18 +1466,18 @@ const EXTRAS = {
   harmony: [{ key: 'sixths', label: 'Sext in plaats van terts', def: false }],
 };
 const PART_DEFS = {
-  drums:  { label: 'Drums',  colour: '#8C8C8C', centre: 0,  span: 0,  gate: 0.45, velBase: 104, styles: 'drums', fixedPitch: true },
-  kick:   { label: 'Kick',   colour: '#B4634A', centre: 33, span: 7,  gate: 0.90, velBase: 112, styles: 'kick' },
-  bass:   { label: 'Bass',   colour: '#6E8894', centre: 40, span: 8,  gate: 0.55, velBase: 100, styles: 'bass' },
-  chords: { label: 'Chords', colour: '#C8B560', centre: 60, span: 10, gate: 0.95, velBase: 104, styles: 'chords', sustain: true },
-  pad:    { label: 'Pad',    colour: '#8E7BA8', centre: 64, span: 12, gate: 1.00, velBase: 100, styles: 'pad',    sustain: true },
-  screech:{ label: 'Screech',colour: '#E23A2E', centre: 71, span: 9,  gate: 0.90, velBase: 80, styles: 'screech', release: 0.45 },
-  lead:   { label: 'Lead',   colour: '#FF5A1F', centre: 72, span: 12, gate: 0.90, velBase: 104, styles: 'lead',   melodic: true },
-  darkmelody:{label:'Dark melody', colour:'#7A5C8E', centre: 67, span: 12, gate: 0.75, velBase: 98, styles: 'darkmelody', release: 0.5 },
-  harmony:{ label: 'Harmony',colour: '#C9713F', centre: 68, span: 12, gate: 0.90, velBase: 96,  styles: 'lead' },
-  melody: { label: 'Melody', colour: '#D8A34B', centre: 74, span: 11, gate: 0.95, velBase: 98,  styles: 'melody', melodic: true, maxDegStep: 2 },
-  pluck:  { label: 'Pluck',  colour: '#7FA07A', centre: 76, span: 12, gate: 0.35, velBase: 96,  styles: 'pluck',  melodic: true },
-  arp:    { label: 'Arp',    colour: '#5F9EA0', centre: 74, span: 19, gate: 0.55, velBase: 86,  styles: 'arp' },
+  drums:  { label: 'Drums',  colour: '#9AA9BC', centre: 0,  span: 0,  gate: 0.45, velBase: 104, styles: 'drums', fixedPitch: true },
+  kick:   { label: 'Kick',   colour: '#F1AC75', centre: 33, span: 7,  gate: 0.90, velBase: 112, styles: 'kick' },
+  bass:   { label: 'Bass',   colour: '#67C5F0', centre: 40, span: 8,  gate: 0.55, velBase: 100, styles: 'bass' },
+  chords: { label: 'Chords', colour: '#E2CC78', centre: 60, span: 10, gate: 0.95, velBase: 104, styles: 'chords', sustain: true },
+  pad:    { label: 'Pad',    colour: '#A692E8', centre: 64, span: 12, gate: 1.00, velBase: 100, styles: 'pad',    sustain: true },
+  screech:{ label: 'Screech',colour: '#F784A5', centre: 71, span: 9,  gate: 0.90, velBase: 80, styles: 'screech', release: 0.45 },
+  lead:   { label: 'Lead',   colour: '#C0ED7B', centre: 72, span: 12, gate: 0.90, velBase: 104, styles: 'lead',   melodic: true },
+  darkmelody:{label:'Dark melody', colour:'#B7A1E8', centre: 67, span: 12, gate: 0.75, velBase: 98, styles: 'darkmelody', release: 0.5 },
+  harmony:{ label: 'Harmony',colour: '#8CDDAD', centre: 68, span: 12, gate: 0.90, velBase: 96,  styles: 'lead' },
+  melody: { label: 'Melody', colour: '#ECD6A0', centre: 74, span: 11, gate: 0.95, velBase: 98,  styles: 'melody', melodic: true, maxDegStep: 2 },
+  pluck:  { label: 'Pluck',  colour: '#74D9B5', centre: 76, span: 12, gate: 0.35, velBase: 96,  styles: 'pluck',  melodic: true },
+  arp:    { label: 'Arp',    colour: '#74D6DA', centre: 74, span: 19, gate: 0.55, velBase: 86,  styles: 'arp' },
 };
 const GENRES = [
   { id: 'free', label: 'Vrij', free: true, note: 'geen voorinstelling — alles zelf' },
@@ -1451,6 +1568,28 @@ const GENRES = [
     },
     energy: { kalm: ['bass', 'pad', 'melody'], normaal: ['kick', 'bass', 'chords', 'melody'], vol: ['drums', 'kick', 'bass', 'chords', 'pad', 'melody', 'lead'] } },
 ];
+GENRES.push(
+  {id:'dubstep',label:'Dubstep',bpm:140,scale:'phrygian',chordBars:2,chordSize:3,swing:0,
+   progressions:['pedal','phryg','darkloop'], note:'140 BPM · halftime snare op 3 · ruimte voor bass sound design',
+   parts:{drums:{style:'dubstep'},bass:{style:'dubspace',opts:{avoidKick:false}},screech:{style:'callresponse',opts:{density:'normaal',motion:'root'}},pad:{style:'whole'}},
+   energy:{kalm:['drums','bass'],normaal:['drums','bass','screech'],vol:['drums','bass','screech','pad']}},
+  {id:'dnb',label:'Drum & bass',bpm:174,scale:'aeolian',chordBars:2,chordSize:3,swing:0,
+   progressions:['darkloop','twochord','pedal'],note:'174 BPM · two-step drums · gesyncopeerde bas',
+   parts:{drums:{style:'dnb'},bass:{style:'dnb',opts:{avoidKick:false}},pad:{style:'whole'},lead:{style:'stab'},screech:{style:'broken'}},
+   energy:{kalm:['drums','bass'],normaal:['drums','bass','pad'],vol:['drums','bass','pad','lead','screech']}},
+  {id:'liquid',label:'Liquid DnB',bpm:172,scale:'dorian',chordBars:2,chordSize:4,swing:0,
+   progressions:['minorswing','twochord','darkloop'],note:'172 BPM · ghost-snares · lange subnoten en warme septiemen',
+   parts:{drums:{style:'liquid'},bass:{style:'reese',opts:{avoidKick:false}},chords:{style:'offstab'},pad:{style:'whole',opts:{followChords:true}},pluck:{style:'skip'}},
+   energy:{kalm:['bass','pad'],normaal:['drums','bass','pad','chords'],vol:['drums','bass','pad','chords','pluck']}},
+  {id:'ukgarage',label:'UK garage',bpm:132,scale:'dorian',chordBars:2,chordSize:4,swing:28,
+   progressions:['minorswing','twochord'],note:'132 BPM · 2-step drums · swing en korte akkoordstabs',
+   parts:{drums:{style:'ukg'},bass:{style:'ukg',opts:{avoidKick:false}},chords:{style:'charleston'},pluck:{style:'skip'}},
+   energy:{kalm:['drums','bass'],normaal:['drums','bass','chords'],vol:['drums','bass','chords','pluck']}},
+  {id:'neuro',label:'Neurofunk',bpm:174,scale:'phrygian',chordBars:4,chordSize:3,swing:0,
+   progressions:['pedal','phryg'],note:'174 BPM · strakke two-step · donkere call-and-response frases',
+   parts:{drums:{style:'dnb'},bass:{style:'reese',opts:{avoidKick:false}},screech:{style:'machine',opts:{density:'dicht',motion:'tonal'}},darkmelody:{style:'syncoop'}},
+   energy:{kalm:['drums','bass'],normaal:['drums','bass','screech'],vol:['drums','bass','screech','darkmelody']}}
+);
 const ENERGY = ['kalm', 'normaal', 'vol'];
 
 const ARTICULATIONS = [
@@ -1541,7 +1680,7 @@ function generateSection(params) {
     else continue;
 
     if (!def.fixedPitch) {
-      const spanUsed = def.span + (ex.octaveJump ? 12 : 0) + (ex.rise ? 12 : 0);
+      const spanUsed = def.span + (ex.octaveJump ? 12 : 0) + (ex.rise ? 12 : 0) + (id === 'screech' && ex.octaveAccent ? 12 : 0);
       fitRegister(part, def.centre + octaveOffset * 12, spanUsed);
     }
     const dyadMap = { terts: 2, kwart: 3, kwint: 4, octaaf: 7 };
@@ -1599,7 +1738,7 @@ function sectionParts(genre, section, fallbackParts) {
     if (!list.includes('bass')) list.push('bass');
   }
   if (section.riser && !list.includes('arp')) list.push('arp');
-  return [...new Set(list)];
+  return [...new Set(list)].filter(id => fallbackParts.includes(id));
 }
 
 function generateArrangement(params, structureId, genre) {
@@ -1612,7 +1751,7 @@ function generateArrangement(params, structureId, genre) {
     const parts = sectionParts(genre, sec, params.parts);
     const partOpts = JSON.parse(JSON.stringify(params.partOpts || {}));
     parts.forEach(pid => {
-      partOpts[pid] = partOpts[pid] || {};
+      partOpts[pid] = partOpts[pid] || JSON.parse(JSON.stringify((genre && genre.parts && genre.parts[pid]) || {}));
       partOpts[pid].opts = partOpts[pid].opts || {};
       partOpts[pid].vary = (partOpts[pid].vary || 0) + si;      // each section is a variation, not a copy
       if (sec.riser) {
@@ -1725,9 +1864,9 @@ function buildNotesMd(st) {
   const prog = PROGRESSIONS.find(p => p.id === st.progression) || PROGRESSIONS[0];
   const chords = spellProgression(st.root, st.scale, st.progression, st.chordSize);
   const L = [];
-  L.push('# ' + (st.filename || 'KICKROOM export'));
+  L.push('# ' + (st.filename || 'MIDIROOM export'));
   L.push('');
-  L.push('Gegenereerd met KICKROOM, een regelgebaseerde MIDI-generator (geen model, geen API).');
+  L.push('Gegenereerd met MIDIROOM, een regelgebaseerde MIDI-generator (geen model, geen API).');
   L.push('Dit bestand hoort bij de MIDI-export met dezelfde naam.');
   L.push('');
   L.push('## Muzikale gegevens');
@@ -1788,7 +1927,7 @@ function buildNotesMd(st) {
   L.push('');
   L.push('## Om dit exact te reproduceren');
   L.push('');
-  L.push('Open KICKROOM en zet: toonsoort ' + NOTE_NAMES[st.root] + ' ' + scaleName + ', ' + st.bpm + ' BPM, schema ' + prog.label + ', seed `' + st.seed + '`.');
+  L.push('Open MIDIROOM en zet: toonsoort ' + NOTE_NAMES[st.root] + ' ' + scaleName + ', ' + st.bpm + ' BPM, schema ' + prog.label + ', seed `' + st.seed + '`.');
   if (st.url) { L.push(''); L.push('Of open deze link, die de hele instelling bevat:'); L.push(''); L.push('    ' + st.url); }
   L.push('');
   return L.join('\n');
@@ -1815,15 +1954,16 @@ PART_ORDER.forEach(id=>{
   const el=document.createElement('div'); el.className='part'; el.dataset.id=id;
   el.innerHTML=
     '<div class="part-top">'+
-      '<input type="checkbox" data-part="'+id+'" '+(DEFAULT_ON[id]?'checked':'')+'>'+
+      '<input type="checkbox" aria-label="'+def.label+' inschakelen" data-part="'+id+'" '+(DEFAULT_ON[id]?'checked':'')+'>'+
       '<span class="sw" style="background:'+def.colour+'"></span>'+
       '<span class="nm">'+def.label+'</span>'+
       '<span class="st" data-st="'+id+'">auto</span>'+
-      '<button class="small ms" data-mute="'+id+'" title="mute">M</button>'+
-      '<button class="small ms" data-solo="'+id+'" title="solo">S</button>'+
-      '<button class="small" data-vary="'+id+'" title="alleen deze partij opnieuw">&#8635;</button>'+
+      '<button class="small ms" data-mute="'+id+'" aria-label="'+def.label+' mute" title="mute">M</button>'+
+      '<button class="small ms" data-solo="'+id+'" aria-label="'+def.label+' solo" title="solo">S</button>'+
+      '<button class="small" data-vary="'+id+'" aria-label="'+def.label+' variatie" title="alleen deze partij opnieuw">&#8635;</button>'+
+      '<button data-edit="'+id+'" aria-label="'+def.label+' instellingen" aria-expanded="false" aria-controls="settings-'+id+'">›</button>'+
     '</div>'+
-    '<div class="part-body">'+
+    '<div class="part-body" id="settings-'+id+'">'+
       '<div class="field"><label>Stijl</label><select data-style="'+id+'"><option value="">Automatisch</option>'+
         bank.map(s=>'<option value="'+s.id+'">'+s.label+'</option>').join('')+
       '</select><div class="hint" data-note="'+id+'"></div></div>'+
@@ -1844,25 +1984,27 @@ PART_ORDER.forEach(id=>{
       '</div>'+
     '</div>';
   $('parts').appendChild(el);
-  if(DEFAULT_ON[id]) el.classList.add('open');
+  if(DEFAULT_ON[id]) el.classList.add('active');
 });
 const octaves={}, muted={}, soloed={}, varies={};
 PART_ORDER.forEach(id=>{ octaves[id]=0; muted[id]=false; soloed[id]=false; varies[id]=0; });
 function audible(id){
-  const anySolo=PART_ORDER.some(x=>soloed[x]);
+  const anySolo=PART_ORDER.some(x=>soloed[x] && current && current.parts.some(p=>p.id===x));
   return anySolo ? soloed[id] : !muted[id];
 }
 function paintMS(){
   PART_ORDER.forEach(id=>{
     const m=document.querySelector('[data-mute="'+id+'"]'), so=document.querySelector('[data-solo="'+id+'"]');
-    if(m) m.classList.toggle('on',muted[id]);
-    if(so) so.classList.toggle('on',soloed[id]);
+    if(m){ m.classList.toggle('on',muted[id]);m.setAttribute('aria-pressed',muted[id]); }
+    if(so){so.classList.toggle('on',soloed[id]);so.setAttribute('aria-pressed',soloed[id]);}
     const row=document.querySelector('.part[data-id="'+id+'"]');
     if(row) row.classList.toggle('dimmed',!audible(id));
   });
 }
 
 $('parts').addEventListener('click',e=>{
+  const edit=e.target.closest('[data-edit]');
+  if(edit){const row=edit.closest('.part');row.classList.toggle('open');edit.setAttribute('aria-expanded',row.classList.contains('open'));return;}
   const vb=e.target.closest('[data-vary]');
   if(vb){ e.preventDefault(); e.stopPropagation(); varies[vb.dataset.vary]++; generate(); return; }
   const mb=e.target.closest('[data-mute]');
@@ -1879,13 +2021,12 @@ $('parts').addEventListener('click',e=>{
   }
   const top=e.target.closest('.part-top');
   if(top && e.target.tagName!=='INPUT'){
-    const cb=top.querySelector('input'); cb.checked=!cb.checked;
-    cb.dispatchEvent(new Event('change',{bubbles:true}));
+    top.querySelector('[data-edit]').click();
   }
 });
 $('parts').addEventListener('change',e=>{
   if(e.target.dataset.part){
-    e.target.closest('.part').classList.toggle('open',e.target.checked);
+    e.target.closest('.part').classList.toggle('active',e.target.checked);
   }
   if(e.target.dataset.art||e.target.dataset.opt){ /* handled by generate below */ }
   if(e.target.dataset.style){
@@ -1925,6 +2066,7 @@ let restoring=false;
 function restoreFromHash(){
   if(!location.hash||location.hash.length<3) return;
   let st; try{ st=JSON.parse(decodeURIComponent(location.hash.slice(1))); }catch(e){ return; }
+  st=normalizeState(st);
   restoring=true;
   try{
     const set=(id,v)=>{ if(v!=null&&$(id)) $(id).value=v; };
@@ -1941,7 +2083,7 @@ function restoreFromHash(){
     $('swingVal').textContent=($('swing').value||0)+'%';
     Object.entries(st.p||{}).forEach(([id,v])=>{
       const cb=document.querySelector('[data-part="'+id+'"]');
-      if(cb){ cb.checked=!!v.on; const row=cb.closest('.part'); if(row) row.classList.toggle('open',!!v.on); }
+      if(cb){ cb.checked=!!v.on; const row=cb.closest('.part'); if(row) row.classList.toggle('active',!!v.on); }
       const sel=document.querySelector('[data-style="'+id+'"]');
       if(sel&&v.st!=null&&Array.from(sel.options).some(o=>o.value===v.st)) sel.value=v.st;
       if(typeof v.vy==='number') varies[id]=v.vy;
@@ -1960,6 +2102,7 @@ function restoreFromHash(){
       });
     });
     $('prog').dispatchEvent(new Event('change'));
+    const structure=STRUCTURES.find(x=>x.id===$('structure').value);$('structureNote').textContent=structure?structure.sections.map(sc=>sc.label+' '+sc.bars).join(' · '):'Eén sectie van het gekozen aantal maten.';
   }catch(e){}
   restoring=false;
 }
@@ -2006,6 +2149,7 @@ function resetPartDefaults(id){
 }
 function applyGenre(id,newSeedToo){
   activeGenre=id;
+  PART_ORDER.forEach(pid=>{muted[pid]=false;soloed[pid]=false;});
   document.querySelectorAll('[data-genre]').forEach(b=>b.classList.toggle('on',b.dataset.genre===id));
   const g=GENRES.find(x=>x.id===id);
   $('genreNote').textContent=g?(g.free?g.note:g.label+' — '+g.note):'';
@@ -2016,7 +2160,7 @@ function applyGenre(id,newSeedToo){
   $('bpm').value=g.bpm;
   $('scale').value=g.scale;
   const pool=g.progressions||['euphoric'];
-  $('prog').value=pool[Math.floor(Math.random()*pool.length)];
+  if(newSeedToo || !pool.includes($('prog').value)) $('prog').value=pool[Math.floor(Math.random()*pool.length)];
   $('prog').dispatchEvent(new Event('change'));
   $('chordBars').value=String(g.chordBars||1);
   $('chordSize').value=String(g.chordSize||3);
@@ -2028,7 +2172,7 @@ function applyGenre(id,newSeedToo){
   PART_ORDER.forEach(pid=>{
     resetPartDefaults(pid);
     const cb=document.querySelector('[data-part="'+pid+'"]');
-    if(cb){ cb.checked=on.has(pid); const row=cb.closest('.part'); if(row) row.classList.toggle('open',cb.checked); }
+    if(cb){ cb.checked=on.has(pid); const row=cb.closest('.part'); if(row) row.classList.toggle('active',cb.checked); }
     const d=(g.parts||{})[pid];
     if(!d) return;
     if(d.style){ const sel=document.querySelector('[data-style="'+pid+'"]');
@@ -2070,11 +2214,12 @@ $('seed').addEventListener('keydown',e=>{ if(e.key==='Enter') generate(); });
 function generate(){
   const parts=Array.from(document.querySelectorAll('[data-part]')).filter(c=>c.checked).map(c=>c.dataset.part);
   if(!parts.length){
-    current=null;
+    current=null; $('meta').textContent='Selecteer minstens één instrument.'; $('play').disabled=true; saveToHash(); refreshWorkspace();
     $('readout').innerHTML='<div class="err">Kies minstens één partij.</div>';
     $('exports').innerHTML=''; stopAudio(); clearRoll(); return;
   }
-  const bpm=Math.max(40,Math.min(300,+$('bpm').value||160));
+  const bpm=Math.max(40,Math.min(300,Math.round(+$('bpm').value||160)));
+  $('bpm').value=bpm;
   const partOpts={};
   parts.forEach(id=>{
     const sel=document.querySelector('[data-style="'+id+'"]');
@@ -2116,17 +2261,19 @@ function generate(){
     rollCache=null; drawRoll(); writeReadout(); buildExports(); updateStyleLabels();
     $('meta').innerHTML='<b>'+NOTE_NAMES[+$('root').value]+' '+SCALES[$('scale').value].name+'</b>  ·  '+
       current.meta.progression.label+'  ·  <b>'+bpm+'</b> BPM  ·  '+current.meta.bars+' maten'+
-      (current.arrangement?' ('+current.meta.structure.label+')':'')+'  ·  seed <b>'+$('seed').value+'</b>';
-    saveToHash(); renderStudio(); logEntry();
+      (current.arrangement?' ('+current.meta.structure.label+')':'')+'  ·  seed <b>'+escapeHtml($('seed').value)+'</b>';
+    saveToHash(); renderStudio(); logEntry(); refreshWorkspace();
     if(wasPlaying) playAll();
   }catch(err){
-    $('readout').innerHTML='<div class="err">Genereren mislukt: '+err.message+'</div>';
+    $('readout').innerHTML='<div class="err">Genereren mislukt: '+escapeHtml(err.message)+'</div>';
   }
 }
 function updateStyleLabels(){
   PART_ORDER.forEach(id=>{
     const el=document.querySelector('[data-st="'+id+'"]');
     const p=current&&current.parts.find(x=>x.id===id);
+    const style=document.querySelector('[data-style="'+id+'"]');const st=STYLES[PART_DEFS[id].styles].find(x=>style&&x.id===style.value);
+    document.querySelector('[data-note="'+id+'"]').textContent=st?st.note:'De generator kiest zelf een stijl.';
     el.textContent=p?(p.part.rhythmLabel||p.part.rhythmId||''):'auto';
   });
 }
@@ -2143,7 +2290,7 @@ function clearRoll(){
 }
 function playheadX(playhead){
   if(!rollMap) return null;
-  return playhead/rollMap.totalTicks*(rollMap.W-8)+4;
+  return playhead/rollMap.totalTicks*(rollMap.W-52)+48;
 }
 function drawRoll(playhead){
   if(!current||!current.parts.length){ clearRoll(); return; }
@@ -2179,7 +2326,7 @@ function paintRoll(W){
   ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,W,H);
   rollCache=null;
 
-  const all=[]; current.parts.forEach(p=>{const on=audible(p.id); p.events.forEach(e=>all.push({tick:e.tick,dur:e.dur,midi:e.midi,vel:on?e.vel:26,colour:p.colour}));});
+  const all=[]; current.parts.forEach(p=>{if($('rollFilter').value!=='all'&&$('rollFilter').value!==p.id)return;const on=audible(p.id); p.events.forEach(e=>all.push({tick:e.tick,dur:e.dur,midi:e.midi,vel:on?e.vel:26,colour:p.colour}));});
   if(!all.length){ rollMap=null; return; }
   let lo=Infinity, hi=-Infinity;
   all.forEach(e=>{ if(e.midi<lo)lo=e.midi; if(e.midi>hi)hi=e.midi; });
@@ -2187,37 +2334,44 @@ function paintRoll(W){
   const totalTicks=Math.max(1,current.meta.bars*4*TPQ);
   rollMap={W,totalTicks};
   const rows=Math.max(1,hi-lo+1), rh=Math.max(1.8,(H-22)/rows);
-  const x=t=>t/totalTicks*(W-8)+4, y=m=>(hi-m)*rh+11;
+  const x=t=>t/totalTicks*(W-52)+48, y=m=>(hi-m)*rh+18;
 
+  // Pitch ruler and subtle black-key lanes make the preview readable as MIDI.
+  for(let m=lo;m<=hi;m++){
+    const black=[1,3,6,8,10].includes(((m%12)+12)%12), yy=y(m);
+    ctx.fillStyle=black?'#11161c':'#171d24';ctx.fillRect(46,yy,W-46,rh);
+    ctx.fillStyle=black?'#1c242d':'#2c3640';ctx.fillRect(0,yy,43,Math.max(1,rh-1));
+    if(rh>=12||m%12===0){ctx.fillStyle='#b9c8d8';ctx.font='11px monospace';ctx.fillText(midiName(m),5,yy+Math.min(rh-1,12));}
+  }
   const showBeats=current.meta.bars<=16;
   const labelEvery=current.meta.bars>32?8:4;
   for(let b=0;b<=current.meta.bars;b++){
     const px=x(b*4*TPQ);
-    ctx.strokeStyle='#3A3028'; ctx.lineWidth=1;
+    ctx.strokeStyle='#303842'; ctx.lineWidth=1;
     ctx.beginPath(); ctx.moveTo(px,0); ctx.lineTo(px,H); ctx.stroke();
     if(b<current.meta.bars){
       if(showBeats) for(let q=1;q<4;q++){
         const pq=x((b*4+q)*TPQ);
-        ctx.strokeStyle='#241E18'; ctx.beginPath(); ctx.moveTo(pq,0); ctx.lineTo(pq,H); ctx.stroke();
+        ctx.strokeStyle='#202730'; ctx.beginPath(); ctx.moveTo(pq,0); ctx.lineTo(pq,H); ctx.stroke();
       }
       if(showBeats||b%labelEvery===0){
-        ctx.fillStyle='#6B6055'; ctx.font='11px "IBM Plex Mono", monospace'; ctx.fillText(String(b+1),px+4,11);
+        ctx.fillStyle='#9caabc'; ctx.font='11px "IBM Plex Mono", monospace'; ctx.fillText(String(b+1),px+4,11);
       }
     }
   }
   if(current.meta.marks){
     current.meta.marks.forEach(m=>{
       const px=x(m.bar*4*TPQ);
-      ctx.fillStyle='rgba(255,90,31,0.10)';
+      ctx.fillStyle='rgba(192,237,123,0.10)';
       ctx.fillRect(px,0,Math.max(1,x((m.bar+m.bars)*4*TPQ)-px),13);
-      ctx.strokeStyle='var(--signal)'; ctx.strokeStyle='#FF5A1F'; ctx.lineWidth=1;
+      ctx.strokeStyle='var(--signal)'; ctx.strokeStyle='#c0ed7b'; ctx.lineWidth=1;
       ctx.beginPath(); ctx.moveTo(px,0); ctx.lineTo(px,H); ctx.stroke();
-      ctx.fillStyle='#FF9D6E'; ctx.font='700 10px "Archivo", sans-serif';
+      ctx.fillStyle='#c0ed7b'; ctx.font='700 10px "Archivo", sans-serif';
       ctx.fillText(m.label.toUpperCase(),px+4,10);
     });
   }
   const rootPc=+$('root').value;
-  if(rows<=90) for(let m=lo;m<=hi;m++) if(((m%12)+12)%12===rootPc){ ctx.fillStyle='rgba(255,90,31,0.055)'; ctx.fillRect(0,y(m),W,rh); }
+  if(rows<=90) for(let m=lo;m<=hi;m++) if(((m%12)+12)%12===rootPc){ ctx.fillStyle='rgba(192,237,123,0.055)'; ctx.fillRect(46,y(m),W-46,rh); }
   all.forEach(e=>{
     const w=Math.max(1.5,x(e.tick+e.dur)-x(e.tick)-1);
     ctx.fillStyle=e.colour; ctx.globalAlpha=0.42+0.58*(e.vel/127);
@@ -2290,7 +2444,7 @@ function logEntry(){
     parts:current.parts.map(p=>p.label).join(', '),
     hash:location.hash, at:new Date().toTimeString().slice(0,5),
   };
-  const key=JSON.stringify([e.seed,e.root,e.scale,e.prog,e.bpm,e.bars,e.parts]);
+  const key=JSON.stringify(collectState());
   if(sessionLog.length&&sessionLog[0].key===key) return;
   e.key=key; sessionLog.unshift(e);
   if(sessionLog.length>40) sessionLog.pop();
@@ -2299,7 +2453,7 @@ function logEntry(){
 function renderLog(){
   if(!sessionLog.length){ $('logRows').innerHTML='<p class="hint">Nog niets gegenereerd deze sessie.</p>'; return; }
   $('logRows').innerHTML=sessionLog.map((e,i)=>
-    '<div class="logrow"><b>'+e.seed+'</b>'+
+    '<div class="logrow"><b>'+escapeHtml(e.seed)+'</b>'+
     '<span>'+e.at+' · '+NOTE_NAMES[e.root]+' '+SCALES[e.scale].name+' · '+e.bpm+' BPM · '+e.bars+' mt · '+(GENRES.find(g=>g.id===e.genre)||{label:'vrij'}).label+'</span>'+
     '<button class="small" data-restore="'+i+'">Herstel</button></div>').join('');
 }
@@ -2309,7 +2463,7 @@ $('logRows').addEventListener('click',ev=>{
   location.hash=e.hash; restoreFromHash(); generate();
 });
 function logAsMarkdown(){
-  const L=['# KICKROOM sessielog','','| Tijd | Seed | Toonsoort | BPM | Maten | Genre | Partijen |','|---|---|---|---|---|---|---|'];
+  const L=['# MIDIROOM sessielog','','| Tijd | Seed | Toonsoort | BPM | Maten | Genre | Partijen |','|---|---|---|---|---|---|---|'];
   sessionLog.slice().reverse().forEach(e=>L.push('| '+e.at+' | `'+e.seed+'` | '+NOTE_NAMES[e.root]+' '+SCALES[e.scale].name+
     ' | '+e.bpm+' | '+e.bars+' | '+(GENRES.find(g=>g.id===e.genre)||{label:'vrij'}).label+' | '+e.parts+' |'));
   return L.join('\n');
@@ -2361,7 +2515,7 @@ function download(bytes,name){
   setTimeout(()=>{URL.revokeObjectURL(a.href); a.remove();},400);
 }
 function fileStem(){
-  return 'KICKROOM_'+NOTE_NAMES[+$('root').value].replace('#','s')+'_'+current.bpm+'bpm_'+$('seed').value;
+  return 'MIDIROOM_'+NOTE_NAMES[+$('root').value].replace('#','s')+'_'+current.bpm+'bpm_'+$('seed').value.replace(/[^a-zA-Z0-9_-]/g,'_').slice(0,60);
 }
 function buildExports(){
   const box=$('exports'); box.innerHTML='';
@@ -2370,7 +2524,7 @@ function buildExports(){
   all.className='primary'; all.textContent='Alles als één MIDI-bestand';
   all.onclick=()=>{
     const stem=fileStem();
-    download(buildMidi(current.parts.map(p=>({name:p.label,events:p.events})),current.bpm), stem+'.mid');
+    download(buildMidi(current.parts.map(p=>({id:p.id,name:p.label,events:p.events})),current.bpm,current.meta.bars*4*TPQ), stem+'.mid');
     downloadText(notesFor(stem+'.mid'), stem+'_notes.md');
   };
   box.appendChild(all);
@@ -2378,7 +2532,7 @@ function buildExports(){
     const b=document.createElement('button'); b.textContent=p.label;
     b.onclick=()=>{
       const stem=fileStem()+'_'+p.id;
-      download(buildMidi([{name:p.label,events:p.events}],current.bpm), stem+'.mid');
+      download(buildMidi([{id:p.id,name:p.label,events:p.events}],current.bpm,current.meta.bars*4*TPQ), stem+'.mid');
       downloadText(notesFor(stem+'.mid'), stem+'_notes.md');
     };
     box.appendChild(b);
@@ -2608,7 +2762,7 @@ function playAll(){
   limiter.attack.value=0.003; limiter.release.value=0.15;
   master=a.createGain();
   const audibleCount=Math.max(1,current.parts.filter(p=>audible(p.id)).length);
-  master.gain.value=Math.min(0.95, (1.6/Math.sqrt(audibleCount))*((+$('vol').value||80)/80));
+  master.gain.value=Math.min(0.95, (1.6/Math.sqrt(audibleCount))*(Number($('vol').value)/100));
   master.connect(limiter); limiter.connect(a.destination);
 
   queue=buildQueue(); qIdx=0; qPass=0;
@@ -2640,14 +2794,14 @@ function stopAudio(){
   live=[]; queue=[]; qIdx=0; qPass=0;
   if(master){ try{ master.disconnect(); }catch(e){} master=null; }
   if(limiter){ try{ limiter.disconnect(); }catch(e){} limiter=null; }
-  $('play').disabled=false; $('stop').disabled=true;
+  $('play').disabled=!current; $('stop').disabled=true;
   updateAudioStatus();
   if(current) drawRoll();
 }
 $('play').addEventListener('click',playAll);
 $('stop').addEventListener('click',stopAudio);
 $('loop').addEventListener('change',()=>{ if(playing) playAll(); });
-$('vol').addEventListener('input',()=>{ if(master&&AC){ const n=Math.max(1,current.parts.filter(p=>audible(p.id)).length); master.gain.value=Math.min(0.95,(1.6/Math.sqrt(n))*((+$('vol').value||80)/80)); } });
+$('vol').addEventListener('input',()=>{ if(master&&AC){ const n=Math.max(1,current.parts.filter(p=>audible(p.id)).length); master.gain.value=Math.min(0.95,(1.6/Math.sqrt(n))*(Number($('vol').value)/100)); } });
 $('clickKick').addEventListener('change',()=>{ if(playing) playAll(); });
 document.addEventListener('keydown',e=>{
   if(e.code==='Space'&&!['INPUT','SELECT','TEXTAREA','BUTTON'].includes(e.target.tagName)){
@@ -2655,10 +2809,156 @@ document.addEventListener('keydown',e=>{
   }
 });
 
+/* MIDIROOM workspace. No network, dependencies, credentials or build-time services. */
+function escapeHtml(value){return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+// Treat URL and imported JSON as untrusted input. Restore only known controls.
+function normalizeState(raw){
+  const s=raw&&typeof raw==='object'?raw:{};
+  const choose=(value,allowed,fallback)=>allowed.includes(String(value))?String(value):String(fallback);
+  const num=(value,min,max,fallback)=>Number.isFinite(Number(value))?Math.max(min,Math.min(max,Math.round(Number(value)))):fallback;
+  const st={r:String(num(s.r,0,11,8)),sc:choose(s.sc,Object.keys(SCALES),'phrygian'),pg:choose(s.pg,PROGRESSIONS.map(p=>p.id),'pedal'),bp:String(num(s.bp,40,300,160)),ba:choose(s.ba,['1','2','4','8','16','32'],'8'),cs:String(num(s.cs,2,5,3)),cb:choose(s.cb,['1','2','4'],'1'),sd:String(s.sd??'MIDIROOM').slice(0,120),sw:String(num(s.sw,0,60,0)),gn:choose(s.gn,GENRES.map(g=>g.id),'free'),sr:choose(s.sr,['',...STRUCTURES.map(x=>x.id)],''),en:String(num(s.en,0,2,1)),hu:s.hu?1:0,th:s.th?1:0,p:{}};
+  PART_ORDER.forEach(id=>{
+    const p=s.p&&s.p[id]&&typeof s.p[id]==='object'?s.p[id]:{};
+    const op={};
+    (EXTRAS[id]||[]).forEach(e=>{const v=p.op&&p.op[e.key];op[e.key]=e.options?(e.options.includes(v)?v:e.def):(v==null?+e.def:+!!v);});
+    st.p[id]={on:+!!p.on,st:choose(p.st,['',...STYLES[PART_DEFS[id].styles].map(x=>x.id)],''),oc:num(p.oc,-3,3,0),vy:num(p.vy,0,100000,0),ar:choose(p.ar,ARTICULATIONS.map(x=>x.id),'auto'),op};
+  });
+  return st;
+}
+function selectView(view){
+  ['generator','tools','ideas','check'].forEach(id=>{$('view-'+id).hidden=id!==view;const tab=$('tab-'+id);tab.setAttribute('aria-selected',id===view);tab.tabIndex=id===view?0:-1;});
+  if(view==='generator'){rollCache=null;drawRoll();}
+  if(view==='tools'){renderStudio();renderTools();}
+  if(view==='ideas')renderIdeas();
+  if(view==='check')renderCheck();
+}
+document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>selectView(b.dataset.view)));
+document.querySelector('.topnav').addEventListener('keydown',e=>{
+  const tabs=[...document.querySelectorAll('[data-view]')],i=tabs.indexOf(document.activeElement);
+  if(i<0||!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;
+  e.preventDefault();const n=e.key==='Home'?0:e.key==='End'?tabs.length-1:(i+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;
+  tabs[n].focus();selectView(tabs[n].dataset.view);
+});
+// Grouping does not change core generation order.
+[['Ritme & low end',['drums','kick','bass']],['Melodie & karakter',['lead','screech','darkmelody','melody','pluck','arp']],['Harmonie & ruimte',['chords','pad','harmony']]].forEach(([title,ids])=>{
+  const label=document.createElement('div');label.className='part-group';label.textContent=title;$('parts').appendChild(label);
+  ids.forEach(id=>$('parts').appendChild(document.querySelector('.part[data-id="'+id+'"]')));
+});
+// Label every dynamically built control for keyboard and screen reader users.
+document.querySelectorAll('.part').forEach(row=>{
+  const name=PART_DEFS[row.dataset.id].label;
+  row.querySelectorAll('select').forEach((sel,i)=>{sel.id='control-'+row.dataset.id+'-'+i;const label=sel.parentElement.querySelector('label');if(label)label.htmlFor=sel.id;});
+  row.querySelectorAll('[data-oct]').forEach(b=>b.setAttribute('aria-label',name+(b.dataset.d==='1'?' octaaf omhoog':' octaaf omlaag')));
+});
+$('rollFilter').addEventListener('change',()=>{rollCache=null;drawRoll();});
+
+function renderTools(){
+  const bpm=Number($('bpm').value)||160,root=Number($('root').value),source=Number($('sourceBpm').value),bars=Number($('toolBars').value);
+  $('toolContext').innerHTML='<span class="pill">'+bpm+' BPM</span><span class="pill">'+escapeHtml(NOTE_NAMES[root]+' '+SCALES[$('scale').value].name)+'</span><span class="pill">4/4</span>';
+  const from=Number($('sampleRoot').value);const semitones=((root-from+18)%12)-6+Number($('sampleOctave').value);
+  $('transposeResult').textContent=NOTE_NAMES[from]+' → '+NOTE_NAMES[root]+' : '+(semitones>=0?'+':'')+semitones+' semitonen ('+(semitones>=0?'+':'')+(semitones*100)+' cents)';
+  if(!Number.isFinite(source)||source<20||source>400||!Number.isInteger(bars)||bars<1||bars>512){$('stretchResult').textContent='Vul 20–400 BPM en 1–512 hele maten in.';return;}
+  $('stretchResult').innerHTML=(bars*240/bpm).toFixed(3)+' s op '+bpm+' BPM<br>Nieuwe duur: '+(source/bpm*100).toFixed(2)+'% van origineel<br>Afspeelsnelheid: '+(bpm/source).toFixed(3)+'×<br>Re-pitch zonder warp: '+(12*Math.log2(bpm/source)).toFixed(2)+' semitonen';
+}
+NOTE_NAMES.forEach((name,i)=>{const op=document.createElement('option');op.value=i;op.textContent=name;$('sampleRoot').appendChild(op);});
+['sampleRoot','sampleOctave','sourceBpm','toolBars'].forEach(id=>$(id).addEventListener('input',renderTools));
+$('exportBrief').onclick=()=>{if(current)downloadText(notesFor(fileStem()+'.mid'),fileStem()+'_production_brief.md');};
+
+const BANK_KEY='midiroom.ideas.v2';
+let ideas=[],bankStorageError=false;
+function cleanIdea(item){
+  if(!item||typeof item!=='object'||!item.state||typeof item.state!=='object'||!item.state.p)throw new Error('Ongeldig idee: instellingen ontbreken.');
+  return {id:String(item.id||Date.now()+'-'+Math.random()).slice(0,100),name:String(item.name||'Naamloze take').slice(0,80),date:String(item.date||new Date().toISOString()).slice(0,50),state:normalizeState(item.state)};
+}
+try {const data=JSON.parse(localStorage.getItem(BANK_KEY)||'[]');if(Array.isArray(data))ideas=data.slice(0,100).map(cleanIdea);}catch(e){bankStorageError=true;}
+function persistIdeas(){
+  try{localStorage.setItem(BANK_KEY,JSON.stringify(ideas));bankStorageError=false;return true;}catch(e){bankStorageError=true;return false;}
+}
+function bankNotice(msg){$('bankNotice').textContent=msg;}
+function saveIdea(){
+  if(!current){bankNotice('Genereer eerst een take met minstens één instrument.');return;}
+  if(ideas.length>=100){bankNotice('Je bank bevat 100 ideeën. Exporteer de bank en verwijder enkele takes.');return;}
+  const name=$('ideaName').value.trim()||((GENRES.find(g=>g.id===activeGenre)||GENRES[0]).label+' / '+$('seed').value);
+  ideas.unshift(cleanIdea({id:Date.now()+'-'+newSeed(),name,date:new Date().toISOString(),state:collectState()}));
+  const saved=persistIdeas();$('ideaName').value='';renderIdeas();bankNotice(saved?'Take bewaard.':'Alleen tijdelijk bewaard: browseropslag niet beschikbaar. Exporteer je bank.');
+}
+function renderIdeas(){
+  if(bankStorageError)bankNotice('Browseropslag niet beschikbaar of onleesbaar. Exporteer je bank om je takes te bewaren.');
+  if(!ideas.length){$('ideaList').innerHTML='<div class="empty">Je volgende goede idee hoort hier.<br><span class="hint">Bewaar een take vanuit de generator.</span></div>';return;}
+  $('ideaList').innerHTML=ideas.map((idea,i)=>{
+    const st=idea.state,n=Object.values(st.p).filter(p=>p.on).length;
+    return '<article class="idea-card"><div class="eyebrow">TAKE '+String(ideas.length-i).padStart(2,'0')+'</div><h3>'+escapeHtml(idea.name)+'</h3><p>'+escapeHtml(NOTE_NAMES[+st.r]+' '+SCALES[st.sc].name)+' · '+st.bp+' BPM · '+n+' instrumenten<br>Seed '+escapeHtml(st.sd)+'</p><div class="action-row"><button data-load-idea="'+i+'">Open take</button><button data-delete-idea="'+i+'">Verwijder</button></div></article>';
+  }).join('');
+}
+$('saveIdea').onclick=saveIdea;
+$('saveIdeaQuick').onclick=()=>{selectView('ideas');saveIdea();};
+$('ideaList').addEventListener('click',e=>{
+  const load=e.target.closest('[data-load-idea]');
+  if(load){const idea=ideas[+load.dataset.loadIdea];if(!idea)return;PART_ORDER.forEach(id=>{muted[id]=false;soloed[id]=false;});location.hash=encodeURIComponent(JSON.stringify(idea.state));restoreFromHash();generate();paintMS();selectView('generator');return;}
+  const del=e.target.closest('[data-delete-idea]');if(del){const i=+del.dataset.deleteIdea;ideas.splice(i,1);const saved=persistIdeas();renderIdeas();bankNotice(saved?'Take verwijderd.':'Verwijderd uit deze sessie; browseropslag kon niet worden bijgewerkt.');}
+});
+function downloadJson(value,name){const blob=new Blob([JSON.stringify(value,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},400);}
+$('exportIdeas').onclick=()=>downloadJson({app:'MIDIROOM',version:2,ideas},'MIDIROOM_ideas.json');
+$('importIdeas').onclick=()=>$('ideaFile').click();
+$('ideaFile').addEventListener('change',async e=>{
+  const f=e.target.files[0];if(!f)return;
+  try{
+    if(f.size>2000000)throw new Error('Bestand is te groot (max. 2 MB).');
+    const data=JSON.parse(await f.text());if(data.app!=='MIDIROOM'||data.version!==2||!Array.isArray(data.ideas))throw new Error('Kies een MIDIROOM Idea Bank-bestand (versie 2).');
+    if(data.ideas.length>100)throw new Error('Maximaal 100 ideeën per bank.');
+    const incoming=data.ideas.map(cleanIdea),known=new Set(ideas.map(x=>x.id)),add=[];
+    incoming.forEach(x=>{if(!known.has(x.id)){known.add(x.id);add.push(x);}});
+    if(ideas.length+add.length>100)throw new Error('Samen meer dan 100 ideeën. Exporteer en maak eerst ruimte.');
+    ideas=[...add,...ideas];const saved=persistIdeas();renderIdeas();bankNotice(add.length+' ideeën geïmporteerd.'+(saved?'':' Exporteer ze: browseropslag niet beschikbaar.'));
+  }catch(err){bankNotice('Import mislukt: '+err.message);}finally{e.target.value='';}
+});
+
+function inspectMidi(){
+  if(!current)return [];
+  const result=[],end=current.meta.bars*4*TPQ;let invalid=0,overlaps=0,outside=0,notes=0;
+  const classes=new Set(SCALES[$('scale').value].steps.map(n=>(n+Number($('root').value))%12));
+  current.parts.forEach(p=>{const last=new Map();p.events.forEach(e=>{
+    notes++;if(![e.tick,e.dur,e.midi,e.vel].every(Number.isInteger)||e.tick<0||e.dur<=0||e.midi<0||e.midi>127||e.vel<1||e.vel>127||e.tick+e.dur>end)invalid++;
+    if(last.has(e.midi)&&last.get(e.midi)>e.tick)overlaps++;last.set(e.midi,e.tick+e.dur);
+    if(p.id!=='drums'&&!classes.has(e.midi%12))outside++;
+  });});
+  result.push({kind:invalid||overlaps?'warn':'good',title:invalid||overlaps?'MIDI heeft technische aandachtspunten':'Noten en timing zijn geldig',body:invalid+' ongeldige noten · '+overlaps+' overlappende noten met dezelfde toonhoogte. Export houdt de ingestelde cliplengte aan.'});
+  result.push({kind:outside?'warn':'good',title:outside?'Chromatische noten aanwezig':'Binnen de gekozen toonladder',body:outside?outside+' noten vallen buiten de ladder. Dit kan bewust zijn bij chromatische aanloopnoten of Dark melody; luister naar de oplossing.':'Alle melodische noten vallen binnen de gekozen ladder. Drum Rack-noten tellen niet mee.'});
+  const kick=current.parts.find(p=>p.id==='kick'),drums=current.parts.find(p=>p.id==='drums'),bass=current.parts.find(p=>p.id==='bass');
+  if(kick&&drums){const hits=new Set(kick.events.map(e=>e.tick));const doubles=drums.events.filter(e=>e.midi===DRUM_MAP.kick&&hits.has(e.tick)).length;if(doubles)result.push({kind:'warn',title:'Dubbele kicks',body:doubles+' gelijktijdige kicks: controleer layering, fase en het low end in je DAW.'});}
+  if(bass){const low=bass.events.filter(e=>noteFreq(e.midi)<30).length;if(low)result.push({kind:'warn',title:'Zeer lage basnoten',body:low+' basnoten onder 30 Hz. Controleer of een octaaf hoger beter werkt met jouw sound.'});}
+  if(current.parts.filter(p=>['lead','screech','darkmelody','melody','pluck','arp'].includes(p.id)).length>=4)result.push({kind:'warn',title:'Veel partijen in de voorgrond',body:'Vier of meer leadachtige partijen. Probeer een vraag-antwoordverdeling of mute een laag om de hoofdfrase ruimte te geven.'});
+  if($('timingHum').checked)result.push({kind:'info',title:'Timing humanize staat aan',body:'Kleine afwijkingen van het raster zijn bewust toegevoegd. Zet timingvariatie uit voor volledig strakke noten.'});
+  result.push({kind:'info',title:'Sound design gebeurt in je DAW',body:'Dit is een controle op MIDI, geen analyse van je audiomix. Screech-timbre, wobble, sidechain, clipping en loudness zijn niet uit deze noten af te leiden.'});
+  return result;
+}
+function renderCheck(){
+  const reports=inspectMidi();
+  if(!current){$('checkMetrics').innerHTML='';$('checkList').innerHTML='<div class="empty">Genereer eerst een loop.</div>';return;}
+  const n=current.parts.reduce((a,p)=>a+p.events.length,0),sec=current.meta.bars*240/current.bpm;
+  $('checkMetrics').innerHTML=[[current.parts.length,'instrumenten'],[n,'noten'],[current.meta.bars,'maten'],[sec.toFixed(1)+' s','cliplengte']].map(([v,l])=>'<div class="metric"><b>'+v+'</b><span>'+l+'</span></div>').join('');
+  $('checkList').innerHTML=reports.map(r=>'<article class="check-item '+r.kind+'"><h3>'+escapeHtml(r.title)+'</h3><p>'+escapeHtml(r.body)+'</p></article>').join('');
+}
+$('exportCheck').onclick=()=>{if(!current)return;downloadText('# MIDIROOM MIDI-check\n\nSeed: '+$('seed').value+'\n\n'+inspectMidi().map(r=>'## '+r.title+'\n\n'+r.body).join('\n\n'),fileStem()+'_check.md');};
+function refreshWorkspace(){
+  const parts=current?current.parts:[];$('partCount').textContent=parts.length+' actief';
+  const filter=$('rollFilter'),old=filter.value;
+  filter.innerHTML='<option value="all">Alle instrumenten</option>'+parts.map(p=>'<option value="'+p.id+'">'+p.label+'</option>').join('');
+  if(parts.some(p=>p.id===old))filter.value=old;
+  $('legend').innerHTML=parts.map(p=>'<span><i style="background:'+p.colour+'"></i>'+p.label+'</span>').join('');
+  $('rollInfo').textContent=current?current.meta.bars+' maten · '+(current.meta.bars*240/current.bpm).toFixed(1)+' s · 480 PPQ':'480 PPQ · 4/4';
+  $('saveIdeaQuick').disabled=!current;$('saveIdea').disabled=!current;$('exportCheck').disabled=!current;$('exportBrief').disabled=!current;
+  $('play').disabled=!current||playing;
+  paintMS();renderTools();renderCheck();
+}
+renderIdeas();
+
+
 paintMS();
 renderLog();
 restoreFromHash();
-if(activeGenre==='free'){ applyGenre('rawstyle',false); } else { generate(); }
+if(!location.hash){ applyGenre('rawstyle',false); } else { generate(); }
 </script>
 </body>
 </html>
