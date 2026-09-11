@@ -121,7 +121,7 @@ canvas{display:block;width:100%;touch-action:none}
     <button id="tab-arrange" role="tab" data-view="arrange" aria-selected="false" aria-controls="view-arrange" tabindex="-1">Arrangement</button>
     <button id="tab-vocal" role="tab" data-view="vocal" aria-selected="false" aria-controls="view-vocal" tabindex="-1">Vocal Room</button>
   </nav>
-  <div class="version"><b>LOCAL STUDIO</b> / v2.2</div>
+  <div class="version"><b>LOCAL STUDIO</b> / v2.3</div>
 </header>
 <section id="view-generator" role="tabpanel" aria-labelledby="tab-generator">
 
@@ -325,11 +325,13 @@ function paintMS(){
   });
 }
 
-$('parts').addEventListener('click',e=>{
+function handlePartClick(e){
   const edit=e.target.closest('[data-edit]');
+  if(edit&&typeof selectInstrument==='function'){selectInstrument(edit.dataset.edit);return;}
+  if(e.target.closest('[data-lock],[data-select-track]'))return;
   if(edit){const row=edit.closest('.part');row.classList.toggle('open');edit.setAttribute('aria-expanded',row.classList.contains('open'));return;}
   const vb=e.target.closest('[data-vary]');
-  if(vb){ e.preventDefault(); e.stopPropagation(); varies[vb.dataset.vary]++; generate(); return; }
+  if(vb){ e.preventDefault(); e.stopPropagation(); varySession(vb.dataset.vary); return; }
   const mb=e.target.closest('[data-mute]');
   if(mb){ e.preventDefault(); e.stopPropagation(); const id=mb.dataset.mute; muted[id]=!muted[id]; paintMS(); rollCache=null; drawRoll(); if(playing) playAll(); return; }
   const sb=e.target.closest('[data-solo]');
@@ -346,9 +348,11 @@ $('parts').addEventListener('click',e=>{
   if(top && e.target.tagName!=='INPUT'){
     top.querySelector('[data-edit]').click();
   }
-});
-$('parts').addEventListener('change',e=>{
+}
+$('parts').addEventListener('click',handlePartClick);
+function handlePartChange(e){
   if(e.target.dataset.part){
+    if(!e.target.checked&&typeof sessionConfig!=='undefined')delete sessionConfig.locks[e.target.dataset.part];
     e.target.closest('.part').classList.toggle('active',e.target.checked);
   }
   if(e.target.dataset.art||e.target.dataset.opt){ /* handled by generate below */ }
@@ -358,7 +362,8 @@ $('parts').addEventListener('change',e=>{
     document.querySelector('[data-note="'+id+'"]').textContent=s?s.note:'De generator kiest zelf een stijl.';
   }
   generate();
-});
+}
+$('parts').addEventListener('change',handlePartChange);
 $('legend').innerHTML=PART_ORDER.map(id=>'<span><i style="background:'+PART_DEFS[id].colour+'"></i>'+PART_DEFS[id].label+'</span>').join('');
 
 /* ---- bookmarkable state in the URL ---- */
@@ -538,8 +543,10 @@ $('seed').addEventListener('change',generate);
 $('seed').addEventListener('keydown',e=>{ if(e.key==='Enter') generate(); });
 
 /* ---- generate ---- */
-function generate(){
+function generate(event){
   if(restoring)return;
+  if(typeof sessionReady!=='undefined'&&sessionReady&&current?.vocalTiming&&vocalBuffer&&vocalAnalysis&&current.vocalSourceSerial===vocalSourceSerial){const pair={bpm:'vocalBpm',root:'vocalRoot',scale:'vocalScale'};if(pair[event?.target?.id])$(pair[event.target.id]).value=event.target.value;makeVocalSession(true);return;}
+  const previous=current;
   const parts=Array.from(document.querySelectorAll('[data-part]')).filter(c=>c.checked).map(c=>c.dataset.part);
   if(!parts.length){
     current=null; $('meta').textContent='Selecteer minstens één instrument.'; $('play').disabled=true; saveToHash(); refreshWorkspace();
@@ -584,6 +591,7 @@ function generate(){
       bpm, parts, partOpts, tries:120,
     });
     current.bpm=bpm;
+    if(typeof afterSessionGeneration==='function')afterSessionGeneration(previous);
     vocalLinked=false;
     baseLoop=JSON.parse(JSON.stringify(current));
     const wasPlaying=playing;
@@ -777,6 +785,7 @@ function logEntry(){
   };
   const key=JSON.stringify(collectState());
   if(sessionLog.length&&sessionLog[0].key===key) return;
+  if(current.customEdit||current.vocalTiming)e.snapshot=snapshot();
   e.key=key; sessionLog.unshift(e);
   if(sessionLog.length>40) sessionLog.pop();
   renderLog();
@@ -791,6 +800,7 @@ function renderLog(){
 $('logRows').addEventListener('click',ev=>{
   const b=ev.target.closest('[data-restore]'); if(!b) return;
   const e=sessionLog[+b.dataset.restore]; if(!e||!e.hash) return;
+  if(e.snapshot){restoreSnapshot(e.snapshot);rememberTake();return;}
   location.hash=e.hash; restoreFromHash(); generate();
 });
 function logAsMarkdown(){
@@ -837,7 +847,7 @@ function notesFor(filename){
     }),
     url:location.href, 
   });
-  return noteText + (current.vocalTiming||current.meta.structure?.id==='custom'?'\n\n## Exact herstellen\nDit is een bewerkte clip. De instellingenlink herstelt alleen generatorinstellingen, niet deze noten. Bewaar MIDI en exporteer de Idea Bank voor exact herstel. Vocal-audio en synthpresets zitten niet in MIDI.\n':'');
+  return noteText + (current.vocalTiming||current.customEdit||current.meta.structure?.id==='custom'?'\n\n## Exact herstellen\nDit is een bewerkte clip. De instellingenlink herstelt alleen generatorinstellingen, niet deze noten. Bewaar MIDI en exporteer de Idea Bank voor exact herstel. Vocal-audio en synthpresets zitten niet in MIDI.\n':'');
 }
 function download(bytes,name){
   const blob=new Blob([bytes],{type:'audio/midi'});
@@ -1080,7 +1090,8 @@ function schedTick(){
 }
 function playAll(){
   if(!current||!current.parts.length) return;
-  if(vocalLinked&&current.vocalTiming)$('loop').checked=false;
+  if(vocalLinked&&vocalBuffer)$('loop').checked=false;
+  if($('vocalAudio'))$('vocalAudio').pause();
   stopAudio();
   unlockAudio();
   const a=ac();
@@ -1143,6 +1154,7 @@ document.addEventListener('keydown',e=>{
 /*__WORKSPACE__*/
 /*__PRODUCTION__*/
 /*__DAW__*/
+/*__SESSION__*/
 
 paintMS();
 renderLog();

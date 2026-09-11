@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "runs": 3600,
+  "notes": 91276,
+  "instruments": 12,
+  "checks": "determinism, rhythm diversity, integer bounds, scale, source-dependent melody/harmony, gap-only answers, locks, kick/bass spacing"
+}

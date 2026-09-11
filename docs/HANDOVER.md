@@ -1,55 +1,32 @@
-# Overdracht — MIDIROOM 2.2
+# Overdracht — MIDIROOM 2.3
 
-Sam wil een DAW-achtige, toegankelijke productieassistent. Sound design en arrangement kosten hem evenveel tijd. Hij waardeert knoppen zoals solo. De laatste uitbreiding vroeg ook automatische vocal-keydetectie en een melodie die het zangritme volgt.
+Sam geeft UI-overzicht de hoogste prioriteit: compacte duidelijke knoppen, kleur per track, geen volle schermen met onnodige instellingen. Lever elke wijziging als complete ZIP met actuele index.html en broncode, bruikbaar voor Claude/GitHub. Gebruik `npm run pack:zip`.
 
-**Lever wijzigingen altijd opnieuw als complete zip**, met broncode, actuele `index.html`, tests en documentatie, geschikt voor Claude en GitHub. `npm run pack:zip` maakt de zip met Python 3. Niet alleen snippets of een los HTML-bestand teruggeven.
+## Belangrijkste nieuwe onderdelen
 
-## Werkende functies
+- `src/session.js`: inspector, SVG-controls, locks, ritmevariatie-acties, geïntegreerde vocaldrawer, zangnootcorrecties, sectievariatie/export. `src/daw.js` blijft de transport/zoom/command-laag.
+- `src/composer.js`: pure deterministische rhythmVariation, tidyEvents, relateParts, vocalHarmony en guidedVocalParts. Build laadt dit samen met core/vocal-engine in de hoofdscript-scope.
+- `src/production.js`: oorspronkelijke mixer, sound, snapshots en arrangement. Session.js verrijkt arrangeClip en renderArrangement. cleanStudioState bewaart `session` (locks, sterkte, relatie) en section.variation. Functiedeclaraties voor cleanSessionConfig moeten beschikbaar blijven vóór session.js uitgevoerd wordt.
+- `handlePartClick` en `handlePartChange` staan in app-shell. De inspector verplaatst de originele controls, dus de handlers werken ook daar. Geen duplicate IDs maken.
 
-- 15 genre-presets plus Vrij; Disco en Italo toegevoegd met eigen basritmes en disco-drums.
-- Mixer per actief instrument: level/pan, bestaande mute/solo en M/S-reset. Preview-only.
-- Undo/redo (16 snapshots) en een A-take. Exacte note-events, bronloop en productie-instellingen worden teruggezet.
-- Sound Lab: twee oscillatoren → lowpass → drive → amplitude → mixer. Zes startpatches; geen Serum/VST-export, wel een leesbaar recept.
-- Eigen arrangementen: sectielengte, volgorde, dupliceren/verwijderen, instrumentmasker en velocityfactor. Het huidige MIDI-materiaal wordt herhaald/gerangschikt, niet opnieuw gecomponeerd.
-- Vocal Room: audio decoderen/downsamplen, analyse in Worker, key-kandidaten, nootaanzetten, lagere tegenstem in dezelfde key, gezamenlijke playback op dezelfde AudioContext-clock.
-- Idea Bank neemt nu ook notensnapshots en bronclip mee. JSON-export versie 3; import accepteert 2 en 3. Geen vocalbytes in de bank.
+## Gedrag en grenzen
 
-## Code
+Trackvariatie werkt op exacte huidige events en houdt andere tracks intact. Grote variatie verandert alle vrije tracks. Lock bewaart events bij generatie; globale harmonie/lengte-controls zijn dan geblokkeerd. Uitschakelen verwijdert de lock. Arrangement herhaalt het bronmateriaal en volgt sectiemaskers/velocity, ook bij een lock, maar varieert de gelockte ritmes niet.
 
-- `src/core.js`: muzikale generatie en MIDI-writer.
-- `src/app-shell.html`: hoofdinterface, state, canvas en audio-scheduler.
-- `src/workspace.js`: oorspronkelijke tabs, bank, tools/checks, imports.
-- `src/production.js`: mixer, historie, Sound Lab, Arrangement, Vocal Room en snapshotvalidatie.
-- `src/vocal-engine.js`: pure analyse en vocal→melodie-eventfunctie; standalone testbaar in Node. Build voegt de functies inline in.
-- `src/theme.css`: vormgeving, inclusief nieuwe werkruimtes.
+`current.customEdit` markeert variaties; herstel vergt de clip-snapshot uit Idea Bank. Locks bevatten alleen flags in de URL, niet de gevangen noten; claim dus geen exact URL-herstel. Het oude seedmodel geldt alleen voor gewone gegenereerde clips. Undo/Redo/A en bank bewaren events.
 
-Initialisatievolgorde is belangrijk. `workspace.js` leest de bank voordat `production.js` uitgevoerd wordt. De validators `cleanClip`, `cleanStudioState`, `bound` en `clone` zijn daarom function declarations; maak ze niet zonder migratie tot top-level consts (TDZ bij reload).
+Vocal heeft drie onafhankelijke betekenissen: analyse aanwezig, MIDI uit analyse gemaakt (`vocalTiming`), audio hoorbaar (`vocalLinked`). `vocalSourceSerial` koppelt alleen in deze RAM-sessie aan de juiste opname. cleanClip bewaart bewust geen serial; bankimport is dus nooit automatisch gekoppeld. Handmatig audio koppelen maakt een referentie en zet vocalTiming=false. Genereer opnieuw uit analyse om er een bron van te maken.
 
-`collectState().x` bevat mixer, patches en sectiedefinities. Snapshots bevatten `clip` en `source`. De URL bevat geen note-events. Voor exacte custom/vocal-reproductie dus de bank gebruiken.
+Playback gebruikt dezelfde AudioContext-anchor, met offset. De eigen gain-node wordt in een closure losgekoppeld, zodat een oude source.onended geen nieuwe vocalgain kan verbreken bij restart. Preview wordt eenmalig zodra vocal meedoet; een referentie wordt afgekapt op MIDI-sessielengte, niet gewarpt.
 
-`baseLoop` bewaart de arrangementbron; genereer nooit een nieuw arrangement vanuit het vorige resultaat tenzij de gebruiker expliciet 'Gebruik huidige clip als bron' kiest. `arrangeClip` begrenst noten op sectieranden.
+Zangcorrecties verhogen vocalRevision. De lane meldt niet-toegepaste correcties. Key wordt niet automatisch opnieuw geraden na handmatige edits. De editor toont maximaal de eerste 600 segmenten; toevoegen begrensd op 600. Analyse blijft maximaal 20 MB/90 s, pitches 65–650 Hz. Geen echte zanger getest. De akkoordkeuze is een eenvoudige duurgewogen triade-score per maat; geen originele akkoordtranscriptie of AI-model. Gaps-only antwoord mag leeg zijn.
 
-Vocal-audio leeft alleen in RAM. Een herstelde take wordt bewust niet automatisch aan het aanwezige audiobestand gekoppeld. `vocalLinked` en `current.vocalTiming` bepalen gezamenlijke playback. De combinatie speelt eenmalig, op originele vocallengte/snelheid; geen beat-warp.
+Vocalgestuurde tracks gebruiken de zangvorm, daarom zijn oorspronkelijke stijlcontrols daar tijdelijk uitgeschakeld. De trackvariatieknop kan vrijere ritmes ontdekken; de lane benoemt dit. Verder als vrije MIDI geeft de gewone stijlbediening terug.
 
-## Niet overclaimen
+## Tests en vervolg
 
-De vocalanalyse is een eigen, lichte pitch/aanzet/key-schatter. Tests gebruiken een synthetische harmonische frase, **geen echte zanger**. Er is geen garantie voor beladen mixes, dubbels, reverb, pitchglides of korte modale fragmenten. 'Zekerheid' is een heuristiek, geen gekalibreerde kans. Majeur en natuurlijk mineur worden vergeleken; geen algemene modusdetectie.
+Nieuwe tests: test/composer.js en test/session-browser.js. Oude browserflows zijn gearchiveerd omdat ze aparte vocaltabs/inline trackinstellingen verwachten. Alle drie browser-npm-aliases gebruiken dezelfde actuele suite. Bestaande DOM/audio/core-suites blijven beschikbaar. Exacte uitgevoerde aantallen staan in TEST_REPORT.
 
-De tegenstem volgt geschatte nootaanzetten en pitchcontour, niet ieder woord of iedere lettergreep. Pad/Bass bieden een eenvoudige tonale basis, geen automatische akkoordtranscriptie. Sound Lab is een preview-synth en exporteert alleen een recept.
+Volgende nuttige stap: echte droge vocalfixtures van Sam valideren (pitch, onsets, tonaliteit); vervolgens akkoordovergangen/voicing verbeteren. Geen verdere menugroei zonder duidelijke plek in de sessie. Houd sound design en arrangement als gelijkwaardige productieworkflows.
 
-## Volgende investering
-
-1. Test met door de gebruiker aangeleverde droge vocalfragmenten met bekende key; beoordeel onsets, octave errors en key-alternatieven.
-2. Maak een bewerkbare vocal-nootlane: aanzetten verschuiven, noten splitsen/samenvoegen, foutieve pitches corrigeren.
-3. Laat akkoorden per frase de gedetecteerde zangnoten ondersteunen; voeg gecontroleerde antwoordfrasen in vocale rusten toe.
-4. Bouw arrangementtransities en clip-locks verder uit. Houd de huidige offline zip-overdracht in stand.
-
-Tests en precieze grenzen staan in `docs/TEST_REPORT.md`; historisch materiaal uit 2.0 staat onder `docs/archive/v2.0/`.
-
-## 2.2 interface-overdracht
-
-`src/daw.js` wordt na production.js en vóór de eerste generatie ingeladen. Het verplaatst de bestaande transportnodes naar een globale dock; dupliceer geen IDs of playbackhandlers. Het bevat trackfilters, focusmodus, een native dialog-snelmenu en zoom/follow. `drawRoll` roept `updateDaw` aan. ResizeObserver ververst canvaspixels bij layoutwijzigingen; de window-resize fallback blijft bestaan. Houd vroege DOM-guards intact.
-
-`src/theme.css` bevat onderaan de 2.2-studio-overrides. Visuele state gebruikt native controls en aria-attributen; M/S blijven preview-only. Deze release verandert de MIDI-compositie en vocalanalyse niet. Toekomstige prioriteit: noten bewerken met quantize/transpose op exacte snapshots, daarna echte vocalfixtures; geen extra decoratieve meters zonder gemeten audio.
-
-Tests: `npm run test:daw` vereist dezelfde Playwright/Chromium-omgeving als de andere browsersuites. Zie TEST_REPORT voor exacte uitgevoerde scope.
+Sessielog is bijgewerkt: ritmevariaties krijgen een nieuwe seed en exacte snapshots. Herstel gebruikt de snapshot, niet alleen het instellingenhash. De DOM-suite vond deze regressie; de fix is gericht in de browser gevalideerd.

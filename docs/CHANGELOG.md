@@ -66,3 +66,7 @@ Aangeleverde basis: bestaande MIDI-generator, acht genre-presets, twaalf instrum
 ## 2.2.0
 
 Compacte DAW-shell; globale transportbalk met maat/tel; verticale mixerfaders; uniforme knoppen en M/S-kleuren; instrumentzoeker/actief-filter; piano-rollzoom/follow/focus; doorzoekbaar snelmenu. Escape-focus hersteld en canvasresolutie volgt layoutwijzigingen. Gewone audio-statusmeldingen vervangen technische contexttekst.
+
+## 2.3.0
+
+Inspector rechts, compacte genrekeuze, SVG-trackknoppen, mobiel rack bovenaan. Ritme/lengtevariaties voor alle instrumenten, drie sterktes, locks, samenspelregels. Vocal als track binnen generator met expliciete audioverbinding, zangnootlane/correcties, drie begeleidingsmodi en zangafhankelijke harmonie. Variaties en losse MIDI-export per arrangementsectie. Mobiele overlap opgelost, audio-remove reset de speler en eigen gain-cleanup voorkomt een restart-race.

@@ -11,6 +11,7 @@ const dom = new JSDOM(html, {
   url: 'https://local.test/midiroom.html',
   runScripts: 'dangerously', pretendToBeVisual: true,
   beforeParse(win) {
+    win.HTMLMediaElement.prototype.load=()=>{};
     win.HTMLMediaElement.prototype.play = () => Promise.resolve();
     win.HTMLMediaElement.prototype.pause = () => {};
     win.HTMLCanvasElement.prototype.getContext = function () {

@@ -1,4 +1,4 @@
-# MIDIROOM 2.2
+# MIDIROOM 2.3
 
 Offline MIDI-generator en productiewerkruimte. Voor hard dance, techno, house, dubstep, drum & bass UK garage, disco en Italo. Gebouwd op de aangeleverde KICKROOM 1.1-code.
 
@@ -10,7 +10,22 @@ Offline MIDI-generator en productiewerkruimte. Voor hard dance, techno, house, d
 
 Geen installatie, account, API-key of internet nodig om de app te gebruiken. Alle code en vormgeving zitten in `index.html`. De browserpreview gebruikt eenvoudige synths; het MIDI-bestand bevat geen Serum-preset, audio of effectautomatisering.
 
-## Nieuwe studio-interface in 2.2
+## Nieuw in 2.3: overzicht, samenspel en vocal als track
+
+- Compact genreveld, één inspector voor het geselecteerde instrument en duidelijke SVG-knoppen. Instrumenten staan op mobiel boven de generator. Mixer en detailoverzicht kunnen dicht.
+- **Ontdek variatie** verandert noten, aanzetten en lengtes. Kies Subtiel / Ontdekken / Avontuurlijk. Het trackicoon verandert alleen die track; de grote knop verandert alle vrije tracks.
+- **Lock** bewaart de huidige noten exact bij variatie en generatie. Key, schema en lengte blijven vast zolang er locks zijn. Ontgrendel om de context te veranderen. Uitschakelen van een track heft zijn lock op.
+- **Samenspel**: Vrij, Harmonisch of Ruimte maken. Bij variatie kan de bas aansluiten op akkoordtonen, kickruimte krijgen en kunnen extra melodische tracks ruimte laten voor lead/melody. Alleen te variëren tracks worden aangepast; dit is een regelgebaseerde compositor, geen getraind generatief model.
+- **Vocal in de generator**: laden/analyseren via de vocaltrack. De geanalyseerde noten staan boven de MIDI-tijdlijn. Kies Volgen, Antwoorden in zangpauzes of Ondersteunen. Harmonische kandidaten worden per maat gewogen op de zangnoten; bas en akkoorden delen die keuze.
+- Zangnoten corrigeren (pitch, begin/einde, verwijderen/toevoegen). Klik daarna opnieuw **Maak MIDI uit vocal**. De key blijft handmatig te corrigeren; wijzigen van zangnoten herberekent de key niet automatisch.
+- **Hoorbaar bij Play** bepaalt alleen audio. **Koppel audio aan huidige MIDI** verandert geen noten en noemt die audio daarom een referentie. **Verder als vrije MIDI** stopt vocalgestuurde generatie. Een andere genrekeuze verbreekt de vocalsturing.
+- Arrangement: eigen ritmevariatie per sectie en losse sectie-MIDI per instrument, vanaf maat 1. Locks behouden het bronritme; instrumentmasker, herhaling en velocity van de sectie blijven wel van toepassing.
+
+De vocal blijft lokaal en zit niet in de MIDI-export of Idea Bank. Opnieuw laden van een take koppelt nooit automatisch andere audio. Voor exact herstel van variaties/locks: bewaar en exporteer de Idea Bank; de instellingenlink bevat geen aangepaste noten. Ritmevariatie op vocal-MIDI kan bewust van de zangtiming afwijken en wordt zo gelabeld. De audio blijft op originele snelheid; geen tempo-warp.
+
+Vocalanalyse is getest met synthetische tonen, nog niet met echte zangers. Gebruik droge solo-opnames en controleer de nootlane. Antwoorden kan een lege melodietrack opleveren wanneer er geen bruikbare pauzes zijn. Volledige MIDI-nootbewerking en automatische audio-effecttransities zijn niet toegevoegd.
+
+## Studio-interface uit 2.2
 
 - Globale Play/Stop, loop en metronoom met live maat/tel-display; transport blijft op desktop in beeld tijdens scrollen en werkt in alle schermen.
 - Consistente graphite-knoppen, gekleurde trackaccenten, duidelijk verschillende mute/solo-states en verticale mixerfaders.
@@ -120,3 +135,7 @@ Voor GitHub: commit de uitgepakte projectinhoud inclusief `src/`, `index.html`, 
 - `docs/ROADMAP.md` — kritisch vervolgplan richting een productieassistent.
 
 MIT-licentie zoals in het oorspronkelijke project.
+
+## Actuele tests
+
+`npm run test:composer` controleert de nieuwe pure compositiefuncties. `npm run test:browser` gebruikt `test/session-browser.js` voor de geïntegreerde interface; `test:production` en `test:daw` zijn aliassen van dezelfde suite en tellen niet als extra controles. Maak de fixture via `node test/vocal.js` en geef die aan de browsersuite met `VOCAL_FIXTURE=/absoluut/pad/naar/midiroom-vocal-test.wav`. Oudere browserflows staan als historische bron onder `docs/archive/v2.2/tests` en horen bij de oude layout.

@@ -1,19 +1,36 @@
-# MIDIROOM 2.2 — testverslag
+# MIDIROOM 2.3 — testverslag
 
-Getest op 10 september 2026, lokaal in Chromium en Node.js. Broncode en ongewijzigde engine voortgebouwd op 2.1; historische engine-, fuzz- en vocalresultaten staan in `archive/v2.1`. Die omvang is niet opnieuw gedraaid voor deze interfacewijziging.
+Uitgevoerd op 11 september 2026, Node.js en headless Chromium op Linux. De app is lokaal geopend zonder server. Screenshots staan in `screenshots`, resultaten in `test-results`. Historische 2.2-evidence staat apart in `archive/v2.2`.
 
-| Suite | Resultaat |
+| Controle | Resultaat |
 |---|---|
-| Nieuwe DAW-browserflow | 48 controles PASS; geen runtimefouten |
-| Bestaande browserflow | 43 controles PASS; geen runtimefouten of externe requests |
-| Productiebrowserflow | 33 controles PASS; sound, arrangement, exact herstel, synthetische vocalanalyse en synchronisatie |
-| Audio-modeltest | ALL PASS, inclusief envelopes, planning en audio-status |
-| DOM-suite | Vaste scenario’s plus 30 willekeurige acties; ALL PASS, nul runtimefouten |
+| Pure compositietest | 3.600 variatieruns, 91.276 outputnoten over 12 instrumenten: PASS |
+| Actuele sessiebrowserflow | 75 controles: PASS, geen runtimefouten |
+| Audio-modeltest | ALL PASS |
+| Bestaande DOM-suite | 50 willekeurige acties, 124 stijlcombinaties en 48 genre/energiecombinaties slaagden; daarna een sessielogregressie gevonden |
 
-De nieuwe flow controleert trackzoeken, actief-filter, zoom zonder document-overflow, live positie, playhead volgen, focusmodus, snelmenu via toetsenbord, zoeken, Enter, Escape en focusherstel. Alle zeven schermen passen binnen 1440, 1024, 768 en 390 px. Canvasresolutie wordt na een layoutwijziging vergeleken met de werkelijke displaybreedte. Desktop-, mobiele, mixer- en menuscreenshots zijn visueel gecontroleerd.
+## Nieuwe muziektests
 
-Tijdens controle opgelost: Escape kon eerst alleen het zoekveld legen; sluit nu expliciet het dialoog. Canvaspixels worden opnieuw getekend bij layoutwijzigingen om uitrekken na resizen te voorkomen. Audiofeedback is voor de gebruiker herschreven; de audio-modeltest controleert de nieuwe actieve/gepauzeerde tekst.
+Determinisme, verschillende ritme/lengtesignaturen, integer ticks, nootgrenzen en MIDI-bereik gecontroleerd. Iedere instrumentgroep leverde meer dan 20 verschillende ritmesignaturen op. Vocal-follow wordt vergeleken met de aangeleverde nootaanzetten; answers moeten geheel binnen zangpauzes liggen. Veranderde zangpitches veranderen melodie en harmonische keuze. Ook toonladder, bas/akkoordrelatie, kickruimte en behoud van gelockte partijen gecontroleerd.
 
-De browserflows zijn uitgevoerd in headless Chromium op Linux; geen live Safari/Firefox of mobiele hardwaretest. Verticale faders gebruiken moderne CSS writing-mode. Vocalvalidatie blijft een synthetische harmonische frase, geen echte zanger. De nieuwe interface verandert die analyse niet en geeft geen extra betrouwbaarheidsgarantie. View-state zoals zoom en zoeken is tijdelijk en verandert MIDI-events niet.
+Dit zijn regel-/invarianttests, geen luisterpanel of bewijs van stilistische kwaliteit. Arrangementvariaties blijven op bestaande harmonische inhoud gebaseerd; ze leveren geen automatisch gemasterde productie op.
 
-Ruwe resultaten staan in `test-results`. Herhaal met `npm run test:browser`, `npm run test:production`, `npm run test:daw` en de bestaande Node-scripts; browserpaden via CHROMIUM_EXECUTABLE en NODE_PATH zoals beschreven in README.
+## Browser
+
+Controleert genrekeuze, één inspector, lock bij variatie en generatie, enkelvoudige trackvariatie, Undo/Redo, exact bankherstel, sectievariaties, begrensde noten en MIDI-bestandsheader bij sectie-export. Verder snelmenu, zoom, focus, echte mixer-gain en Sound Lab-preview.
+
+Vocalfixture: dezelfde synthetische harmonische frase als 2.1, geen echte zanger. Decode/worker/key, onset-afhankelijke MIDI, gedeelde audioklok met offset, audio aan/uit, expliciet samen afspelen, handmatige pitchcorrectie en de melding voor nog niet toegepaste correcties zijn gecontroleerd. Ook gap-only antwoorden, harmonie per maat, herstel zonder audiokoppeling, expliciete referentiekoppeling, vrije MIDI en verwijderen van de bron.
+
+Alle zes hoofdschermen plus de geïntegreerde vocaldrawer passen binnen 1500, 1024, 768 en 390 px. De mobiele inspector opent/sluit. Desktop-, mobiele, vocal- en arrangementscreenshots zijn visueel beoordeeld.
+
+## Gevonden en opgeloste fouten
+
+- Vocalstatus overlapte op mobiel de openknop; layout gecorrigeerd.
+- Oude vocalgain kon bij restart via een onended-callback geraakt worden; cleanup gebruikt nu de eigen node.
+- Audio verwijderen reset nu ook de native speler; lege analysepanelen blijven verborgen.
+- Handmatig audio koppelen claimt geen zanggestuurde MIDI.
+- Nieuwe ritmevariaties ontbraken in het sessielog. De DOM-suite stopte daardoor in het logscenario. Variaties worden nu gelogd met exacte snapshots. De volledige DOM-suite is daarna niet opnieuw gedraaid; de laatste browserrun controleert specifiek twee logitems en exact terughalen van custom events. Het oorspronkelijke DOM-log blijft ter transparantie bewaard.
+
+## Niet gevalideerd
+
+Geen echte zangers, volledige mixes, live Safari/Firefox of mobiele audiohardware. Geen gekalibreerde keyzekerheid, source separation, tempo-warp of akkoordtranscriptie. Geen volledige nieuwe core-fuzzrun: de oorspronkelijke core is inhoudelijk ongewijzigd; de nieuwe transforms hebben hun eigen tests. De drie browser-npm-aliases wijzen naar dezelfde 75-check-suite en mogen niet driemaal geteld worden.

@@ -35,7 +35,3 @@ De key-profielfamilie is de bekende Krumhansl-Schmuckler-aanpak, ook beschreven 
 ## Interface 2.2
 
 `src/daw.js` voegt globale transportbediening, een keyboard dialog, trackfilter en visuele zoom toe. De bestaande playback- en exportfuncties blijven de bron van waarheid. View-state wordt niet meegeschreven naar URL/Idea Bank. De canvas-resolutie volgt layoutwijzigingen via ResizeObserver.
-
-## 2.3 sessie en compositie
-
-`composer.js` bevat pure MIDI-transforms en zanggestuurde harmonie; `session.js` koppelt ze aan de UI. Opstartvolgorde: core + vocal-engine + composer, hoofdscript, workspace, production, daw, session, eerste generatie. De inspector gebruikt originele controls met gedeelde handlers. Vocal UI verplaatst naar een details-drawer binnen view-generator; tab-vocal opent die drawer. Raadpleeg HANDOVER voor bronserials, locks en exact herstel.

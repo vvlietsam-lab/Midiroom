@@ -20,6 +20,6 @@ with zipfile.ZipFile(out, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9
         archive.write(file, rel.as_posix())
 with zipfile.ZipFile(out) as archive:
     assert archive.testzip() is None
-    for required in ['index.html','src/core.js','src/app-shell.html','src/theme.css','src/workspace.js','src/production.js','src/vocal-engine.js','src/daw.js','package.json','package-lock.json','README.md','docs/HANDOVER.md']:
+    for required in ['index.html','src/core.js','src/app-shell.html','src/theme.css','src/workspace.js','src/production.js','src/vocal-engine.js','src/daw.js','src/session.js','src/composer.js','package.json','package-lock.json','README.md','docs/HANDOVER.md']:
         assert required in archive.namelist(), required
 print(f'{out} ({out.stat().st_size:,} bytes)')

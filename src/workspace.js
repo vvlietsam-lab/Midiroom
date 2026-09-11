@@ -17,17 +17,20 @@ function normalizeState(raw){
   return st;
 }
 function selectView(view){
-  ['generator','tools','ideas','check','sound','arrange','vocal'].forEach(id=>{$('view-'+id).hidden=id!==view;const tab=$('tab-'+id);tab.setAttribute('aria-selected',id===view);tab.tabIndex=id===view?0:-1;});
+  const vocalRequested=view==='vocal';if(vocalRequested)view='generator';
+  ['generator','tools','ideas','check','sound','arrange','vocal'].forEach(id=>{$('view-'+id).hidden=id!==view;const tab=$('tab-'+id);if(id==='vocal')return;tab.setAttribute('aria-selected',id===view);tab.tabIndex=id===view?0:-1;});
   if(view==='generator'){rollCache=null;drawRoll();}
   if(view==='tools'){renderStudio();renderTools();}
   if(view==='ideas')renderIdeas();
   if(view==='check')renderCheck();
   if(view==='sound')renderSound();
   if(view==='arrange')renderArrangement();
+  if(vocalRequested&&$('vocalDrawer')){$('vocalDrawer').open=true;$('vocalDrawer').scrollIntoView({block:'start'});}
+  if(typeof renderSession==='function')renderSession();
 }
 document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>selectView(b.dataset.view)));
 document.querySelector('.topnav').addEventListener('keydown',e=>{
-  const tabs=[...document.querySelectorAll('[data-view]')],i=tabs.indexOf(document.activeElement);
+  const tabs=[...document.querySelectorAll('.topnav [data-view]')],i=tabs.indexOf(document.activeElement);
   if(i<0||!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;
   e.preventDefault();const n=e.key==='Home'?0:e.key==='End'?tabs.length-1:(i+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;
   tabs[n].focus();selectView(tabs[n].dataset.view);

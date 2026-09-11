@@ -1,0 +1,87 @@
+  ok   clean load
+  ok   meta line on load
+  ok   play creates oscillators (7)
+  ok   oscillators are started (7)
+  ok   nothing scheduled on a closed context (0 violations)
+  ok   stop enabled while playing
+  ok   play disabled while playing
+  ok   play re-enabled after stop
+  ok   replay after stop still schedules (14 osc)
+  ok   regenerating while playing does not use a closed context
+  ok   playback resumes after regenerate
+  ok   play does not front-load every oscillator (34 at t=0)
+  ok   60s of looped playback runs clean
+  ok   scheduler keeps feeding voices (5936 total)
+  ok   node list stays bounded during looping (230)
+  ok   no scheduling on a closed context while looping
+  ok   still playing after 60s with loop on
+  ok   stop clears the node list
+  ok   playback stops by itself when loop is off
+  ok   50 random UI actions, 50 generations, 0 empty-selection states
+  ok   no runtime errors during stress
+  ok   no closed-context scheduling during stress
+  ok   2 exported files start with MThd
+  ok   124 style combinations all generate
+  ok   all 12 parts + combined export (13)
+  ok   four articulations give four different length sets
+  ok   staccato really is short
+  ok   screech stays on a handful of pitches (7)
+  ok   screech uses several distinct note lengths (27)
+  ok   the through-composed arp uses one note length, as the corpus does (1)
+  ok   the cycle arp keeps an accent length (2)
+  ok   mute toggles
+  ok   muted part is inaudible
+  ok   mute does not disable the part itself
+  ok   solo silences everything else
+  ok   clearing solo and mute restores everything
+  ok   re-rolling the lead leaves the bass untouched
+  ok   re-rolling the lead actually changes it
+  ok   swing changes the timing
+  ok   swing does not break generation
+  ok   settings written to the URL
+  ok   settings restored from the URL
+  ok   copy-link button does not throw
+  ok   drums land on drum-rack pitches [36,38,39,42]
+  ok   empty selection message
+  ok   play with nothing selected does not crash
+  ok   recovers after re-enabling a part
+  ok   a two-bar harmonic rhythm holds the chord across the bar line
+  ok   a one-bar harmonic rhythm changes chord every bar (m1 [0,3,7] vs m2 [0,3,7] | prog=euphoric chordBars=2 root=0 scale=aeolian style=Heel)
+  ok   48 genre-en-energie combinaties genereren
+  ok   geen enkele combinatie levert nul noten (0)
+  ok   genres afspelen zonder fouten
+  ok   de house-lead begint niet elke maat op dezelfde plek (2 verschillende offsets)
+  ok   de house-lead speelt dubbele noten (149 gestapelde aanslagen)
+  ok   house zet swing aan (14%)
+  ok   gabber-screech is staccato, langste noot 0.75 zestiende
+  ok   structuur "uit": 32 maten, 640 noten
+  ok   structuur "short": 32 maten, 565 noten
+  ok   structuur "full": 64 maten, 1065 noten
+  ok   structuur "dropOnly": 16 maten, 313 noten
+  ok   de volledige structuur is 64 maten
+  ok   zes secties met markeringen
+  ok   het matenveld staat uit zolang een structuur actief is
+  ok   geen lege secties (0)
+  ok   drop 2 is een variatie, geen kopie van drop 1
+  ok   drums verdubbelt de kick niet (0)
+  ok   de bas valt niet bovenop de kick (0)
+  ok   de export levert twee bestanden op (2)
+  ok   notes.md begint met een kop
+  ok   notes.md bevat de sectie "Toonsoort"
+  ok   notes.md bevat de sectie "Camelot"
+  ok   notes.md bevat de sectie "Seed"
+  ok   notes.md bevat de sectie "Secties"
+  ok   notes.md bevat de sectie "Sporen in het MIDI-bestand"
+  ok   notes.md bevat de sectie "Delaytijden"
+  ok   notes.md bevat de sectie "Kick stemmen"
+  ok   notes.md bevat de sectie "Harmonisch mixen"
+  ok   notes.md bevat de sectie "reproduceren"
+  ok   notes.md noemt de secties van de structuur
+  ok   notes.md noemt de seed
+  ok   ook een losse partij-export krijgt een notes.md
+  ok   studiopaneel toont kickfrequenties
+  ok   studiopaneel toont delaytijden
+  ok   studiopaneel toont een Camelot-code
+  ok   studiopaneel volgt de toonsoort
+  FAIL sessielog groeit mee (0)
+  FAIL log heeft herstelknoppen
