@@ -121,7 +121,7 @@ canvas{display:block;width:100%;touch-action:none}
     <button id="tab-arrange" role="tab" data-view="arrange" aria-selected="false" aria-controls="view-arrange" tabindex="-1">Arrangement</button>
     <button id="tab-vocal" role="tab" data-view="vocal" aria-selected="false" aria-controls="view-vocal" tabindex="-1">Vocal Room</button>
   </nav>
-  <div class="version"><b>LOCAL STUDIO</b> / v2.3</div>
+  <div class="version"><b>LOCAL STUDIO</b> / v3.0</div>
 </header>
 <section id="view-generator" role="tabpanel" aria-labelledby="tab-generator">
 
@@ -326,6 +326,7 @@ function paintMS(){
 }
 
 function handlePartClick(e){
+  if(e.target.closest('.track-enable'))return;
   const edit=e.target.closest('[data-edit]');
   if(edit&&typeof selectInstrument==='function'){selectInstrument(edit.dataset.edit);return;}
   if(e.target.closest('[data-lock],[data-select-track]'))return;
@@ -1155,6 +1156,21 @@ document.addEventListener('keydown',e=>{
 /*__PRODUCTION__*/
 /*__DAW__*/
 /*__SESSION__*/
+/*__PROJECTS__*/
+/*__DISCOVERY_ENGINE__*/
+/*__DISCOVERY__*/
+/*__ARRANGER__*/
+/*__EXPRESSION_ENGINE__*/
+/*__EXPRESSION__*/
+/*__SCENES__*/
+/*__SKIN__*/
+/*__SCULPTOR_ENGINE__*/
+/*__SCULPTOR__*/
+/*__MIDI_IMPORT__*/
+/*__GROOVE__*/
+/*__CONVERSATION_ENGINE__*/
+/*__CONVERSATION__*/
+/*__STUDIO__*/
 
 paintMS();
 renderLog();

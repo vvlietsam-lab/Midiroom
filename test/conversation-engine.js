@@ -1,0 +1,8 @@
+const assert=require('assert');const {conversationClip,sanitizeSegments,vocalWindows}=require('../src/conversation-engine.js');
+const clip={bpm:120,meta:{bars:2,root:0,scale:{steps:[0,2,3,5,7,8,10]}},parts:[{id:'lead',events:[{tick:0,dur:480,midi:60,vel:90},{tick:1920,dur:480,midi:62,vel:88}]},{id:'bass',events:[{tick:0,dur:360,midi:36,vel:90},{tick:960,dur:360,midi:36,vel:88}]},{id:'chords',events:[{tick:0,dur:600,midi:48,vel:70},{tick:0,dur:600,midi:51,vel:70},{tick:0,dur:600,midi:55,vel:70}]}]};
+const segments=[{start:.05,end:.65,midi:60},{start:.8,end:1.25,midi:62},{start:2.3,end:2.8,midi:63}];
+assert.equal(sanitizeSegments([{start:-1,end:.2,midi:200}],4)[0].midi,127);assert(vocalWindows(sanitizeSegments(segments,4),4).gaps.some(g=>g.end-g.start>.5));
+const src=JSON.stringify(clip),a=conversationClip(clip,segments,{targets:['lead','bass','chords'],closeness:100,mode:'converse',root:0,steps:clip.meta.scale.steps});assert.equal(JSON.stringify(clip),src);assert(a.clip.vocalTiming);assert(a.clip.parts.find(p=>p.id==='lead').events.some(e=>![0,1920].includes(e.tick)&&e.tick>1.25*960&&e.tick<2.3*960));assert(a.clip.parts.find(p=>p.id==='chords').events.some(e=>e.dur>600));assert.deepEqual(a.clip.parts.find(p=>p.id==='bass').events.map(e=>e.midi),[36,36]);
+const locked=conversationClip(clip,segments,{targets:['lead'],closeness:100,locks:{lead:true}}).clip;assert.deepEqual(locked.parts[0],clip.parts[0]);
+const zero=conversationClip(clip,segments,{targets:['lead'],closeness:0}).clip;assert.deepEqual(zero.parts[0].events,clip.parts[0].events);
+assert.throws(()=>conversationClip(clip,[],{}),/zangnoten/);console.log('VOCAL CONVERSATION PASS · activity · gaps · locks · pitch identity');

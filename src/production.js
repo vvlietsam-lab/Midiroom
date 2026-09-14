@@ -17,7 +17,7 @@ function cleanPatch(p={}){return {wave:['sine','triangle','sawtooth','square'].i
 function cleanStudioState(x={}){
   if(!x||typeof x!=='object')x={};const mix={},patches={};
   PART_ORDER.forEach(id=>{mix[id]={volume:bound(x.mixer?.[id]?.volume,0,100,80),pan:bound(x.mixer?.[id]?.pan,-100,100,0)};if(x.patches?.[id])patches[id]=cleanPatch(x.patches[id]);});
-  const sections=Array.isArray(x.sections)?x.sections.slice(0,16).map(s=>({name:String(s.name||'Sectie').slice(0,30),bars:Math.round(bound(s.bars,1,32,8)),gain:bound(s.gain,.2,1.2,1),variation:['subtle','explore','wild'].includes(s.variation)?s.variation:'same',parts:Array.isArray(s.parts)?s.parts.filter(id=>PART_ORDER.includes(id)):[]})):[];
+  const sections=Array.isArray(x.sections)?x.sections.slice(0,16).map(s=>({name:String(s.name||'Sectie').slice(0,30),bars:Math.round(bound(s.bars,1,32,8)),gain:bound(s.gain,.2,1.2,1),variation:['subtle','explore','wild'].includes(s.variation)?s.variation:'same',transition:['breath','roll'].includes(s.transition)?s.transition:'none',parts:Array.isArray(s.parts)?s.parts.filter(id=>PART_ORDER.includes(id)):[]})):[];
   return {mixer:mix,patches,sections,session:cleanSessionConfig(x.session)};
 }
 function studioState(){return {mixer:clone(mixer),patches:clone(soundPatches),sections:clone(arrSections),session:clone(sessionConfig)};}
@@ -109,7 +109,7 @@ function cleanClip(c){
     return {id:p.id,label:PART_DEFS[p.id].label,colour:PART_DEFS[p.id].colour,events,part:{bars:[],rhythmLabel:c.vocalTiming?'Vocal timing':'Bewaarde take'}};});
   const progression=PROGRESSIONS.find(p=>p.id===c.meta.progression?.id)||PROGRESSIONS[0];
   const marks=Array.isArray(c.meta.marks)?c.meta.marks.slice(0,16).map(m=>({bar:Math.round(bound(m.bar,0,bars-1,0)),bars:Math.round(bound(m.bars,1,32,8)),label:String(m.label||'Sectie').slice(0,30)})):null;
-  return {parts,bpm,arrangement:!!c.arrangement,customEdit:!!c.customEdit,vocalMode:['follow','answer','support'].includes(c.vocalMode)?c.vocalMode:undefined,vocalTiming:!!c.vocalTiming,vocalOffset:bound(c.vocalOffset,0,30,0),meta:{bars,bpm,progression,root:Math.round(bound(c.meta.root,0,11,0)),seed:String(c.meta.seed||''),scale:c.meta.scale||SCALES.aeolian,...(marks?{marks}:{}),...(c.arrangement?{structure:{id:'custom',label:'Bewaard arrangement'}}:{})}};
+  return {parts,bpm,arrangement:!!c.arrangement,customEdit:!!c.customEdit,vocalMode:['follow','answer','support'].includes(c.vocalMode)?c.vocalMode:undefined,vocalTiming:!!c.vocalTiming,vocalOffset:bound(c.vocalOffset,0,30,0),meta:{bars,bpm,progression,root:Math.round(bound(c.meta.root,0,11,0)),seed:String(c.meta.seed||'').slice(0,120),scale:Object.values(SCALES).find(s=>JSON.stringify(s.steps)===JSON.stringify(c.meta.scale?.steps))||SCALES.aeolian,...(marks?{marks}:{}),...(c.arrangement?{structure:{id:'custom',label:'Bewaard arrangement'}}:{})}};
 }
 
 function refreshProduction(){
