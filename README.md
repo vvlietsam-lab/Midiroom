@@ -1,4 +1,4 @@
-# MIDIROOM 2.3
+# MIDIROOM 3.0
 
 Offline MIDI-generator en productiewerkruimte. Voor hard dance, techno, house, dubstep, drum & bass UK garage, disco en Italo. Gebouwd op de aangeleverde KICKROOM 1.1-code.
 
@@ -9,6 +9,73 @@ Offline MIDI-generator en productiewerkruimte. Voor hard dance, techno, house, d
 3. Kies een genre, toonsoort en instrumenten. Download MIDI en sleep het in je DAW.
 
 Geen installatie, account, API-key of internet nodig om de app te gebruiken. Alle code en vormgeving zitten in `index.html`. De browserpreview gebruikt eenvoudige synths; het MIDI-bestand bevat geen Serum-preset, audio of effectautomatisering.
+
+## Nieuw in 3.0 — drie tools, één piano roll
+
+Nieuwe visuele identiteit met schaalbaar SVG-logo, mineral graphite, mint en coral. De piano roll staat centraal; Frase Sculptor, Groove DNA en Vocal Conversation delen één bewerkingspaneel. Studio/Night blijven beschikbaar. Gebruik de tabs of de pijltjestoetsen wanneer een tab focus heeft.
+
+### 1. Frase Sculptor
+
+Kies een track en maten (of sleep over de piano roll). Maak drie takes richting **Meer ruimte, Meer spanning, Maak antwoord of Breek ritme**. Luisteren is tijdelijk; Gebruik neemt de take over met Undo. Andere tracks, locks en noten die over een selectierand lopen blijven intact. Veranderde timing verbreekt de eerdere vocalsturing. Voorstellen en maatselectie zijn tijdelijk; bewaar een project nadat je een take hebt gebruikt.
+
+### 2. Groove DNA + eigen MIDI
+
+Kies een `.mid` uit je DAW, een brontrack, een doelinstrument en een groove-lus van 1/2/4 maten. **Neem Groove DNA over** gebruikt de eerste niet-lege gekozen lus uit de bron voor aanzetten, aanslagen en nootlengtes, met het toonmateriaal van je doeltrack. **Importeer als track** neemt juist de originele noten over in dat instrument. Andere tracks blijven behouden. De huidige sessie bepaalt tempo en lengte; te lange importnoten worden afgekapt, er is geen audio-timestretch.
+
+Ondersteund: MIDI type 0/1 met PPQ, maximaal 4 MB, 32 maten in 4/4 en 20.000 noten. Track/kanalen worden apart aangeboden. Sustain kan in nootlengtes worden verwerkt; overige controllers, program changes, pitchbend en een tempoverloop worden niet als automatisering overgenomen. SMPTE/type 2 worden afgewezen. MIDI-import wijzigt je sessietoonaard niet; controleer die zelf als je originele pitches importeert. Het bronbestand/grooveprofiel is tijdelijk; toegepaste noten gaan wel mee in project, scenes en MIDI-export.
+
+### 3. Vocal Conversation
+
+Laad en analyseer een droge vocal via de vocaltrack. In **Vocal Conversation** zie je gedetecteerde zangactiviteit en antwoordruimte. Kies de tracks, Vraag & antwoord of Rustig ondersteunen en hoe sterk de begeleiding reageert. Leads krijgen ruimte en korte antwoorden in pauzes; harmonische tracks dragen langer onder zang; basaanzetten kunnen richting zangaccenten bewegen. De bestaande harmonie is het uitgangspunt, geen transcriptie van originele akkoorden.
+
+BPM/key moeten overeenkomen met de vocalinstellingen; een knop kan de analyse-instellingen aan de sessie gelijkmaken. Dit corrigeert geen audio en bewijst niet dat de geschatte key juist is. Preview speelt alleen MIDI en is omkeerbaar. Toepassen koppelt de aanwezige vocal; Undo herstelt de vorige sessie. Geen tempo-warp. Vocalanalyse blijft getest met synthetische frases, nog niet met echte zangers. De reactiesterkte en trackkeuze zijn tijdelijke toolinstellingen; de toegepaste noten worden exact bewaard.
+
+## Nieuw in 2.8 — Studio skin & Scene Launcher
+
+- Nieuwe DAW-geïnspireerde **Studio**-vormgeving: graphitevlakken, oranje acties, compactere transport- en trackbediening, consistentere randen en trackkleuren.
+- **Night** geeft een donkerder werkvlak. Je themakeuze blijft lokaal bewaard en verandert geen MIDI of projectinstellingen.
+- **Scene Launcher**: vier plekken voor volledige loopversies met MIDI, bronclip, locks, mixer en klanken. Capture legt vast; Start herstelt de scene en speelt vanaf het begin. Undo brengt je terug naar de vorige sessie.
+- Scenes gaan mee in je projectbestand en lokale herstelkopie. Vocal-audio wordt niet opgeslagen of automatisch gekoppeld. Scenes starten direct, zonder wachten op een maatgrens; dit is geen naadloze live crossfade.
+
+Elke scene en zijn bronclip mogen maximaal 32 maten en 20.000 noten bevatten. Wis of vervang scenes bewust; bewaar een projectdownload voordat je belangrijke versies overschrijft. Scene-slots zijn aparte projectinhoud en worden niet met de MIDI-Undo teruggedraaid.
+
+## Nieuw in 2.7 — Feel & expressie
+
+- **Natuurlijk** voegt subtiele timing, aanslagaccenten en articulatie toe. **Pocket** geeft meer timinggevoel; **Expressief** maakt frase-einden gevarieerder met spaarzame antwoorden binnen de toonladder.
+- Nieuwe generatie en ritmevariaties gebruiken standaard Natuurlijk. Kies **Strak / uit** voor geen extra expressielaag. Een modus kiezen verandert je huidige MIDI nog niet.
+- **Geef karakter** bewerkt de huidige vrije tracks; Undo herstelt je vorige frase. Elke klik is een nieuwe bewerking en kan eerdere expressie versterken. Bewaar een take om te vergelijken.
+- Kick-events blijven exact; drums behouden hun aanzetten. Akkoorden krijgen samenhangende aanslagspreiding. Vocalgestuurde MIDI behoudt alle aanzetten en krijgt alleen aanslag-/duurvariatie.
+- Locks en niet-geselecteerde tracks blijven intact. De Feel-keuze wordt met het project bewaard; alle expressie zit in de echte geëxporteerde MIDI-noten.
+
+Dit is regelgebaseerde frasering, geen model van een echte muzikant. De klankpreview blijft dezelfde synth; beoordeel de MIDI ook met je eigen instrument in Ableton.
+
+## Nieuw in 2.6 — Arrangement Director
+
+- **Short Sketch (16 maten), Club Journey (48) en Extended (88)**: voorstellen met instrumentkeuzes, velocity en groove per sectie. Kies een voorstel en zet het expliciet in de editor; pas **Maak arrangement** verandert de huidige MIDI.
+- **Einde per sectie**: Door, Adempauze (laatste tel vrij op niet-gelockte tracks) of Drumroll (vier aanslagen op de laatste tel, alleen met actieve vrije drums/kick). Overgangen worden na groovevariatie toegepast.
+- Compacte sectiebediening en tijdlijn met maatbereik, trackaantal en overgang. Alles blijft bewerkbaar; overgangsinstellingen worden in projecten en Undo/Redo bewaard.
+- **Herstelbug opgelost**: Undo/Redo werkt nu ook de lokale herstelkopie bij.
+
+Locks blokkeren extra groove- en overgangsbewerkingen. Instrumentmaskers, herhalen/afkappen naar sectielengte en sectievelocity blijven van toepassing. Arrangementen bevatten geen vocal-audio of automatische audio-effecten. Maximaal 256 maten en 50.000 noten; te grote arrangementen worden geweigerd.
+
+## Nieuw in 2.5 — Discovery Lab
+
+Een uitklapbaar Lab in het MIDI-scherm: één loop, drie alternatieve richtingen met minitijdlijnen.
+
+- **Meer ruimte / Meer drive / Meer verhaal** veranderen rusten, aanzetten, lengtes en fraseverloop. Je origineel blijft beschikbaar ter vergelijking.
+- **Combineer tracks uit richtingen**: behoud bijvoorbeeld je gelockte lead, kies de bas uit Drive en akkoorden uit Ruimte.
+- **Ritme lenen**: gebruik aanzetten van een andere track met het eigen toonmateriaal van de doeltrack. Akkoorden blijven polyfoon; locks worden gerespecteerd.
+- **Luister → Gebruik → Undo**: preview gebruikt je huidige synthklanken en mixer. Stop of een andere actie herstelt de oorspronkelijke sessie; pas Gebruik neemt de MIDI over.
+
+Richtingen zijn tijdelijke voorstellen; bewaar na Gebruik je project of take. Het Lab werkt op clips tot 32 maten en 20.000 noten. Het is een lokale regelgebaseerde MIDI-transformer. Vrije ontdekkingen kunnen zangtiming veranderen; de vocal speelt niet mee in de Lab-preview en wordt bij overnemen van zo'n richting ontkoppeld. Je kunt de audio daarna expliciet als referentie koppelen.
+
+## Nieuw in 2.4
+
+- **Bewaar project / Open**: portable `.midiroom.json` met exacte MIDI, bronloop, locks, mixer en soundinstellingen. Vocal-audio blijft apart; laad de opname opnieuw wanneer nodig.
+- **Lokaal herstel**: wijzigingen krijgen na een korte pauze een lokale kopie. Bij herladen kies je Herstel of Begin opnieuw. Een aangeboden herstelkopie wordt niet overschreven tot je kiest. Download projectbestanden voor overdracht en duurzame eigen back-ups; browseropslag kan worden gewist of vol raken.
+- Grotere track-tikvlakken op mobiel, één track per rij en een vocal-aan/uitknop bij de transportbediening.
+- Ritmevariaties herhalen een motief over afwisselende maten. De bas herkent majeure/mineure triades beter, ook bij inversies. Overlappende/onvolledige zangsegmenten worden robuuster verwerkt.
+- Ongeldige schaalmetadata en lege arrangementbronnen uit imports worden genormaliseerd. Onleesbare lokale hersteldata krijgt een expliciete optie om opnieuw te beginnen.
 
 ## Nieuw in 2.3: overzicht, samenspel en vocal als track
 

@@ -142,8 +142,43 @@ header{min-height:62px;padding:0 22px;gap:26px;border-bottom:1px solid #2f353d;f
 @media(max-width:1190px){.wrap{grid-template-columns:245px minmax(0,1fr)}#inspector{position:fixed;right:0;top:74px;bottom:0;width:280px;z-index:40;box-shadow:-15px 0 50px #0008;min-height:0}.inspector-closed .wrap{grid-template-columns:245px minmax(0,1fr)}.session-controls{grid-template-columns:repeat(3,1fr)}.genre-field{grid-column:span 1}.part-top{grid-template-columns:13px 3px minmax(48px,1fr) 22px 22px 20px 20px 20px;gap:3px}.part-top [data-lock],.part-top [data-vary],.part-top [data-edit]{width:20px}.track-name{font-size:10px}.topnav button{padding:0 9px}}
 @media(max-width:760px){.wrap,.inspector-closed .wrap{display:flex;flex-direction:column}.wrap>aside{order:0;width:100%;padding:12px 14px;border-bottom:1px solid var(--line)}main{order:1;padding:16px 14px;width:100%}.sidebar-title,.sidebar-footer{display:none}.track-search{margin-bottom:0}.vocal-track{padding:10px}.vocal-track #vocalTrackAction{float:right;width:105px;margin-top:-20px}#tab-vocal{margin:0}.vocal-track .hint{margin-top:5px}.parts{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));max-height:200px;overflow-y:auto;gap:5px}.part-group{display:none!important}.part-top{grid-template-columns:14px minmax(0,1fr) 23px 23px;grid-template-rows:26px 24px;gap:3px;padding:6px;min-height:0}.part-top .sw{display:none}.track-name{font-size:11px}.part-top [data-vary]{grid-column:2;grid-row:2;justify-self:end}.part-top [data-lock]{grid-column:3;grid-row:2}.part-top [data-edit]{grid-column:4;grid-row:2}.part-top [data-vary],.part-top [data-lock],.part-top [data-edit]{width:24px;height:24px;min-height:24px}.part-top .ms{min-height:24px;width:23px}.part-top input{grid-row:1}.part-top [data-solo]{grid-column:4;grid-row:1}.part-top [data-mute]{grid-column:3;grid-row:1}#inspector{top:0;width:min(320px,95vw);max-height:100vh;padding-top:18px;z-index:60}.workspace-heading{flex-direction:row;align-items:center}.workspace-heading h2{font-size:16px}.workspace-heading .action-row{flex-wrap:wrap;justify-content:flex-end}.workspace-heading .action-row button{font-size:10px}.session-controls{grid-template-columns:repeat(2,1fr);padding:10px;gap:9px}.genre-field{grid-column:span 2}.composition-strip{gap:8px}.composition-strip label{font-size:9px}.composition-strip select{max-width:125px;font-size:10px}#vocalContent{padding:12px}#vocalContent .tool-grid{grid-template-columns:1fr}#vocalSummary{display:none}.vocal-note-row{grid-template-columns:15px 1fr 1fr .8fr 24px;gap:4px}.vocal-note-row>span:nth-last-child(2){display:none}#vocalContent .tool-card .row{grid-template-columns:1fr 1fr}.roll-focus .wrap>aside{display:none}.roll-focus main{width:100%}.roll-title{font-size:10px}.roll-filter{max-width:140px}.zoom-controls{border:0;padding:0}.topnav{height:44px}.topnav button{font-size:10px}}
 #inspector .check,#inspector .oct{font-size:12px}#inspector p{overflow-wrap:anywhere}.session-extra{font-size:11px;color:var(--dim)}.session-extra summary{padding:8px 0;cursor:pointer}.section-export{background:var(--panel);padding:18px;border:1px solid var(--line);border-radius:6px;margin:16px 0}.section-export h3{font-size:14px;margin-bottom:6px}.section-export .action-row{margin-top:14px}.section-export select{max-width:210px;font-size:12px}.arr-settings select{font-size:11px;max-width:140px}.vocal-note-row button{padding:0!important}.rollbox{min-width:0}.composition-strip label{white-space:nowrap}#vocalContent .sound-strip button{flex:0 1 auto}#vocalAligned{max-width:none}.roll-filter{padding-right:5px}
+.arr-director{display:grid;grid-template-columns:minmax(240px,1fr) auto auto;align-items:center;gap:14px;margin:18px 0 8px;padding:14px 16px;border:1px solid #506341;border-left:3px solid var(--signal);background:linear-gradient(105deg,#1c271c,#171e25);border-radius:5px}.arr-director strong{display:block;font-size:13px;margin:3px 0}.arr-director .hint{margin:0}.arr-director select,.arr-director button{font-size:12px;min-height:34px}.arr-overview{padding:5px;background:#10161c;border:1px solid #303a43;border-radius:5px}.arr-clip{padding:10px;min-width:92px}.arr-clip small{display:block;margin-top:7px;font:10px monospace;color:#a9c98a;white-space:nowrap}.arr-row{padding:12px 14px}.arr-settings{gap:7px}.arr-settings>button{min-height:30px;padding:4px 8px;font-size:11px}.transition-control select{max-width:110px}@media(max-width:760px){.arr-director{grid-template-columns:1fr}.arr-director select,.arr-director button{width:100%}.arr-row{padding:10px}.arr-settings{align-items:flex-end}.arr-settings>input{max-width:125px}}
 @media(max-width:760px){.vocal-track #vocalTrackAction{float:none;width:auto;margin-top:8px}.vocal-track-title{position:static}#tab-vocal{height:32px}.vocal-track .check{margin-top:8px}}
 .vocal-audio-options,.vocal-link-options{border-top:1px solid #354d49;padding-top:10px;margin-top:12px}.vocal-audio-options>summary,.vocal-link-options>summary{font-size:11px;color:#a6c6bd;cursor:pointer}.vocal-audio-options .sound-strip{margin-bottom:0}#vocalContent .upload-zone{font-size:11px}#vocalContent .upload-zone input{margin-top:8px}#vocalContent #vocalWave{height:76px}#vocalContent .tool-grid{margin-top:12px}#vocalNotesLane{height:90px}.vocal-note-row label{display:block}
+/* 2.4 session files stay in a single unobtrusive row. */
+.projectbar{display:flex;align-items:center;gap:8px;padding-bottom:12px;border-bottom:1px solid var(--line);min-width:0}.project-name{display:flex;align-items:center;gap:8px;min-width:0;flex:1}.project-name input{border-color:transparent;background:transparent;min-width:60px;width:155px;max-width:100%;font-size:12px;padding:5px}.project-name input:focus{border-color:#516574}.projectbar button{font-size:10px;min-height:30px;padding:5px 8px;white-space:nowrap}#projectStatus{font-size:9px;color:var(--dim);max-width:210px}#recoveryBanner{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:#263328;border:1px solid #536a48;padding:10px;border-radius:5px;font-size:12px}#recoveryBanner button{font-size:11px;min-height:30px}@media(max-width:1000px){.projectbar{flex-wrap:wrap}.project-name{flex-basis:45%}#projectStatus{order:4;max-width:100%;flex-basis:100%}.project-name .eyebrow{display:none}}@media(max-width:760px){.part-top{grid-template-columns:16px minmax(0,1fr) 28px 28px;grid-template-rows:30px 30px;gap:4px}.part-top .ms,.part-top [data-vary],.part-top [data-lock],.part-top [data-edit]{width:28px;min-height:28px;height:28px}.parts{max-height:245px}.track-name{min-height:30px}.project-name input{width:125px}}
+.track-enable{display:flex;align-items:center;justify-content:center;min-width:24px;min-height:30px;cursor:pointer}.part-top{grid-template-columns:24px 3px minmax(48px,1fr) 23px 23px 22px 22px 22px}#vocalTransport{font-size:10px;min-width:95px!important;color:#a3decc;border-color:#49685d}#vocalTransport[aria-pressed=true]{background:#25433a;color:#b2f2da}@media(max-width:1190px){.part-top{grid-template-columns:24px 3px minmax(36px,1fr) 22px 22px 20px 20px 20px}}@media(max-width:760px){.parts{grid-template-columns:1fr;max-height:240px}.part-top{grid-template-columns:32px minmax(68px,1fr) repeat(5,32px);grid-template-rows:36px;gap:3px;padding:4px}.track-enable{min-width:32px;min-height:36px;grid-column:1;grid-row:1}.part-top .ms,.part-top [data-vary],.part-top [data-lock],.part-top [data-edit]{width:32px;height:34px;min-height:34px}.part-top [data-mute]{grid-column:3;grid-row:1}.part-top [data-solo]{grid-column:4;grid-row:1}.part-top [data-vary]{grid-column:5;grid-row:1}.part-top [data-lock]{grid-column:6;grid-row:1}.part-top [data-edit]{grid-column:7;grid-row:1}.track-name{grid-column:2;grid-row:1}.part-top .track-enable input{grid-row:auto}.projectbar button{min-height:34px}}
+/* Discovery is an optional workspace, not another permanent menu. */
+#discoveryLab{border:1px solid #53516e;border-radius:7px;background:#191a26}#discoveryLab>summary{display:flex;align-items:center;gap:9px;padding:12px 14px;color:#d0c7f4;font-size:12px;cursor:pointer}#discoveryLab>summary::before{content:'›'}#discoveryLab[open]>summary::before{content:'⌄'}#discoveryLab>summary span{margin-left:auto;font-size:10px;color:#aaa2c2}.discovery-body{padding:18px;border-top:1px solid #383649}.discovery-heading{display:flex;align-items:center;justify-content:space-between;gap:15px}.discovery-heading h2{font-size:20px;font-weight:500}.discovery-heading p,.discovery-body>p,.rhythm-transfer p{font-size:12px;color:var(--dim);line-height:1.6;margin:8px 0}.discovery-heading button{font-size:11px;white-space:nowrap}.discovery-body button{font-size:11px;min-height:33px;padding:6px 10px}#discoveryStatus{color:#c9bdf1;margin:16px 0;min-height:18px}#discoveryCards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.discovery-card{padding:16px;background:#202330;border:1px solid #3b4050;border-top:2px solid var(--recipe);border-radius:6px;min-width:0}.discovery-card .eyebrow{font-size:9px;color:var(--recipe)}.discovery-card h3{font-size:17px;margin:8px 0;font-weight:500}.discovery-card p{font-size:11px;line-height:1.5;color:#a4aebe;min-height:32px}.discovery-card>svg{display:block;width:100%;height:65px;background:#111823;border-radius:4px;margin:12px 0}.discovery-card small{font:10px monospace;color:#a7b1c4}.discovery-card>div{display:flex;gap:7px;margin-top:12px}#discoveryBlend,.rhythm-transfer{border-top:1px solid #3e4054;margin-top:20px;padding-top:14px}#discoveryBlend>summary,.rhythm-transfer>summary{font-size:12px;color:#cec6e8;cursor:pointer}#discoveryBlendTracks{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0}.blend-track{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:11px;padding:8px;background:#202330;border-radius:4px}.blend-track select,.transfer-controls select{font-size:11px;max-width:160px}.transfer-controls{display:flex;gap:10px;align-items:end;flex-wrap:wrap;margin-top:12px}.transfer-controls label{display:flex;flex-direction:column;gap:5px;font-size:10px;color:var(--dim)}@media(max-width:760px){.discovery-body{padding:12px}.discovery-heading{align-items:start;flex-direction:column}.discovery-heading h2{font-size:18px}#discoveryCards{grid-template-columns:1fr}.discovery-card{padding:14px}#discoveryBlendTracks{grid-template-columns:1fr}#discoveryLab>summary span{display:none}.transfer-controls{gap:8px}.transfer-controls label{flex:1}.transfer-controls select{max-width:100%;width:100%}}
+
+.performance-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 12px;background:#19232a;border:1px solid #3c5661;border-radius:6px}.performance-bar label{display:flex;align-items:center;gap:9px;font-size:11px;color:#a8cdd7}.performance-bar select,.performance-bar button{font-size:11px;min-height:32px}.performance-bar>span{font-size:10px;color:#9baeb9;margin-left:auto}@media(max-width:760px){.performance-bar{gap:8px}.performance-bar>span{width:100%;margin:0}}
+
+/* 2.8 Studio skin: restrained graphite surfaces, orange commands, track-colour identity. */
+:root{--ink:#292b2e;--panel:#333538;--panel-2:#3c3f43;--line:#515459;--bone:#f0f0ee;--dim:#b8bbc0;--signal:#ffb266;--steel:#a5dbe8;--radius:4px;--surface-dark:#242629;--surface-input:#242629;--surface-hover:#484c50;color-scheme:dark}
+:root[data-skin=night]{--ink:#17191c;--panel:#22252a;--panel-2:#2c3036;--line:#434a52;--bone:#ecefed;--dim:#b3bbc3;--surface-dark:#121518;--surface-input:#171b20;--surface-hover:#39424b}
+body{background:var(--ink);color:var(--bone);font-family:Arial,Helvetica,sans-serif;font-size:14px}button,input,select,textarea{font-family:inherit;border-radius:3px;box-shadow:none!important}button{background:var(--panel-2);border:1px solid var(--line);color:var(--bone);font-weight:400;transition:background .12s,border-color .12s}button:hover{background:var(--surface-hover);border-color:#9a9da0}button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid var(--signal);outline-offset:3px}button:disabled{opacity:.42}input,select,textarea{background:var(--surface-input);color:var(--bone);border:1px solid var(--line)}button.primary,#generate,#exportAll{background:var(--signal);border-color:var(--signal);color:#28231c;font-weight:600}button.primary:hover,#generate:hover{background:#ffc48a;color:#28231c}.hint,.intro{color:var(--dim)}
+header{background:var(--surface-dark);min-height:54px;padding:0 18px;border-bottom:1px solid var(--line);gap:24px}header h1{font-size:20px;letter-spacing:-.7px}.brand-icon i{border-radius:0;width:3px}.topnav{height:54px;gap:2px}.topnav button{height:54px;min-height:34px;padding:0 15px;font-size:11px;border-radius:0;color:var(--dim)}.topnav button[aria-selected=true]{background:var(--panel);border-bottom:3px solid var(--signal);color:var(--bone)}.skin-control{display:flex;gap:8px;align-items:center;margin-left:auto}.skin-control span{font-size:8px;letter-spacing:1.1px;color:var(--dim)}.skin-control select{font-size:11px;min-height:28px;padding:4px 7px}
+.studio-dock{background:var(--panel);border-bottom:1px solid #121315;padding:8px 18px;gap:12px;box-shadow:0 2px 0 #ffffff06}.transport-readout{background:var(--surface-dark);border-color:var(--line);border-radius:3px;min-width:155px;padding:6px 10px}.transport-readout output{color:var(--bone);font-size:23px;letter-spacing:2px}.transport-readout small{font-size:8px;color:var(--dim)}.transport{gap:5px}.transport button{min-height:30px;padding:5px 12px}.transport-toggle{background:var(--surface-dark);border-radius:3px}.transport input{accent-color:var(--signal)}#play{color:#c7e994}#play.running{background:#a9d375;color:#172017;border-color:#a9d375}.dock-context{font-size:10px;color:var(--dim)}#commandOpen{min-height:30px;font-size:10px}kbd{background:var(--surface-dark);border-color:var(--line)}
+.wrap{gap:0;grid-template-columns:265px minmax(0,1fr) 260px}.inspector-closed .wrap{grid-template-columns:265px minmax(0,1fr)}aside{background:var(--surface-dark);border-right:1px solid var(--line);padding:14px 9px}main{background:var(--ink);padding:18px 20px;gap:12px}.eyebrow{font-size:9px;letter-spacing:1.4px}.sidebar-title{padding:0 5px}.track-search{gap:4px}.track-search input{background:var(--panel);font-size:11px}.part-group{font-size:9px;letter-spacing:1.1px;color:var(--dim);padding:13px 4px 5px}.part{border-radius:3px}.part.active{background:var(--panel);border-color:var(--line);border-left:3px solid var(--track)}.part.selected{background:var(--panel-2);border-color:var(--track)}.track-name{font-weight:500;color:var(--bone)}.part-top .ms{background:var(--surface-dark);border:1px solid var(--line);border-radius:2px;color:var(--dim)}.part-top .ms.on{background:#a8d9e8!important;color:#172329!important;border-color:#a8d9e8!important}.part-top [data-lock][aria-pressed=true]{background:#5b4735;color:#ffc48a;border-color:#a57e54}.part-top [data-vary],.part-top [data-edit],.part-top [data-lock]{color:#c0c4c9}.vocal-track{background:var(--panel);border:1px solid #668b89;border-left:3px solid #85d6c3;border-radius:3px}.vocal-track #tab-vocal{background:#405452;color:#d4ece7;border-color:#668b89}.track-enable input{accent-color:var(--signal)}
+.projectbar{background:var(--surface-dark);border:1px solid var(--line);padding:9px 12px;border-radius:3px}.project-name input{background:transparent;border:0;font-size:12px}.projectbar button{min-height:28px}.workspace-heading{margin:4px 0}.workspace-heading h2{font-size:18px;font-weight:500;letter-spacing:-.5px}.session-controls{padding:12px;background:var(--panel);border:1px solid var(--line);border-radius:3px;gap:10px}.session-controls .field label{font-size:10px;color:var(--dim)}.session-controls select,.session-controls input{min-height:32px;font-size:12px}.composition-strip{gap:8px}.composition-strip label{color:var(--dim)}.performance-bar{background:var(--panel);border-color:var(--line);border-left:3px solid #a5dbe8;border-radius:3px;padding:8px 10px}.performance-bar label{color:var(--bone)}.performance-bar>span{color:var(--dim)}.advanced{background:var(--panel);border-color:var(--line);border-radius:3px}.daw-toolbar{background:var(--surface-dark);border:1px solid var(--line);padding:7px;border-radius:3px}.daw-toolbar button{min-height:28px}#inspector{background:var(--surface-dark);border-color:var(--line)}#inspector .part-body{background:none}#inspector h2{font-size:18px}
+#vocalDrawer,#discoveryLab{background:var(--panel);border-radius:3px}#vocalDrawer{border-color:#668b89}#discoveryLab{border-color:#79728f}#discoveryLab>summary,#vocalDrawer>summary{padding:10px 12px;font-size:11px}.discovery-body{background:var(--surface-dark)}.discovery-card{background:var(--panel);border-color:var(--line);border-top-color:var(--recipe);border-radius:3px}.discovery-card h3{font-size:16px}.blend-track{background:var(--panel)}
+.rollbox{background:var(--surface-dark);border:1px solid var(--line);border-radius:3px;padding:10px}.roll-title{background:var(--panel);margin:-10px -10px 9px;padding:9px 10px;border-bottom:1px solid var(--line);font-size:10px}.roll-title select{font-size:10px}.tool-view{background:var(--ink)}.tool-card,.arr-row,.section-export,.synth-panel,.channel{background:var(--panel);border-color:var(--line);border-radius:3px}.arr-director{background:var(--panel);border-color:var(--line);border-left-color:var(--signal);border-radius:3px}.arr-overview{background:var(--surface-dark);border-color:var(--line);border-radius:3px}.arr-clip{background:#4b5144;border-color:#727e5d;border-radius:2px}.arr-clip small{color:#d4dfbd}.arr-settings input{background:var(--surface-input)}.channel{border-top-color:var(--track)}.signal-path{border-color:var(--line)}.tool-view h2{font-weight:500;letter-spacing:-.5px}
+.scene-rack{background:var(--surface-dark);border:1px solid var(--line);border-radius:3px}.scene-rack>summary{cursor:pointer;padding:10px 12px;font-size:11px;color:var(--bone);letter-spacing:.3px}.scene-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:10px}.scene-slot{min-width:0;background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--scene,#a5dbe8);border-radius:2px;padding:10px}.scene-slot:nth-child(2){--scene:#ecb27c}.scene-slot:nth-child(3){--scene:#b1a1d7}.scene-slot:nth-child(4){--scene:#8ed0b0}.scene-slot input{width:100%;min-width:0;font-size:12px;min-height:29px}.scene-slot button{font-size:10px;min-height:30px;padding:4px 7px}.scene-slot p,.scene-slot small{font-size:10px;line-height:1.5;color:var(--dim)}.scene-slot .action-row{gap:4px;flex-wrap:wrap;margin-top:8px}.scene-rack>.hint,.scene-rack>[role=status]{padding:0 10px 10px;margin:0;font-size:11px;color:var(--dim)}
+@media(max-width:1190px){.wrap,.inspector-closed .wrap{grid-template-columns:265px minmax(0,1fr)}.skin-control span{display:none}.scene-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:760px){header{padding:9px 12px 0;gap:8px}.skin-control{order:0}.topnav{order:2;flex-basis:100%;height:40px}.topnav button{height:40px;padding:0 11px;font-size:10px;min-height:40px}.studio-dock{padding:9px 12px;gap:7px}.transport{gap:5px}.transport button{min-height:36px}.wrap,.inspector-closed .wrap{display:flex}.wrap>aside{padding:12px 10px}main{padding:14px 10px;gap:11px}.session-controls{grid-template-columns:1fr 1fr;padding:10px}.performance-bar>span{font-size:10px}.scene-grid{gap:5px;padding:8px}.scene-slot{padding:8px}.scene-slot .action-row{flex-direction:column;align-items:stretch}.scene-slot button{min-height:34px}.projectbar{padding:8px}.skin-control select{min-height:30px}.roll-title{flex-wrap:wrap}#inspector{background:var(--surface-dark)}}
+.scene-rack>summary{display:flex;align-items:center;gap:8px}.scene-rack>summary>span{margin-left:auto;color:var(--dim);font:10px monospace}.scene-head{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:12px 12px 0;border-top:1px solid var(--line)}.scene-head strong{display:block;font-size:13px;font-weight:500;margin-top:5px}.scene-head p{max-width:310px;font-size:11px;color:var(--dim);line-height:1.6}.scene-number{font:10px monospace;color:var(--scene,#a5dbe8);margin-bottom:8px}.scene-actions{display:flex;flex-wrap:wrap;gap:4px;margin-top:10px}.scene-slot.empty{border-top-color:var(--line);background:transparent}.scene-slot.empty input{background:transparent;border-style:dashed}.scene-slot.empty button.primary{background:var(--panel-2);color:var(--dim);border-color:var(--line)}@media(max-width:760px){.scene-head{align-items:start;flex-direction:column;gap:4px}.scene-head p{margin:0}.scene-actions{flex-direction:column}.scene-actions button{width:100%}}
+.scene-slot>svg[viewBox]{width:100%;height:48px;display:block;background:var(--surface-dark);margin-top:9px;border-radius:2px}.scene-slot>small{display:block;margin-top:6px;font:9px monospace}.scene-slot.empty:has(input)::after{content:'Lege clipplaats';display:block;padding:16px 0 6px;font:10px monospace;color:var(--dim)}
+.scene-stats{display:block;font:9px monospace;color:var(--dim);margin-top:8px;line-height:1.6}.scene-slot.empty:has(input)::after{display:none}
+
+.scene-actions button svg{width:13px;height:13px;margin:0;background:none;flex-shrink:0}
+
+/* 3.0 / composition surface: mineral graphite, sea-glass highlights and coral markers. */
+:root{--ink:#1b2429;--panel:#253137;--panel-2:#303e45;--line:#435359;--bone:#eef5f2;--dim:#adbfbe;--signal:#bdf5df;--steel:#9dcfef;--surface-dark:#151e23;--surface-input:#1c292e;--surface-hover:#3b4c52;--coral:#ffac96;--radius:7px}
+:root[data-skin=night]{--ink:#10191e;--panel:#1b272d;--panel-2:#28363d;--line:#3d5058;--bone:#eef6f4;--dim:#aec0c2;--surface-dark:#0e161a;--surface-input:#132128;--surface-hover:#33474e}
+body{font-family:Inter,'Segoe UI',Arial,sans-serif;background:var(--ink)}header{min-height:72px;padding:0 22px;background:var(--surface-dark);border-bottom-color:#5a79734a}header h1{display:flex;align-items:center;gap:10px}.studio-mark{width:40px;height:40px;flex-shrink:0}.studio-wordmark{font-size:18px;letter-spacing:1px;font-weight:700!important;line-height:1.1}.studio-wordmark>span{font-weight:300!important;color:var(--signal)}.studio-wordmark small{display:block;font-size:7px;letter-spacing:2.2px;color:var(--dim);margin-top:6px;font-weight:400}.topnav{height:72px;gap:5px}.topnav button{height:42px;border-radius:6px;font-size:11px;letter-spacing:.2px}.topnav button[aria-selected=true]{border:1px solid #61877d;background:#2e4943;color:var(--signal)}.skin-control select{border-radius:20px;padding:5px 12px}.studio-dock{background:var(--surface-dark);border-bottom:1px solid var(--line);padding:9px 22px}.transport-readout{border:0;background:var(--panel);border-radius:6px}.transport-readout output{font-size:22px;letter-spacing:3px}.status-led{background:var(--coral)}.transport button{border-radius:5px}#play{color:var(--signal)}button.primary,#generate,#exportAll{background:var(--signal);border-color:var(--signal);color:#16352e;border-radius:5px}button.primary:hover,#generate:hover{background:#d4ffed;color:#16352e}button:hover{border-color:#76958d}button,input,select{border-radius:5px}button:focus-visible,input:focus-visible,select:focus-visible{outline-color:var(--coral)}
+main{padding:22px;gap:14px;background:radial-gradient(ellipse at 100% 0%,#7acdb20b,transparent 65%),var(--ink)}.wrap>aside{background:var(--surface-dark);padding:18px 10px}.part{border-radius:5px}.part.active{background:var(--panel);border-right-color:transparent;border-top-color:transparent;border-bottom-color:transparent}.part.selected{background:#31464d;border-color:#729e98}.part-top .ms{border-radius:3px}.part-top [data-lock][aria-pressed=true]{background:#455b4b;border-color:#85a785;color:#d5f3ba}.track-name{letter-spacing:.1px}.part-group{color:#adc0c0;font-size:8px;letter-spacing:1.5px}.track-search input{border-radius:5px}.vocal-track{border-color:#547d72;border-radius:6px;background:linear-gradient(120deg,#2b4640,var(--panel))}.vocal-track #tab-vocal{background:#375b50;border-color:#608b7c}.projectbar{padding:7px 10px;background:transparent;border:0;border-bottom:1px solid var(--line);border-radius:0}.project-name .eyebrow{font-size:8px}.project-name input{font-size:12px}.projectbar button{background:transparent}.workspace-heading{display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:center;margin:6px 0}.studio-kicker{grid-column:1;display:block;font-size:8px;letter-spacing:2px;color:var(--coral);padding-bottom:4px}.workspace-heading h2{grid-column:1;font-size:28px;line-height:1.15;font-weight:400;letter-spacing:-1.1px}.workspace-heading h2 em{font-style:normal;color:var(--signal)}.workspace-heading .action-row{grid-column:2;grid-row:1 / span 2}.workspace-heading .action-row #generate{padding:10px 18px;font-size:12px}.session-controls{border:0;background:var(--panel);border-radius:7px;padding:13px}.session-controls .field label{font-size:9px}.composition-strip{font-size:10px}.performance-bar{border:0;background:transparent;border-left:2px solid var(--steel);padding:3px 10px}.advanced{background:transparent;border:0}.advanced>summary{font-size:10px;padding:7px 0}.daw-toolbar{border:0;background:transparent;padding:0}.daw-toolbar button{background:var(--panel);border-color:var(--line)}.rollbox{border:1px solid #56746b;background:var(--surface-dark);border-radius:9px;padding:12px;box-shadow:0 8px 30px #00000016}.roll-title{background:var(--panel);margin:-12px -12px 0;padding:10px 12px;border-radius:8px 8px 0 0;border-bottom:1px solid var(--line)}#rollViewport{margin-top:10px}#editingTray{background:var(--panel);margin:0 -12px;padding:14px 16px 12px;border-bottom:1px solid var(--line)}.editing-heading{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:12px}.editing-heading .eyebrow{font-size:7px;letter-spacing:1.8px;color:var(--coral)}.editing-heading h3{margin:4px 0 0;font-size:15px;font-weight:400;letter-spacing:-.4px}.editing-tabs{display:flex;gap:4px;flex-wrap:wrap}.editing-tabs button{display:flex;gap:6px;align-items:center;font-size:10px;min-height:32px;background:var(--surface-dark);border:1px solid transparent;padding:6px 9px;color:var(--dim)}.editing-tabs button>span{font:8px monospace;color:var(--coral)}.editing-tabs button[aria-selected=true]{background:#bdf5df17;border-color:#6c9c8c;color:var(--signal)}#editingPanels>section,#editingPanels>details{border:0;background:transparent;padding:0;margin:0}#editingPanels>details>summary{display:none}#editingPanels h2,#editingPanels h3{font-size:13px;font-weight:500;margin:4px 0 9px}#editingPanels p{font-size:11px;color:var(--dim);line-height:1.6}#editingPanels label{font-size:10px;color:var(--dim)}#editingPanels button{font-size:10px;min-height:32px;padding:6px 10px}#editingPanels input,#editingPanels select{font-size:11px;min-height:30px;max-width:100%}#editingPanels input[type=number]{max-width:72px}#editingPanels input[type=range]{accent-color:var(--signal)}#editingPanels [role=status]{font-size:11px;color:var(--signal);line-height:1.5}#editingPanels .hint{font-size:10px}#editingPanels .action-row{gap:6px;flex-wrap:wrap}.exploration-stack{display:grid;grid-template-columns:1fr;gap:7px}.exploration-stack>details{border-radius:6px;background:var(--surface-dark)}.exploration-stack>details>summary{min-height:38px;padding:9px 12px}.exploration-stack>details:not([open]){border-color:var(--line)}.exploration-stack>details:not([open])>summary{color:var(--dim)}#inspector{background:var(--surface-dark)}.scene-rack,.discovery-card,.scene-slot{border-radius:5px}.tool-card,.synth-panel,.arr-row{border-radius:7px}.arr-director{background:linear-gradient(110deg,#37554b,var(--panel));border-radius:7px}.channel{border-radius:5px}.tool-view h2{font-size:27px;letter-spacing:-1px}
+#rollViewport{position:relative}.sculptor-controls,.groove-controls,.conversation-controls{display:flex;align-items:end;flex-wrap:wrap;gap:9px}.sculptor-controls label,.groove-controls label,.conversation-controls label{display:flex;flex-direction:column;gap:5px}.sculptor-candidates{display:flex;gap:8px;flex-wrap:wrap}.sculptor-candidate{background:var(--surface-dark);border:1px solid var(--line);border-radius:5px;padding:10px;min-width:130px;flex:1}.sculptor-selection{background:#bdf5df15;border:1px solid #bdf5df99;pointer-events:none}.groove-drop{display:block;padding:14px;border:1px dashed #6a9588;border-radius:6px;background:#bdf5df06;cursor:pointer}.conversation-timeline{width:100%;height:54px;background:var(--surface-dark);border-radius:4px}
+@media(min-width:1400px){.wrap{grid-template-columns:250px minmax(0,1fr) 250px}.inspector-closed .wrap{grid-template-columns:250px minmax(0,1fr)}}@media(max-width:1190px){.editing-heading{align-items:start;flex-direction:column;gap:10px}.workspace-heading h2{font-size:25px}.workspace-heading .action-row #generate{padding:8px 11px}}@media(max-width:760px){header{padding:10px 12px 0;min-height:65px;gap:12px}.studio-mark{width:32px;height:32px}.studio-wordmark{font-size:16px}.studio-wordmark small{font-size:6px}.topnav{height:46px;gap:3px}.topnav button{height:34px;min-height:34px;padding:0 9px}.studio-dock{padding:9px 12px}.workspace-heading{grid-template-columns:1fr}.workspace-heading h2{font-size:26px}.workspace-heading .action-row{grid-column:1;grid-row:3;justify-content:flex-start;margin-top:7px}.studio-kicker{font-size:7px}main{padding:15px 10px;gap:12px}.session-controls{padding:10px}.editing-heading h3{font-size:16px}.editing-tabs{width:100%;gap:4px}.editing-tabs button{flex:1;min-width:0;justify-content:center;font-size:9px;padding:7px 5px;line-height:1.3}.editing-tabs button span{display:none}#editingTray{padding:12px}.rollbox{padding:10px}.roll-title{margin:-10px -10px 0}#editingTray{margin:0 -10px}#editingPanels .action-row{gap:5px}#editingPanels input[type=file]{width:100%;font-size:10px}#editingPanels svg{max-width:100%}.sculptor-candidates{flex-direction:column}.performance-bar>span{font-size:9px}.tool-view h2{font-size:23px}}
+.sculpt-controls{display:flex;gap:8px;flex-wrap:wrap;align-items:end}.sculpt-controls label{display:flex;flex-direction:column;gap:5px}#sculptCards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-top:10px}.sculpt-card{padding:10px;background:var(--surface-dark);border:1px solid var(--line);border-radius:5px;min-width:0}.sculpt-card strong,.sculpt-card small{display:block}.sculpt-card strong{font-size:12px;font-weight:500;margin:6px 0}.sculpt-card small{font-size:10px;color:var(--dim);line-height:1.5}.sculpt-card>div{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}#sculptSelectionOverlay{position:absolute;top:0;bottom:0;pointer-events:none;z-index:2;background:#bdf5df0b;border-left:1px solid #bdf5df99;border-right:1px solid #bdf5df99}#sculptSelectionOverlay::before{content:attr(data-label);position:absolute;top:5px;left:5px;font:9px monospace;color:#bdf5df;background:#16282ee6;padding:3px 5px;border-radius:3px}.midi-drop{display:flex;flex-direction:column;gap:7px;padding:12px;border:1px dashed #739e8e;border-radius:6px;background:#bdf5df05}.midi-drop strong{font-size:12px;color:var(--signal)}.midi-drop span{font-size:10px}.groove-file-meta{display:flex;flex-direction:column;gap:5px;font-size:10px;margin:10px 0;color:var(--dim);overflow-wrap:anywhere}.groove-file-meta strong{color:var(--bone)}.groove-actions{display:flex;flex-wrap:wrap;gap:6px}.conversation-head{display:flex;align-items:start;justify-content:space-between;gap:12px}.conversation-head-actions{display:flex;align-items:center;flex-wrap:wrap;gap:7px}.conversation-badge{font-size:10px;color:var(--coral)}.conversation-badge.ready{color:var(--signal)}.conversation-timeline{height:auto;padding:8px;margin:9px 0}.conversation-lane{height:24px;position:relative;overflow:hidden;background:#17232a;border-radius:3px}.conversation-lane i{position:absolute;top:4px;height:16px;border-radius:2px}.conversation-lane .voice{background:#bdf5df}.conversation-lane .rest{background:#9aabdc66;border:1px solid #9aabdc99}.conversation-legend{display:flex;gap:12px;font-size:9px;color:var(--dim);margin-top:6px;flex-wrap:wrap}.conversation-legend span{display:flex;align-items:center;gap:4px}.conversation-legend i{width:6px;height:6px;background:#bdf5df}.conversation-legend i.rest{background:#9aabdc}.conversation-legend b{font-weight:400;margin-left:auto}.conversation-targets{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 12px}.conversation-targets label{display:flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:4px;padding:6px}.conversation-targets label span{color:var(--track)}.conversation-label{font-size:9px;color:var(--dim)}.conversation-range input{width:180px}.conversation-mismatch{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:8px;background:#ffac9610;font-size:10px;color:var(--coral);margin:8px 0}@media(max-width:760px){#sculptCards{grid-template-columns:1fr}.sculpt-controls label:first-child{flex:1}.conversation-head{flex-direction:column}.conversation-head-actions{width:100%}.conversation-range input{width:100%}.conversation-legend b{margin-left:0}.groove-controls label{max-width:100%;min-width:0}.groove-controls select{width:100%}.groove-controls{flex-direction:column;align-items:stretch}}
 
 </style>
 </head>
@@ -159,7 +194,7 @@ header{min-height:62px;padding:0 22px;gap:26px;border-bottom:1px solid #2f353d;f
     <button id="tab-arrange" role="tab" data-view="arrange" aria-selected="false" aria-controls="view-arrange" tabindex="-1">Arrangement</button>
     <button id="tab-vocal" role="tab" data-view="vocal" aria-selected="false" aria-controls="view-vocal" tabindex="-1">Vocal Room</button>
   </nav>
-  <div class="version"><b>LOCAL STUDIO</b> / v2.3</div>
+  <div class="version"><b>LOCAL STUDIO</b> / v3.0</div>
 </header>
 <section id="view-generator" role="tabpanel" aria-labelledby="tab-generator">
 
@@ -2041,7 +2076,7 @@ function rhythmVariation(part,bars,seed,strength='explore',scaleSteps=[0,2,3,5,7
  const rand=composeRandom(seed+':'+part.id),total=bars*1920,poly=['chords','pad','harmony'].includes(part.id),drums=part.id==='drums',mono=!poly&&!drums;
  if(!part.events.length)return {...part,events:[]};
  const choose=a=>a[Math.floor(rand()*a.length)],patterns=[[0,3,6,10,12],[2,6,10,14],[0,7,10],[0,4,8,12],[0,3,8,11,14],[0,6,12],[0,2,3,8,10,11],[0,8],[0,5,9,14],[0,1,6,8,9,14],[0,4,7,10,12,15],[0]];
- let result=[];const scale=[];for(let n=12;n<116;n++)if(scaleSteps.includes((n-root+120)%12))scale.push(n);
+ let result=[];const baseRhythm=choose(patterns),scale=[];for(let n=12;n<116;n++)if(scaleSteps.includes((n-root+120)%12))scale.push(n);
  const snap=n=>scale.reduce((best,v)=>Math.abs(v-n)<Math.abs(best-n)?v:best,scale[0]);
  for(let bar=0;bar<bars;bar++){
   const start=bar*1920,original=part.events.filter(e=>e.tick<start+1920&&e.tick+e.dur>start);if(!original.length)continue;
@@ -2049,7 +2084,9 @@ function rhythmVariation(part,bars,seed,strength='explore',scaleSteps=[0,2,3,5,7
    original.filter(e=>e.tick>=start).forEach((e,i)=>{const anchor=drums&&[36,38,39].includes(e.midi);const shift=anchor?0:choose([-120,0,0,120]);const tick=Math.max(start,Math.min(start+1800,e.tick+shift));result.push({...e,tick,dur:e.dur*choose([.55,.8,1.25])});if(!anchor&&rand()>(strength==='subtle'?.88:.56)&&tick+180<start+1920)result.push({...e,tick:tick+180,dur:Math.min(e.dur*.45,120),vel:e.vel*.8});});if(drums&&strength!=='subtle'&&bar%2===1){const hit=original.find(e=>[38,39].includes(e.midi))||original[0];result.push({...hit,tick:start+choose([1560,1680,1800]),dur:90,vel:hit.vel*.7});}continue;
   }
   const groups=[];original.forEach(e=>{const t=Math.max(start,Math.round(e.tick/30)*30);let g=groups.find(g=>Math.abs(g.tick-t)<=30);if(!g){g={tick:t,events:[]};groups.push(g);}g.events.push(e);});groups.sort((a,b)=>a.tick-b.tick);
-  const rhythm=choose(patterns),gate=choose(part.id==='pad'?[.6,.85,1]:[.28,.5,.72,.95]);
+  // Repeat a rhythmic motif on alternating bars; the intervening bars can answer it.
+  // This keeps discovery broad without making every measure feel unrelated.
+  const rhythm=bar%2===0||rand()<(strength==='wild'?.22:.5)?baseRhythm:choose(patterns),gate=choose(part.id==='pad'?[.6,.85,1]:[.28,.5,.72,.95]);
   rhythm.forEach((step,i)=>{const tick=start+step*120,until=start+(rhythm[i+1]??16)*120;const group=groups.reduce((best,g)=>Math.abs(g.tick-tick)<Math.abs(best.tick-tick)?g:best,groups[0]);const notes=poly?group.events:[choose(group.events)];
    notes.forEach((e,j)=>{let midi=e.midi;if(!poly&&part.id!=='kick'&&rand()>.55){const index=scale.indexOf(snap(midi));midi=scale[Math.max(0,Math.min(scale.length-1,index+choose(strength==='wild'?[-4,-2,2,4,7]:[-2,0,1,2])))];}const strum=poly&&strength==='wild'?j*15:0;result.push({tick:tick+strum,dur:Math.max(30,(until-tick)*gate-strum),midi,vel:e.vel+Math.floor(rand()*15)-7});});
   });
@@ -2060,7 +2097,7 @@ function rhythmVariation(part,bars,seed,strength='explore',scaleSteps=[0,2,3,5,7
 function relateParts(clip,targets,mode='space',locked={}){
  if(mode==='off')return clip;const total=clip.meta.bars*1920,lead=clip.parts.find(p=>p.id==='lead')||clip.parts.find(p=>p.id==='melody'),chords=clip.parts.find(p=>p.id==='chords')||clip.parts.find(p=>p.id==='pad'),kick=clip.parts.find(p=>p.id==='kick')||clip.parts.find(p=>p.id==='drums');
  clip.parts.forEach(p=>{if(!targets.includes(p.id)||locked[p.id])return;
-  if(p.id==='bass'&&chords?.events.length){p.events=p.events.map(e=>{const active=chords.events.filter(c=>c.tick<=e.tick&&c.tick+c.dur>e.tick);if(!active.length)return e;const root=Math.min(...active.map(c=>c.midi))%12;return {...e,midi:36+root};});}
+  if(p.id==='bass'&&chords?.events.length){p.events=p.events.map(e=>{const active=chords.events.filter(c=>c.tick<=e.tick&&c.tick+c.dur>e.tick);if(!active.length)return e;const pcs=[...new Set(active.map(c=>(c.midi%12+12)%12))];let root=pcs[0];for(const pc of pcs)if((pcs.includes((pc+3)%12)||pcs.includes((pc+4)%12))&&pcs.includes((pc+7)%12)){root=pc;break;}let midi=e.midi+((root-e.midi%12+18)%12-6);while(midi<28)midi+=12;while(midi>52)midi-=12;return {...e,midi};});}
   if(p.id==='bass'&&mode==='space'&&kick){p.events=p.events.map(e=>kick.events.some(k=>Math.abs(k.tick-e.tick)<50)?{...e,tick:e.tick+120,dur:Math.max(30,e.dur-120)}:e);}
   if(lead&&['screech','darkmelody','pluck','arp'].includes(p.id)&&p.id!==lead.id&&mode==='space'){
    const reduced=p.events.filter(e=>!lead.events.some(l=>e.tick<l.tick+Math.min(l.dur,360)&&e.tick+e.dur>l.tick));if(reduced.length)p.events=reduced;
@@ -2076,6 +2113,8 @@ function vocalHarmony(segments,root,steps,bpm,offset,duration){
  }return chords;
 }
 function guidedVocalParts(segments,ids,root,steps,bpm,offset,duration,mode='follow',seed='vocal'){
+ bpm=Number.isFinite(bpm)&&bpm>0?bpm:120;offset=Number.isFinite(offset)?Math.max(0,offset):0;duration=Number.isFinite(duration)?Math.max(0,duration):0;
+ segments=(Array.isArray(segments)?segments:[]).filter(s=>Number.isFinite(s.start)&&Number.isFinite(s.end)&&Number.isFinite(s.midi)&&s.end>s.start).map(s=>({start:Math.max(0,s.start),end:Math.min(duration,s.end),midi:Math.max(0,Math.min(127,Math.round(s.midi)))})).filter(s=>s.end>s.start).sort((a,b)=>a.start-b.start||a.end-b.end);
  const harmony=vocalHarmony(segments,root,steps,bpm,offset,duration),bars=harmony.length,total=bars*1920,ts=bpm*8,rand=composeRandom(seed),out=[];
  const pitch=(n)=>{let best=-1000;for(let m=24;m<96;m++)if(steps.includes((m-root+120)%12)&&Math.abs(m-n)<Math.abs(best-n))best=m;return best;};
  const sounds=ids.filter(id=>!['drums','kick'].includes(id));
@@ -2085,7 +2124,7 @@ function guidedVocalParts(segments,ids,root,steps,bpm,offset,duration,mode='foll
   }else if(mode==='answer'){
    // Answer only in measured gaps. Never fall back to playing over the singer.
    let end=0;const gaps=[];segments.forEach(s=>{if(s.start-end>.24)gaps.push([end,s.start]);end=Math.max(end,s.end);});if(duration-end>.24)gaps.push([end,duration]);
-   gaps.forEach(([a,b],i)=>{const source=segments.filter(s=>s.end<=a+.02).slice(-1)[0]||segments[0],gap=b-a;for(let n=0;n<Math.min(4,Math.floor(gap/.16));n++){const st=a+.04+n*.16;if(st+.11>b-.02)break;events.push({tick:Math.round((st+offset)*ts),dur:Math.round(.11*ts),midi:pitch(source.midi-7+(n%2?2:0)),vel:82});}});
+   gaps.forEach(([a,b])=>{const source=segments.filter(s=>s.end<=a+.02).slice(-1)[0]||segments.find(s=>s.start>=b-.02),sourceMidi=source?.midi??(60+root),gap=b-a;for(let n=0;n<Math.min(4,Math.floor(gap/.16));n++){const st=a+.04+n*.16;if(st+.11>b-.02)break;events.push({tick:Math.round((st+offset)*ts),dur:Math.round(.11*ts),midi:pitch(sourceMidi-7+(n%2?2:0)),vel:82});}});
   }else{
    segments.forEach((s,i)=>{if(id==='arp'&&i%2)return;events.push({tick:Math.round((s.start+offset)*ts),dur:Math.max(1,Math.round((s.end-s.start)*ts*(id==='pluck'?.45:.82))),midi:pitch(s.midi-(id==='lead'?0:5)),vel:Math.round(82+rand()*13)});});
   }
@@ -2162,6 +2201,7 @@ function paintMS(){
 }
 
 function handlePartClick(e){
+  if(e.target.closest('.track-enable'))return;
   const edit=e.target.closest('[data-edit]');
   if(edit&&typeof selectInstrument==='function'){selectInstrument(edit.dataset.edit);return;}
   if(e.target.closest('[data-lock],[data-select-track]'))return;
@@ -3160,7 +3200,7 @@ function cleanPatch(p={}){return {wave:['sine','triangle','sawtooth','square'].i
 function cleanStudioState(x={}){
   if(!x||typeof x!=='object')x={};const mix={},patches={};
   PART_ORDER.forEach(id=>{mix[id]={volume:bound(x.mixer?.[id]?.volume,0,100,80),pan:bound(x.mixer?.[id]?.pan,-100,100,0)};if(x.patches?.[id])patches[id]=cleanPatch(x.patches[id]);});
-  const sections=Array.isArray(x.sections)?x.sections.slice(0,16).map(s=>({name:String(s.name||'Sectie').slice(0,30),bars:Math.round(bound(s.bars,1,32,8)),gain:bound(s.gain,.2,1.2,1),variation:['subtle','explore','wild'].includes(s.variation)?s.variation:'same',parts:Array.isArray(s.parts)?s.parts.filter(id=>PART_ORDER.includes(id)):[]})):[];
+  const sections=Array.isArray(x.sections)?x.sections.slice(0,16).map(s=>({name:String(s.name||'Sectie').slice(0,30),bars:Math.round(bound(s.bars,1,32,8)),gain:bound(s.gain,.2,1.2,1),variation:['subtle','explore','wild'].includes(s.variation)?s.variation:'same',transition:['breath','roll'].includes(s.transition)?s.transition:'none',parts:Array.isArray(s.parts)?s.parts.filter(id=>PART_ORDER.includes(id)):[]})):[];
   return {mixer:mix,patches,sections,session:cleanSessionConfig(x.session)};
 }
 function studioState(){return {mixer:clone(mixer),patches:clone(soundPatches),sections:clone(arrSections),session:clone(sessionConfig)};}
@@ -3252,7 +3292,7 @@ function cleanClip(c){
     return {id:p.id,label:PART_DEFS[p.id].label,colour:PART_DEFS[p.id].colour,events,part:{bars:[],rhythmLabel:c.vocalTiming?'Vocal timing':'Bewaarde take'}};});
   const progression=PROGRESSIONS.find(p=>p.id===c.meta.progression?.id)||PROGRESSIONS[0];
   const marks=Array.isArray(c.meta.marks)?c.meta.marks.slice(0,16).map(m=>({bar:Math.round(bound(m.bar,0,bars-1,0)),bars:Math.round(bound(m.bars,1,32,8)),label:String(m.label||'Sectie').slice(0,30)})):null;
-  return {parts,bpm,arrangement:!!c.arrangement,customEdit:!!c.customEdit,vocalMode:['follow','answer','support'].includes(c.vocalMode)?c.vocalMode:undefined,vocalTiming:!!c.vocalTiming,vocalOffset:bound(c.vocalOffset,0,30,0),meta:{bars,bpm,progression,root:Math.round(bound(c.meta.root,0,11,0)),seed:String(c.meta.seed||''),scale:c.meta.scale||SCALES.aeolian,...(marks?{marks}:{}),...(c.arrangement?{structure:{id:'custom',label:'Bewaard arrangement'}}:{})}};
+  return {parts,bpm,arrangement:!!c.arrangement,customEdit:!!c.customEdit,vocalMode:['follow','answer','support'].includes(c.vocalMode)?c.vocalMode:undefined,vocalTiming:!!c.vocalTiming,vocalOffset:bound(c.vocalOffset,0,30,0),meta:{bars,bpm,progression,root:Math.round(bound(c.meta.root,0,11,0)),seed:String(c.meta.seed||'').slice(0,120),scale:Object.values(SCALES).find(s=>JSON.stringify(s.steps)===JSON.stringify(c.meta.scale?.steps))||SCALES.aeolian,...(marks?{marks}:{}),...(c.arrangement?{structure:{id:'custom',label:'Bewaard arrangement'}}:{})}};
 }
 
 function refreshProduction(){
@@ -3369,7 +3409,7 @@ function safelyVocalDuration(){return vocalBuffer?.duration||vocalAnalysis?.dura
 function renderVocalEditor(){const seg=vocalAnalysis?.segments||[];$('vocalNoteCount').textContent=seg.length?' · '+seg.length+' noten':'';$('vocalNotesEditor').innerHTML=seg.slice(0,600).map((s,i)=>'<div class="vocal-note-row"><span>'+String(i+1).padStart(2,'0')+'</span><label>Begin <input type="number" step=".01" min="0" data-note-index="'+i+'" data-note-key="start" value="'+s.start.toFixed(3)+'"></label><label>Einde <input type="number" step=".01" min="0" data-note-index="'+i+'" data-note-key="end" value="'+s.end.toFixed(3)+'"></label><label>Pitch <input type="number" min="24" max="96" step="1" data-note-index="'+i+'" data-note-key="midi" value="'+s.midi+'"></label><span>'+midiName(s.midi)+'</span><button data-remove-note="'+i+'" aria-label="Zangnoot '+(i+1)+' verwijderen">×</button></div>').join('')||'<p class="hint">Nog geen zangnoten. Analyseer eerst je vocal.</p>';$('vocalAddNote').disabled=!vocalAnalysis;drawVocalNotes();}
 function drawVocalNotes(){if(!$('vocalAligned'))return;const segments=vocalAnalysis?.segments||[];for(const id of ['vocalNotesLane','vocalAligned']){const c=$(id),g=c.getContext('2d'),w=c.clientWidth||600;c.width=w;c.height=id==='vocalAligned'?76:120;g.clearRect(0,0,w,c.height);if(!segments.length)continue;const aligned=id==='vocalAligned',offset=aligned?(current?.vocalOffset||0):0,duration=aligned&&current?current.meta.bars*240/current.bpm:safelyVocalDuration();const lo=Math.min(...segments.map(s=>s.midi))-1,hi=Math.max(...segments.map(s=>s.midi))+1;g.fillStyle='#80d7c3';segments.forEach(s=>{const left=aligned?48:8,width=w-left;g.fillRect(left+(s.start+offset)/duration*width,8+(hi-s.midi)/(hi-lo)*(c.height-20),Math.max(2,(s.end-s.start)/duration*width),4);});}}
 $('vocalCorrections').addEventListener('toggle',drawVocalNotes);drawer.addEventListener('toggle',()=>{drawVocalWave();drawVocalNotes();});
-function cleanSessionConfig(s={}){return {strength:['subtle','explore','wild'].includes(s?.strength)?s.strength:'explore',relation:['off','harmonic','space'].includes(s?.relation)?s.relation:'space',locks:Object.fromEntries(PART_ORDER.filter(id=>s?.locks?.[id]).map(id=>[id,true]))};}
+function cleanSessionConfig(s={}){return {performance:['off','natural','pocket','bold'].includes(s?.performance)?s.performance:'natural',strength:['subtle','explore','wild'].includes(s?.strength)?s.strength:'explore',relation:['off','harmonic','space'].includes(s?.relation)?s.relation:'space',locks:Object.fromEntries(PART_ORDER.filter(id=>s?.locks?.[id]).map(id=>[id,true]))};}
 function toggleTrackLock(id){if(!current?.parts.some(p=>p.id===id))return;sessionConfig.locks[id]=!sessionConfig.locks[id];renderSession();saveToHash();rememberTake();}
 function sessionMessage(text){if($('sessionNotice'))$('sessionNotice').textContent=text;}
 function renderSession(){if(!sessionReady)return;
@@ -3392,7 +3432,7 @@ function renderSession(){if(!sessionReady)return;
  drawVocalNotes();
 }
 function finishSession(clip,message){const was=playing;stopAudio();current=clip;baseLoop=clone(clip);redrawCurrent();rememberTake();logEntry();renderSession();sessionMessage(message);if(was)playAll();}
-function varySession(id){if(!current)return;const targets=current.parts.filter(p=>(!id||p.id===id)&&!sessionConfig.locks[p.id]).map(p=>p.id);if(!targets.length){sessionMessage('Alle gekozen tracks zijn vastgezet.');return;}const seed=newSeed(),clip=clone(current);clip.parts=clip.parts.map(p=>targets.includes(p.id)?rhythmVariation(p,clip.meta.bars,seed,sessionConfig.strength,clip.meta.scale.steps,clip.meta.root):p);relateParts(clip,targets,sessionConfig.relation,sessionConfig.locks);clip.customEdit=true;clip.meta.seed=seed;$('seed').value=seed;finishSession(clip,(id?PART_DEFS[id].label:targets.length+' tracks')+' · nieuw ritme en nieuwe lengtes. Andere tracks blijven behouden.');}
+function varySession(id){if(!current)return;const targets=current.parts.filter(p=>(!id||p.id===id)&&!sessionConfig.locks[p.id]).map(p=>p.id);if(!targets.length){sessionMessage('Alle gekozen tracks zijn vastgezet.');return;}const seed=newSeed(),clip=clone(current);clip.parts=clip.parts.map(p=>targets.includes(p.id)?rhythmVariation(p,clip.meta.bars,seed,sessionConfig.strength,clip.meta.scale.steps,clip.meta.root):p);relateParts(clip,targets,sessionConfig.relation,sessionConfig.locks);if(typeof performClip==='function'){const performed=performClip(clip,targets);clip.parts=performed.parts;}clip.customEdit=true;clip.meta.seed=seed;$('seed').value=seed;finishSession(clip,(id?PART_DEFS[id].label:targets.length+' tracks')+' · nieuw ritme en nieuwe lengtes. Andere tracks blijven behouden.');}
 function afterSessionGeneration(previous){if(!sessionReady)return;sessionMessage('');const locked=sessionConfig.locks;current.parts=current.parts.map(p=>locked[p.id]&&previous?.parts.some(x=>x.id===p.id)?clone(previous.parts.find(x=>x.id===p.id)):p);if(Object.values(locked).some(Boolean))current.customEdit=true;}
 function makeVocalSession(fromGenerator=false){
  if(!vocalAnalysis?.segments.length||!vocalBuffer){sessionMessage('Analyseer eerst een vocal.');return;}
@@ -3437,6 +3477,778 @@ $('vocalMode').parentElement.nextElementSibling.textContent='Zangnoten sturen de
 $('vocalContent').querySelectorAll('.sound-strip').forEach(row=>{if(!row.children.length)row.remove();});
 $('vocalScale').closest('.tool-card').appendChild($('keyCandidates')); // Keep alternate keys nearby but out of the main step order.
 $('inspector').addEventListener('keydown',e=>{if(e.key==='Escape'){document.body.classList.add('inspector-closed');document.querySelector('[data-select-track="'+selectedInstrument+'"]')?.focus();}});
+
+/* Portable session files and conservative local recovery. Audio stays in RAM. */
+const RECOVERY_KEY='midiroom.recovery.v1';
+let pendingRecovery=null,recoveryBlocked=false,recoveryTimer=null;
+function cleanProject(raw){
+ if(!raw||raw.format!=='MIDIROOM-project'||raw.version!==1||!raw.session)throw new Error('Dit is geen ondersteund MIDIROOM-project.');
+ const s=raw.session,state=normalizeState(s.state),clip=cleanClip(s.clip),source=cleanClip(s.source);
+ if(!clip||!clip.parts.length)throw new Error('Het project bevat geen MIDI-tracks.');
+ // Make control metadata agree with the exact clip, avoiding stale URL settings.
+ state.r=String(clip.meta.root);state.bp=String(clip.bpm);
+ const scaleId=Object.keys(SCALES).find(id=>JSON.stringify(SCALES[id].steps)===JSON.stringify(clip.meta.scale.steps));if(scaleId)state.sc=scaleId;
+ return {name:String(raw.name||'Mijn sessie').slice(0,80),saved:String(raw.saved||'').slice(0,40),session:{state,clip,source:source&&source.parts.length?source:clone(clip),linked:false}};
+}
+function projectPayload(){return {format:'MIDIROOM-project',version:1,name:$('projectName').value.trim()||'Mijn sessie',saved:new Date().toISOString(),session:{state:collectState(),clip:current,source:baseLoop||current}};}
+const projectbar=document.createElement('div');projectbar.className='projectbar';projectbar.innerHTML='<div class="project-name"><span class="eyebrow">PROJECT</span><input id="projectName" maxlength="80" aria-label="Projectnaam" value="Mijn sessie"></div><span id="projectStatus" role="status"></span><button id="saveProject" title="Bewaar noten, locks, mixer en klanken">'+icon('download')+' Bewaar project</button><button id="openProject">Open</button><input id="projectFile" type="file" accept=".json,application/json" hidden>';
+document.querySelector('.workspace-heading').before(projectbar);
+const recovery=document.createElement('div');recovery.id='recoveryBanner';recovery.hidden=true;recovery.innerHTML='<span>Vorige sessie beschikbaar.</span><button id="recoverProject">Herstel</button><button id="discardRecovery">Begin opnieuw</button>';
+projectbar.after(recovery);
+try{const stored=localStorage.getItem(RECOVERY_KEY);if(stored){if(stored.length>12*1024*1024)throw new Error('Te groot');pendingRecovery=cleanProject(JSON.parse(stored));recovery.hidden=false;$('projectStatus').textContent='Herstel vorige sessie of begin opnieuw.';}}catch(e){recoveryBlocked=true;recovery.hidden=false;recovery.firstElementChild.textContent='Lokale kopie niet leesbaar. Begin opnieuw om lokaal bewaren te hervatten.';$('recoverProject').disabled=true;$('projectStatus').textContent='Bewaar eventueel eerst je huidige project.';}
+function scheduleRecovery(){
+ if(pendingRecovery||recoveryBlocked||!current)return;
+ clearTimeout(recoveryTimer);$('projectStatus').textContent='Lokale kopie bijwerken…';
+ recoveryTimer=setTimeout(()=>{try{const payload=JSON.stringify(projectPayload());if(payload.length>12*1024*1024)throw new Error('Te groot');localStorage.setItem(RECOVERY_KEY,payload);$('projectStatus').textContent='Lokaal bewaard · audio apart';}catch(e){$('projectStatus').textContent='Lokale opslag vol of geblokkeerd. Bewaar project.';}},400);
+}
+function loadProject(project){
+ clearTimeout(recoveryTimer);stopAudio();pendingRecovery=null;recovery.hidden=true;
+ // Exact restored notes must not be overwritten by an already active vocal source.
+ vocalLinked=false;recoveryBlocked=false;historyRestoring=true;
+ try{location.hash=encodeURIComponent(JSON.stringify(project.session.state));restoreFromHash();current=clone(project.session.clip);baseLoop=clone(project.session.source);$('projectName').value=project.name;redrawCurrent();}finally{historyRestoring=false;}
+ rememberTake();scheduleRecovery();sessionMessage('Project geopend: exacte MIDI, mixer en klanken. Laad vocal-audio apart.');
+}
+$('recoverProject').onclick=()=>{if(pendingRecovery)loadProject(pendingRecovery);};
+$('discardRecovery').onclick=()=>{pendingRecovery=null;recovery.hidden=true;recoveryBlocked=false;scheduleRecovery();};
+$('projectName').onchange=scheduleRecovery;
+$('saveProject').onclick=()=>{if(!current)return;const payload=projectPayload();downloadText(JSON.stringify(payload,null,2),(payload.name.replace(/[^a-z0-9_-]/gi,'_')||'MIDIROOM')+'.midiroom.json');$('projectStatus').textContent='Project gedownload · vocal-audio apart';};
+$('openProject').onclick=()=>$('projectFile').click();
+$('projectFile').onchange=async e=>{const file=e.target.files[0];e.target.value='';if(!file)return;try{if(file.size>12*1024*1024)throw new Error('Maximaal 12 MB.');const parsed=cleanProject(JSON.parse(await file.text()));loadProject(parsed);}catch(err){$('projectStatus').textContent='Project niet geopend: '+err.message;}};
+const rememberBeforeProjects=rememberTake;rememberTake=function(){rememberBeforeProjects();if(!historyRestoring)scheduleRecovery();};
+const renderSessionBeforeProjects=renderSession;renderSession=function(){renderSessionBeforeProjects();$('saveProject').disabled=!current;};
+// Vocal controls describe pending edits until MIDI is rebuilt.
+['vocalRoot','vocalScale','vocalBpm','vocalOffset','vocalMode'].forEach(id=>$(id).addEventListener('change',()=>{if(current?.vocalTiming){$('vocalStatus').textContent='Instellingen gewijzigd. Klik Maak MIDI uit vocal om ze toe te passen.';$('vocalLaneLabel').textContent='Vocalinstellingen gewijzigd · MIDI nog niet bijgewerkt';}}));
+function vocalSettingsDirty(){return !!current?.vocalTiming&&!!vocalBuffer&&current.vocalSourceSerial===vocalSourceSerial&&(current.bpm!==Number($('vocalBpm').value)||current.meta.root!==Number($('vocalRoot').value)||JSON.stringify(current.meta.scale.steps)!==JSON.stringify(SCALES[$('vocalScale').value].steps)||(current.vocalOffset||0)!==Number($('vocalOffset').value)||current.vocalMode!==$('vocalMode').value);}
+const renderProjectSession=renderSession;renderSession=function(){renderProjectSession();if(vocalSettingsDirty()){$('vocalLaneLabel').textContent='Vocalinstellingen gewijzigd · MIDI nog niet bijgewerkt';$('vocalSummary').textContent='Wijzigingen nog toepassen';}};
+// Larger enable targets and explicit vocal transport state.
+document.querySelectorAll('[data-part]').forEach(input=>{const label=document.createElement('label');label.className='track-enable';label.title=input.getAttribute('aria-label');input.before(label);label.appendChild(input);});
+$('tab-vocal').removeAttribute('role');$('tab-vocal').removeAttribute('aria-selected');$('tab-vocal').tabIndex=0;$('tab-vocal').setAttribute('aria-controls','vocalDrawer');
+$('vocalDrawer').addEventListener('toggle',()=>$('tab-vocal').setAttribute('aria-expanded',$('vocalDrawer').open));
+const vocalTransport=document.createElement('button');vocalTransport.id='vocalTransport';vocalTransport.hidden=true;vocalTransport.title='Schakel de gekoppelde vocal in of uit';document.querySelector('.transport').appendChild(vocalTransport);
+vocalTransport.onclick=()=>{if(!$('vocalAudible').disabled){$('vocalAudible').checked=!$('vocalAudible').checked;$('vocalAudible').dispatchEvent(new Event('change'));}else selectView('vocal');};
+const renderBeforeVocalChip=renderSession;renderSession=function(){renderBeforeVocalChip();vocalTransport.hidden=!vocalBuffer;vocalTransport.innerHTML=icon('mic')+(vocalLinked?'Vocal + MIDI':'Vocal uit');vocalTransport.setAttribute('aria-pressed',!!vocalLinked);};
+
+// Undo/Redo restore snapshots without rememberTake; persist that restored choice too.
+const restoreBeforeProjects=restoreSnapshot;restoreSnapshot=function(s){restoreBeforeProjects(s);scheduleRecovery();};
+
+/* Pure MIDI discovery transforms. No DOM, audio or mutable shared state. */
+(function (scope) {
+  'use strict';
+  const BAR = 1920;
+
+  function clone(value) { return value == null ? value : JSON.parse(JSON.stringify(value)); }
+  function random(seed) {
+    let n = 2166136261;
+    for (const c of String(seed)) n = Math.imul(n ^ c.charCodeAt(0), 16777619);
+    return function () {
+      n = (n + 0x6D2B79F5) | 0;
+      let t = Math.imul(n ^ n >>> 15, n | 1);
+      t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+  function choose(rand, values) { return values[Math.floor(rand() * values.length)]; }
+  function barsOf(clip) {
+    const metaBars = Number(clip && clip.meta && clip.meta.bars);
+    if (Number.isFinite(metaBars) && metaBars > 0) return Math.max(1, Math.floor(metaBars));
+    const last = (clip && clip.parts || []).flatMap(p => p.events || []).reduce((m, e) => Math.max(m, Number(e.tick) + Number(e.dur)), 0);
+    return Math.max(1, Math.ceil(last / BAR));
+  }
+  function groups(events) {
+    const map = new Map();
+    (events || []).forEach(e => {
+      const tick = Math.round(Number(e.tick));
+      if (!Number.isFinite(tick)) return;
+      if (!map.has(tick)) map.set(tick, []);
+      map.get(tick).push(e);
+    });
+    return [...map.entries()].sort((a, b) => a[0] - b[0]).map(([tick, notes]) => ({ tick, notes }));
+  }
+  function bounded(events, total, mono) {
+    const used = new Set();
+    return (events || []).map(e => {
+      const tick = Math.max(0, Math.round(Number(e.tick) || 0));
+      return { ...e, tick, dur: Math.max(1, Math.min(Math.round(Number(e.dur) || 1), total - tick)), midi: Math.max(0, Math.min(127, Math.round(Number(e.midi) || 0))), vel: Math.max(1, Math.min(127, Math.round(Number(e.vel) || 1))) };
+    }).filter(e => e.tick < total && e.dur > 0).sort((a, b) => a.tick - b.tick || a.midi - b.midi).filter(e => {
+      const key = e.tick + ':' + (mono ? 'mono' : e.midi);
+      if (used.has(key)) return false;
+      used.add(key); return true;
+    });
+  }
+  function isPoly(id) { return ['chords', 'pad', 'harmony'].includes(id); }
+  function finish(source, parts, recipe, seed) {
+    const out = clone(source);
+    out.parts = parts;
+    out.customEdit = true;
+    out.vocalTiming = false;
+    delete out.vocalSourceSerial;
+    delete out.vocalMode;
+    out.meta = { ...(out.meta || {}), discovery: { recipe, seed: String(seed) } };
+    return out;
+  }
+  function restylePart(part, recipe, seed, bars) {
+    const rand = random(String(seed) + ':' + recipe + ':' + part.id);
+    const total = bars * BAR, sourceGroups = groups(part.events);
+    if (!sourceGroups.length) return clone(part);
+    let result = [];
+    if (recipe === 'space') {
+      // Phrase-level gaps are more useful than random missing hits: one whole bar
+      // rests in each four-bar phrase, while the remaining bars breathe too.
+      const phraseGaps = Array.from({ length: Math.ceil(bars / 4) }, () => 2 + Math.floor(rand() * 2));
+      for (let bar = 0; bar < bars; bar++) {
+        const phraseGap = bar % 4 === phraseGaps[Math.floor(bar / 4)];
+        if (phraseGap && !['kick', 'drums'].includes(part.id)) continue;
+        groups(part.events.filter(e => Math.floor(e.tick / BAR) === bar)).forEach((g, gi) => {
+          if (!['kick', 'drums'].includes(part.id) && gi % 3 === 2 && rand() < .72) return;
+          g.notes.forEach(e => result.push({ ...e, dur: Math.max(30, Math.round(e.dur * choose(rand, [.42, .62, .84]))) }));
+        });
+      }
+    } else if (recipe === 'drive') {
+      sourceGroups.forEach((g, gi) => {
+        g.notes.forEach(e => result.push({ ...e, dur: Math.max(30, Math.round(e.dur * .62)), vel: Math.min(127, e.vel + (gi % 4 === 0 ? 7 : 0)) }));
+        if (g.tick % BAR >= 960 && rand() < .46) {
+          const repeats = 1 + Math.floor(rand() * 2); // deliberately bounded: at most two echoes
+          for (let r = 1; r <= repeats; r++) {
+            const tick = g.tick + r * 120;
+            if (tick >= Math.floor(g.tick / BAR) * BAR + BAR) break;
+            g.notes.forEach(e => result.push({ ...e, tick, dur: Math.min(90, e.dur), vel: Math.max(1, e.vel - r * 11) }));
+          }
+        }
+      });
+    } else if (recipe === 'evolve') {
+      const motifBars = [0, 1].map(bar => groups(part.events.filter(e => Math.floor(e.tick / BAR) === bar)));
+      for (let bar = 0; bar < bars; bar++) {
+        const motif = motifBars[bar % 2].length ? motifBars[bar % 2] : sourceGroups;
+        motif.forEach((g, gi) => {
+          const rel = ((g.tick % BAR) + BAR) % BAR;
+          let tick = bar * BAR + rel, notes = g.notes;
+          if (bar % 4 === 3 && gi >= Math.max(0, motif.length - 2)) tick = Math.min(bar * BAR + 1800, tick + choose(rand, [-120, 120, 240]));
+          notes.forEach(e => result.push({ ...e, tick, dur: Math.min(e.dur, bar * BAR + BAR - tick), vel: Math.max(1, Math.min(127, e.vel + (bar % 4 === 3 ? 5 : 0))) }));
+        });
+      }
+    } else if (recipe === 'rhythm') {
+      // Internal rhythm remix: odd bars borrow the preceding bar's groove while
+      // pitches rotate through the part's own material.
+      const donorBar = Math.floor(rand() * Math.min(2, bars));
+      const donor = groups(part.events.filter(e => Math.floor(e.tick / BAR) === donorBar));
+      const pitches = sourceGroups.flatMap(g => [g.notes]);
+      for (let bar = 0; bar < bars; bar++) (donor.length ? donor : sourceGroups).forEach((g, i) => {
+        const tick = bar * BAR + g.tick % BAR, notes = pitches[(i + bar) % pitches.length];
+        notes.forEach(e => result.push({ ...e, tick, dur: Math.min(e.dur, bar * BAR + BAR - tick) }));
+      });
+    } else throw new Error('Onbekend discovery-recept: ' + recipe);
+    return { ...clone(part), events: bounded(result, total, !isPoly(part.id) && part.id !== 'drums'), part: { ...(clone(part.part) || {}), rhythmLabel: 'Discover · ' + recipe } };
+  }
+
+  function discoverClip(source, recipe, seed, locks) {
+    if (!source || !Array.isArray(source.parts)) throw new Error('Ongeldige bronclip.');
+    locks = locks || {};
+    const bars = barsOf(source);
+    const parts = source.parts.map(part => locks[part.id] ? clone(part) : restylePart(part, recipe, seed, bars));
+    return finish(source, parts, recipe, seed);
+  }
+
+  function transplantRhythm(clip, donorId, targetId, locks) {
+    if (!clip || !Array.isArray(clip.parts)) throw new Error('Ongeldige bronclip.');
+    locks = locks || {};
+    const donor = clip.parts.find(p => p.id === donorId), target = clip.parts.find(p => p.id === targetId);
+    if (!donor || !target) throw new Error('Donor en doeltrack zijn verplicht.');
+    if (donorId === targetId || locks[targetId] || !target.events.length || !donor.events.length) return clone(clip);
+    const bars = barsOf(clip), total = bars * BAR, targetGroups = groups(target.events), donorGroups = groups(donor.events);
+    const events = [];
+    for (let bar = 0; bar < bars; bar++) {
+      let rhythm = donorGroups.filter(g => Math.floor(g.tick / BAR) === bar);
+      if (!rhythm.length) rhythm = donorGroups.filter(g => Math.floor(g.tick / BAR) === bar % Math.max(1, Math.ceil(donorGroups[donorGroups.length - 1].tick / BAR + 1)));
+      let notes = targetGroups.filter(g => Math.floor(g.tick / BAR) === bar);
+      if (!notes.length) notes = targetGroups;
+      rhythm.forEach((g, i) => {
+        const targetNotes = notes[i % notes.length].notes;
+        const tick = bar * BAR + g.tick % BAR;
+        const donorDur = Math.max(...g.notes.map(e => e.dur));
+        targetNotes.forEach(e => events.push({ ...e, tick, dur: Math.max(1, Math.min(donorDur, bar * BAR + BAR - tick)) }));
+      });
+    }
+    const parts = clip.parts.map(p => p.id === targetId ? { ...clone(p), events: bounded(events, total, !isPoly(p.id) && p.id !== 'drums'), part: { ...(clone(p.part) || {}), rhythmLabel: 'Ritme van ' + donorId } } : clone(p));
+    return finish(clip, parts, 'transplant:' + donorId + '>' + targetId, 'rhythm');
+  }
+
+  const api = { discoverClip, transplantRhythm };
+  if (typeof module !== 'undefined' && module.exports) module.exports = api;
+  else Object.assign(scope, api);
+})(typeof globalThis !== 'undefined' ? globalThis : this);
+
+/* Discovery Lab: compare forks without overwriting the working session. */
+let discoverySource=null,discoveryCandidates=[],discoveryFingerprint='',discoveryAudition=null;
+const DISCOVERY_RECIPES=[['source','Origineel','Je huidige loop als referentie.','#9aaec4'],['space','Meer ruimte','Rustpunten en kortere antwoorden.','#85d6c3'],['drive','Meer drive','Ritmische verdichting en korte herhalingen.','#efa76f'],['evolve','Meer verhaal','Terugkerend motief met veranderende frase-einden.','#b4a3ed']];
+const lab=document.createElement('details');lab.id='discoveryLab';lab.innerHTML='<summary>'+icon('vary')+' Discovery Lab <span>Vergelijk · combineer · ontdek</span></summary><div class="discovery-body"><div class="discovery-heading"><div><h2>Eén idee. Drie nieuwe richtingen.</h2><p>Luister eerst. Kies daarna een hele versie of combineer je favoriete tracks.</p></div><button id="discoverNow" class="primary">Maak richtingen</button></div><p id="discoveryStatus" role="status">Begin met een loop van maximaal 32 maten. Locks blijven behouden.</p><div id="discoveryCards"></div><details id="discoveryBlend" hidden><summary>Combineer tracks uit de richtingen</summary><div id="discoveryBlendTracks"></div><div class="action-row"><button id="previewBlend">▶ Luister naar combinatie</button><button id="applyBlend" class="primary">Gebruik combinatie</button></div></details><details class="rhythm-transfer"><summary>Ritme lenen van een andere track</summary><p>Neem de aanzetten van bijvoorbeeld je lead over in de akkoorden. De doeltrack behoudt zijn eigen toonmateriaal.</p><div class="transfer-controls"><label>Ritme van<select id="rhythmDonor"></select></label><span>→</span><label>Toonmateriaal van<select id="rhythmTarget"></select></label><button id="previewTransfer">▶ Luister</button><button id="applyTransfer">Gebruik ritme</button></div></details><p class="hint">Preview gebruikt je huidige klanken en mixer. Kies Gebruik om MIDI te wijzigen; Undo zet je vorige versie terug. Vrije ritmeveranderingen kunnen afwijken van de vocal.</p></div>';
+document.querySelector('.rollbox').before(lab);
+function discoveryKey(){return current?JSON.stringify({parts:current.parts.map(p=>[p.id,p.events]),meta:current.meta,bpm:current.bpm,locks:sessionConfig.locks}):'';}
+function labMessage(s){$('discoveryStatus').textContent=s;}
+function labCurrent(){if(discoveryFingerprint&&discoveryKey()===discoveryFingerprint)return true;labMessage('Je sessie of locks zijn veranderd. Maak opnieuw richtingen voor deze versie.');return false;}
+function discoveryMetric(clip){const n=clip.parts.reduce((n,p)=>n+p.events.length,0);const onsets=new Set(clip.parts.flatMap(p=>p.events.map(e=>e.tick)));return n+' noten · '+onsets.size+' aanzetten';}
+function discoveryMini(clip){const width=320,height=65,total=clip.meta.bars*1920;return '<svg viewBox="0 0 '+width+' '+height+'" role="img" aria-label="Ritmeverdeling van deze versie">'+clip.parts.map((p,i)=>p.events.filter((_,j)=>j%Math.max(1,Math.ceil(p.events.length/100))===0).map(e=>'<rect x="'+(e.tick/total*width).toFixed(1)+'" y="'+(5+i*(55/Math.max(1,clip.parts.length))).toFixed(1)+'" width="'+Math.max(1,e.dur/total*width).toFixed(1)+'" height="3" fill="'+PART_DEFS[p.id].colour+'"/>').join('')).join('')+'</svg>';}
+function renderDiscoveryCards(){
+ $('discoveryCards').innerHTML=discoveryCandidates.map((clip,i)=>'<article class="discovery-card" style="--recipe:'+DISCOVERY_RECIPES[i][3]+'"><span class="eyebrow">'+String(i+1).padStart(2,'0')+' / '+(i?'RICHTING':'BRON')+'</span><h3>'+DISCOVERY_RECIPES[i][1]+'</h3><p>'+DISCOVERY_RECIPES[i][2]+'</p>'+discoveryMini(clip)+'<small>'+discoveryMetric(clip)+'</small><div><button data-listen-discovery="'+i+'">▶ Luister</button><button data-use-discovery="'+i+'">Gebruik</button></div></article>').join('');
+ $('discoveryBlend').hidden=!discoverySource;$('discoveryBlendTracks').innerHTML=(discoverySource?.parts||[]).map(p=>'<label class="blend-track"><span style="color:'+PART_DEFS[p.id].colour+'">'+p.label+'</span><select data-blend-track="'+p.id+'" '+(sessionConfig.locks[p.id]?'disabled':'')+'>'+DISCOVERY_RECIPES.map((r,i)=>'<option value="'+i+'">'+r[1]+(sessionConfig.locks[p.id]&&i===0?' · vastgezet':'')+'</option>').join('')+'</select></label>').join('');
+}
+$('discoverNow').onclick=()=>{if(!current||current.meta.bars>32||current.parts.reduce((n,p)=>n+p.events.length,0)>20000){labMessage('Kies een loop van 1–32 maten en maximaal 20.000 noten voor het Lab.');return;}discoverySource=clone(current);discoveryFingerprint=discoveryKey();const seed=newSeed();discoveryCandidates=DISCOVERY_RECIPES.map((r,i)=>i?discoverClip(discoverySource,r[0],seed,sessionConfig.locks):clone(discoverySource));renderDiscoveryCards();labMessage('Drie richtingen klaar. Luisteren verandert je opgeslagen sessie niet.');};
+const stopBeforeDiscovery=stopAudio;
+stopAudio=function(){const audition=discoveryAudition;discoveryAudition=null;stopBeforeDiscovery();if(audition){current=audition.clip;vocalLinked=audition.linked;$('loop').checked=audition.loop;rollCache=null;drawRoll();refreshWorkspace();scheduleRecovery();labMessage('Preview gestopt. Je oorspronkelijke sessie staat terug.');}};
+function listenDiscovery(clip,label){
+ stopAudio();clearTimeout(recoveryTimer);const original={clip:current,linked:vocalLinked,loop:$('loop').checked};
+ current=clone(clip);vocalLinked=false;$('loop').checked=false;
+ try{playAll();if(!playing){current=original.clip;vocalLinked=original.linked;$('loop').checked=original.loop;drawRoll();return;}discoveryAudition=original;labMessage('Preview: '+label+' · alleen MIDI · Stop of Spatie keert terug naar je sessie.');}catch(e){current=original.clip;vocalLinked=original.linked;$('loop').checked=original.loop;stopBeforeDiscovery();labMessage('Preview niet beschikbaar: '+e.message);}
+}
+// No autosave or keyboard/UI action may accidentally capture a temporary audition.
+const projectBeforeDiscovery=projectPayload;projectPayload=function(){if(!discoveryAudition)return projectBeforeDiscovery();const payload=projectBeforeDiscovery();payload.session.clip=discoveryAudition.clip;return payload;};
+const rememberBeforeDiscovery=rememberTake;rememberTake=function(){if(!discoveryAudition)rememberBeforeDiscovery();};
+document.addEventListener('click',()=>{if(discoveryAudition)stopAudio();},true);
+document.addEventListener('keydown',e=>{if(!discoveryAudition)return;stopAudio();if(e.code==='Space'){e.preventDefault();e.stopImmediatePropagation();}},true);
+document.addEventListener('input',()=>{if(discoveryAudition)stopAudio();},true);
+function useDiscovery(clip,message){stopAudio();if(!labCurrent())return;const next=clone(clip);next.customEdit=true;if(next.vocalSourceSerial!==vocalSourceSerial)vocalLinked=false;finishSession(next,message+' · Undo herstelt je vorige sessie.');discoveryFingerprint='';}
+$('discoveryCards').onclick=e=>{const listen=e.target.closest('[data-listen-discovery]'),use=e.target.closest('[data-use-discovery]');if(listen&&labCurrent())listenDiscovery(discoveryCandidates[+listen.dataset.listenDiscovery],DISCOVERY_RECIPES[+listen.dataset.listenDiscovery][1]);if(use)useDiscovery(discoveryCandidates[+use.dataset.useDiscovery],DISCOVERY_RECIPES[+use.dataset.useDiscovery][1]+' gekozen');};
+function blendDiscovery(){const clip=clone(discoverySource);clip.parts=clip.parts.map(p=>{const choice=Number(document.querySelector('[data-blend-track="'+p.id+'"]').value);return clone(discoveryCandidates[sessionConfig.locks[p.id]?0:choice].parts.find(x=>x.id===p.id));});clip.customEdit=true;if([...document.querySelectorAll('[data-blend-track]')].some(s=>Number(s.value)!==0)){clip.vocalTiming=false;delete clip.vocalSourceSerial;}return clip;}
+$('previewBlend').onclick=()=>{if(labCurrent())listenDiscovery(blendDiscovery(),'Je combinatie');};$('applyBlend').onclick=()=>{if(labCurrent())useDiscovery(blendDiscovery(),'Tracks gecombineerd');};
+function transferCandidate(){const donor=$('rhythmDonor').value,target=$('rhythmTarget').value;if(!current||donor===target){labMessage('Kies twee verschillende tracks.');return null;}if(sessionConfig.locks[target]){labMessage('Ontgrendel de doeltrack om zijn ritme te veranderen.');return null;}return transplantRhythm(current,donor,target,sessionConfig.locks);}
+$('previewTransfer').onclick=()=>{const c=transferCandidate();if(c)listenDiscovery(c,'Geleend ritme');};$('applyTransfer').onclick=()=>{const c=transferCandidate();if(c){if(c.vocalSourceSerial!==vocalSourceSerial)vocalLinked=false;finishSession(c,'Ritme overgenomen. Andere tracks zijn behouden.');}};
+const renderBeforeDiscovery=renderSession;renderSession=function(){renderBeforeDiscovery();['rhythmDonor','rhythmTarget'].forEach(id=>{const el=$(id),old=el.value;el.innerHTML=(current?.parts||[]).map(p=>'<option value="'+p.id+'">'+p.label+'</option>').join('');if([...el.options].some(o=>o.value===old))el.value=old;else if(id==='rhythmTarget'&&el.options.length>1)el.selectedIndex=1;});$('discoverNow').disabled=!current;};
+
+/* MIDIROOM Arrangement Director. Pure helpers are exported for tests. */
+(function(root,factory){
+  const api=factory();
+  if(typeof module!=='undefined'&&module.exports)module.exports=api;
+  if(root)root.MidiroomArranger=api;
+})(typeof globalThis!=='undefined'?globalThis:this,function(){
+  const TICKS=1920,BEAT=480;
+  const copy=x=>JSON.parse(JSON.stringify(x));
+  const unique=x=>[...new Set(x)];
+  function available(ids,wanted){return unique(wanted.filter(id=>ids.includes(id)));}
+  function section(name,bars,gain,parts,variation='same',transition='none'){
+    return {name,bars,gain,parts:unique(parts),variation,transition};
+  }
+  function proposeArrangement(kind,partIds){
+    const ids=unique((partIds||[]).filter(Boolean));
+    const rhythm=available(ids,['drums','kick']);
+    const low=available(ids,['bass']);
+    const harmony=available(ids,['chords','pad','harmony','arp']);
+    const lead=available(ids,['melody','lead','screech']);
+    const all=ids.slice();
+    const sparse=unique([...rhythm.filter(id=>id!=='kick'),...low,...harmony.slice(0,1)]);
+    const tension=unique([...rhythm.filter(id=>id!=='kick'),...low,...harmony,...lead.slice(0,1)]);
+    const intro=sparse.length?sparse:all.slice(0,1);
+    const finish=sections=>sections.map(s=>({...s,parts:s.parts.length?s.parts:all.slice(0,1)}));
+    if(kind==='sketch')return finish([
+      section('Open',4,.62,intro,'same','breath'),
+      section('Reveal',4,.82,tension.length?tension:all,'subtle','roll'),
+      section('Main',8,1,all,'explore','none')
+    ]);
+    if(kind==='extended')return finish([
+      section('Atmosphere',16,.55,intro,'same','breath'),
+      section('Pulse',16,.72,unique([...rhythm,...low,...harmony.slice(0,1)]),'subtle','roll'),
+      section('Lift',8,.86,tension.length?tension:all,'explore','breath'),
+      section('Peak',32,1,all,'explore','roll'),
+      section('Release',16,.66,unique([...rhythm.filter(id=>id!=='kick'),...harmony,...lead.slice(0,1)]),'subtle','none')
+    ]);
+    return finish([
+      section('DJ Intro',8,.6,intro,'same','breath'),
+      section('Pressure',16,.78,tension.length?tension:all,'subtle','roll'),
+      section('Drop',16,1,all,'explore','breath'),
+      section('Return',8,.7,unique([...rhythm,...low,...harmony]),'subtle','none')
+    ]);
+  }
+  function clampEvent(e,total){
+    const tick=Math.max(0,Math.min(total-1,Math.round(Number(e.tick)||0)));
+    return {...e,tick,dur:Math.max(1,Math.min(total-tick,Math.round(Number(e.dur)||1))),midi:Math.max(0,Math.min(127,Math.round(Number(e.midi)||0))),vel:Math.max(1,Math.min(127,Math.round(Number(e.vel)||1)))};
+  }
+  function estimatedNotes(source,sections){
+    const sourceBars=Math.max(1,Number(source?.meta?.bars)||1);
+    return (sections||[]).reduce((sum,s)=>sum+(source?.parts||[]).filter(p=>s.parts?.includes(p.id)).reduce((n,p)=>n+p.events.length*Math.ceil((Number(s.bars)||0)/sourceBars),0),0);
+  }
+  function applyTransitions(clip,source,sections,locks={}){
+    const out=copy(clip),total=Math.max(1,(out.meta?.bars||0)*TICKS);let cursor=0;
+    (sections||[]).forEach(s=>{
+      const end=(cursor+(Number(s.bars)||0))*TICKS,cut=Math.max(cursor*TICKS,end-BEAT),mode=['breath','roll'].includes(s.transition)?s.transition:'none';
+      if(mode==='breath')out.parts.forEach(p=>{
+        if(locks[p.id])return;
+        p.events=p.events.filter(e=>e.tick<cut||e.tick>=end).map(e=>e.tick<cut&&e.tick+e.dur>cut?{...e,dur:Math.max(1,cut-e.tick)}:e);
+      });
+      if(mode==='roll'){
+        const target=['drums','kick'].find(id=>s.parts?.includes(id)&&!locks[id]&&out.parts.some(p=>p.id===id));
+        if(target){const track=out.parts.find(p=>p.id===target),donor=source?.parts?.find(p=>p.id===target)?.events?.[0];
+          if(donor){track.events=track.events.filter(e=>e.tick<cut||e.tick>=end);for(let i=0;i<4;i++)track.events.push(clampEvent({...donor,tick:cut+i*120,dur:Math.min(90,donor.dur||90),vel:Math.min(127,Math.max(1,Math.round((donor.vel||90)*(s.gain||1)*(0.76+i*.08))))},total));track.events.sort((a,b)=>a.tick-b.tick||a.midi-b.midi);}
+        }
+      }
+      cursor+=Number(s.bars)||0;
+    });
+    out.parts.forEach(p=>{if(!locks[p.id])p.events=p.events.map(e=>clampEvent(e,total));});
+    if(out.parts.reduce((n,p)=>n+p.events.length,0)>50000)throw new Error('Arrangement bevat te veel noten (maximaal 50.000). Maak secties korter.');
+    return out;
+  }
+  return {proposeArrangement,applyTransitions,estimatedNotes};
+});
+
+if(typeof document!=='undefined'&&typeof arrangeClip==='function'){
+  const arrangerApi=globalThis.MidiroomArranger;
+  const director=document.createElement('section');director.className='arr-director';director.setAttribute('aria-label','Arrangement Director');
+  director.innerHTML='<div><span class="eyebrow">ARRANGEMENT DIRECTOR</span><strong>Start met een plan, pas daarna iedere sectie aan.</strong><p id="arrProposalSummary" class="hint"></p></div><select id="arrPreset" aria-label="Arrangementvoorstel"><option value="club">Club Journey · 48 maten</option><option value="sketch">Short Sketch · 16 maten</option><option value="extended">Extended · 88 maten</option></select><button id="arrApplyPreset">Zet voorstel in editor</button>';
+  document.querySelector('#view-arrange .action-row').before(director);
+  const transitionHelp=document.createElement('p');transitionHelp.className='hint arr-transition-help';transitionHelp.textContent='Einde: Adempauze maakt de laatste tel vrij op ontgrendelde tracks. Drumroll zet vier slagen op de laatste tel als drums of kick actief en ontgrendeld zijn. Overgangen wijzigen geen gelockte tracks.';director.after(transitionHelp);
+  function proposal(){const ids=(baseLoop||current)?.parts?.map(p=>p.id)||[];return arrangerApi.proposeArrangement($('arrPreset').value,ids);}
+  function paintProposal(){const p=proposal();$('arrProposalSummary').textContent=p.length+' secties · '+p.reduce((n,s)=>n+s.bars,0)+' maten · vervangt pas na je klik.';$('arrApplyPreset').disabled=!(baseLoop||current);}
+  $('arrPreset').onchange=paintProposal;
+  $('arrApplyPreset').onclick=()=>{if(!(baseLoop||current))return;arrSections=proposal();renderArrangement();saveToHash();rememberTake();$('arrStatus').textContent='Voorstel staat in de editor. Pas instrumenten, groove en overgangen vrij aan.';};
+
+  const arrangeBase=arrangeClip;
+  arrangeClip=function(source,sections){if(arrangerApi.estimatedNotes(source,sections)>50000)throw new Error('Arrangement bevat te veel noten (maximaal 50.000). Maak secties korter.');return arrangerApi.applyTransitions(arrangeBase(source,sections),source,sections,sessionConfig?.locks||{});};
+  const renderBase=renderArrangement;
+  renderArrangement=function(){
+    renderBase();paintProposal();
+    document.querySelectorAll('.arr-settings').forEach((row,i)=>{
+      const control=document.createElement('label');control.className='transition-control';control.innerHTML='Einde <select data-arr-transition="'+i+'"><option value="none">Door</option><option value="breath">Adempauze</option><option value="roll">Drumroll</option></select>';
+      const select=control.querySelector('select');select.value=['breath','roll'].includes(arrSections[i].transition)?arrSections[i].transition:'none';row.appendChild(control);
+    });
+    document.querySelectorAll('.arr-clip').forEach((clip,i)=>{const s=arrSections[i],count=s.parts?.length||0;clip.title=count+' tracks · '+({none:'doorlopend',breath:'adempauze',roll:'drumroll'}[s.transition||'none']);clip.insertAdjacentHTML('beforeend','<small>'+count+' tracks · '+({none:'→',breath:'⌁',roll:'≋'}[s.transition||'none'])+'</small>');});
+  };
+  $('arrRows').addEventListener('change',e=>{if(e.target.dataset.arrTransition===undefined)return;const s=arrSections[+e.target.dataset.arrTransition];if(!s)return;s.transition=['breath','roll'].includes(e.target.value)?e.target.value:'none';renderArrangement();saveToHash();rememberTake();});
+}
+
+/* Pure, deterministic performance expression for MIDIROOM clips. */
+(function (scope) {
+  'use strict';
+  const BAR = 1920;
+  const MODES = {
+    natural: { timing: 10, velocity: 7, gate: [.88, 1], strum: 5 },
+    pocket:  { timing: 20, velocity: 11, gate: [.72, .96], strum: 8 },
+    bold:    { timing: 34, velocity: 17, gate: [.55, 1], strum: 13 }
+  };
+  const POLY = new Set(['chords', 'pad', 'harmony']);
+  const MELODIC = new Set(['lead', 'melody', 'screech', 'darkmelody', 'pluck', 'arp']);
+
+  function clone(value) { return value == null ? value : JSON.parse(JSON.stringify(value)); }
+  function random(seed) {
+    let n = 2166136261;
+    for (const c of String(seed)) n = Math.imul(n ^ c.charCodeAt(0), 16777619);
+    return function () {
+      n = (n + 0x6D2B79F5) | 0;
+      let t = Math.imul(n ^ n >>> 15, n | 1);
+      t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+  function clamp(n, lo, hi) { return Math.max(lo, Math.min(hi, n)); }
+  function barsOf(clip) {
+    const bars = Number(clip && clip.meta && clip.meta.bars);
+    if (Number.isFinite(bars) && bars > 0) return Math.max(1, Math.floor(bars));
+    const end = (clip.parts || []).flatMap(p => p.events || []).reduce((m, e) => Math.max(m, Number(e.tick) + Number(e.dur)), 0);
+    return Math.max(1, Math.ceil(end / BAR));
+  }
+  function onsetGroups(events, tolerance) {
+    const map = new Map();
+    events.forEach(e => {
+      const tick = Math.round(Number(e.tick));
+      if (!Number.isFinite(tick)) return;
+      if (!map.has(tick)) map.set(tick, []);
+      map.get(tick).push(e);
+    });
+    const exact = [...map.entries()].sort((a, b) => a[0] - b[0]).map(([tick, notes]) => ({ tick, notes }));
+    if (!tolerance) return exact;
+    const clustered = [];
+    exact.forEach(group => {
+      const previous = clustered[clustered.length - 1];
+      if (previous && group.tick - previous.tick <= tolerance) previous.notes.push(...group.notes);
+      else clustered.push({ tick: group.tick, notes: group.notes.slice() });
+    });
+    return clustered;
+  }
+  function scaleNotes(clip) {
+    const root = clamp(Math.round(Number(clip.meta && clip.meta.root) || 0), 0, 11);
+    const raw = clip.meta && clip.meta.scale && clip.meta.scale.steps;
+    const steps = Array.isArray(raw) && raw.length ? raw.map(Number).filter(Number.isFinite).map(n => ((Math.round(n) % 12) + 12) % 12) : [0, 2, 3, 5, 7, 8, 10];
+    const notes = [];
+    for (let midi = 0; midi < 128; midi++) if (steps.includes((midi - root + 120) % 12)) notes.push(midi);
+    return notes;
+  }
+  function adjacentScaleNote(notes, midi, direction) {
+    let i = notes.reduce((best, n, at) => Math.abs(n - midi) < Math.abs(notes[best] - midi) ? at : best, 0);
+    return notes[clamp(i + direction, 0, notes.length - 1)];
+  }
+  function velocityFor(event, tick, index, cfg, rand, id) {
+    const source = Number.isFinite(Number(event.vel)) ? Number(event.vel) : 90;
+    const beat = Math.floor((tick % BAR) / 480), phraseBar = Math.floor(tick / BAR) % 4;
+    const beatAccent = beat === 0 ? 4 : beat === 2 ? 2 : -2;
+    const phraseContour = [-2, 1, 3, -1][phraseBar];
+    const alternating = index % 2 ? -2 : 2;
+    const drumAccent = id === 'drums' && [36, 38, 39].includes(Number(event.midi)) ? 2 : 0;
+    const jitter = Math.round((rand() * 2 - 1) * cfg.velocity * .45);
+    return clamp(Math.round(source + beatAccent + phraseContour + alternating + drumAccent + jitter), 1, 127);
+  }
+  function timingOffset(tick, groupIndex, cfg, rand) {
+    if (tick % BAR === 0) return 0; // downbeats remain a dependable DAW anchor
+    const step = Math.round(tick / 120) % 16;
+    const pocket = step % 4 === 2 ? cfg.timing * .35 : step % 4 === 3 ? cfg.timing * .18 : 0;
+    const motifJitter = (rand() * 2 - 1) * cfg.timing * .55;
+    return Math.round(pocket + motifJitter + (groupIndex % 4 === 3 ? cfg.timing * .12 : 0));
+  }
+  function expressPart(part, clip, mode, seed, vocalTiming) {
+    if (part.id === 'kick') return clone(part);
+    const cfg = MODES[mode], rand = random(String(seed) + ':expression:' + part.id + ':' + mode);
+    const total = barsOf(clip) * BAR, poly = POLY.has(part.id), drums = part.id === 'drums';
+    const groups = onsetGroups(part.events || [], poly && !vocalTiming ? 30 : 0), result = [];
+    groups.forEach((group, gi) => {
+      const originalTick = group.tick, barStart = Math.floor(originalTick / BAR) * BAR;
+      const sharedOffset = vocalTiming || drums ? 0 : timingOffset(originalTick, gi, cfg, rand);
+      const sharedTick = clamp(originalTick + sharedOffset, barStart, Math.min(total - 1, barStart + BAR - 1));
+      const sorted = group.notes.slice().sort((a, b) => Number(a.midi) - Number(b.midi));
+      sorted.forEach((event, ni) => {
+        const strum = vocalTiming || drums || !poly ? 0 : ni * cfg.strum;
+        const sourceDur = Math.max(1, Math.round(Number(event.dur) || 1));
+        const originalEnd = clamp(Math.round(Number(event.tick) || 0) + sourceDur, 1, total);
+        // Moving an onset may shorten the note, but can never extend its original
+        // active range into a deliberate breath or across a section boundary.
+        const tick = clamp(sharedTick + strum, barStart, Math.min(total - 1, barStart + BAR - 1, originalEnd - 1));
+        const roleGate = part.id === 'pad' ? Math.max(.93, cfg.gate[0]) : cfg.gate[0];
+        const gate = roleGate + rand() * (cfg.gate[1] - roleGate);
+        const dur = clamp(Math.round(sourceDur * gate) - strum, 1, Math.min(total - tick, originalEnd - tick));
+        result.push({ ...event, tick, dur, midi: clamp(Math.round(Number(event.midi) || 0), 0, 127), vel: velocityFor(event, originalTick, gi + ni, cfg, rand, part.id) });
+      });
+    });
+
+    // Bold mode adds one coherent answer at selected four-bar phrase endings.
+    // It only extends already-active, dense melodic phrases and never populates an empty bar.
+    if (mode === 'bold' && !vocalTiming && !clip.arrangement && MELODIC.has(part.id)) {
+      const allowed = scaleNotes(clip);
+      for (let bar = 3; bar < barsOf(clip); bar += 4) {
+        const inBar = result.filter(e => Math.floor(e.tick / BAR) === bar).sort((a, b) => a.tick - b.tick);
+        if (inBar.length < 3) continue;
+        const last = inBar[inBar.length - 1], barEnd = (bar + 1) * BAR;
+        if (last.tick < bar * BAR + 1200 || last.tick + 180 >= barEnd) continue;
+        const tick = last.tick + 120;
+        if (inBar.some(e => Math.abs(e.tick - tick) < 45)) continue;
+        result.push({ ...last, tick, dur: Math.max(30, Math.min(90, barEnd - tick)), midi: adjacentScaleNote(allowed, last.midi, rand() < .5 ? -1 : 1), vel: clamp(last.vel - 12, 1, 127) });
+      }
+    }
+    result.sort((a, b) => a.tick - b.tick || a.midi - b.midi);
+    // MIDI retriggers must not leave a hanging voice over the next onset.
+    // Monophonic roles trim at every onset; poly/drum roles trim per pitch.
+    for (let i = 0; i < result.length; i++) {
+      const event = result[i];
+      let nextTick = total;
+      for (let j = i + 1; j < result.length; j++) {
+        if (!poly && !drums || result[j].midi === event.midi) { nextTick = result[j].tick; break; }
+      }
+      if (nextTick > event.tick) event.dur = Math.max(1, Math.min(event.dur, nextTick - event.tick));
+    }
+    return { ...clone(part), events: result };
+  }
+  function expressClip(source, options) {
+    if (!source || !Array.isArray(source.parts)) throw new Error('Ongeldige bronclip.');
+    options = options || {};
+    const mode = options.mode || 'natural';
+    if (!MODES[mode]) throw new Error('Onbekende expressiemodus: ' + mode);
+    const count = source.parts.reduce((sum, p) => sum + (Array.isArray(p.events) ? p.events.length : 0), 0);
+    if (count > 50000) throw new Error('Deze clip bevat meer dan 50.000 noten.');
+    const locks = options.locks || {}, targets = Array.isArray(options.targets) ? new Set(options.targets) : null;
+    const vocalTiming = source.vocalTiming === true;
+    const out = clone(source);
+    out.parts = source.parts.map(part => locks[part.id] || (targets && !targets.has(part.id)) ? clone(part) : expressPart(part, source, mode, options.seed == null ? 'expression' : options.seed, vocalTiming));
+    const outputCount = out.parts.reduce((sum, p) => sum + (Array.isArray(p.events) ? p.events.length : 0), 0);
+    if (outputCount > 50000) throw new Error('Expressie zou meer dan 50.000 noten opleveren.');
+    out.customEdit = true;
+    return out;
+  }
+
+  const api = { expressClip };
+  if (typeof module !== 'undefined' && module.exports) module.exports = api;
+  else scope.MidiroomExpression = api;
+})(typeof globalThis !== 'undefined' ? globalThis : this);
+
+/* Performance layer: default for fresh phrases, explicit edits for existing MIDI. */
+function performClip(clip,targets){const mode=sessionConfig.performance||'natural';return mode==='off'?clip:MidiroomExpression.expressClip(clip,{mode,seed:clip.meta.seed,locks:sessionConfig.locks,targets});}
+const performanceBar=document.createElement('div');performanceBar.className='performance-bar';performanceBar.innerHTML='<label>Feel <select id="performanceMode"><option value="off">Strak / uit</option><option value="natural">Natuurlijk</option><option value="pocket">Pocket</option><option value="bold">Expressief</option></select></label><button id="performNow">'+icon('vary')+' Geef karakter</button><span id="performanceHint">Accenten · articulatie · frase</span>';
+document.querySelector('.composition-strip').after(performanceBar);
+$('performanceMode').onchange=()=>{sessionConfig.performance=$('performanceMode').value;saveToHash();rememberTake();renderSession();sessionMessage('Feel geldt voor nieuwe generatie en variaties. Geef karakter past je huidige MIDI aan.');};
+$('performNow').onclick=()=>{if(!current)return;const targets=current.parts.filter(p=>!sessionConfig.locks[p.id]&&p.id!=='kick').map(p=>p.id);if(!targets.length){sessionMessage('Ontgrendel een melodische track of drums om karakter toe te voegen.');return;}try{stopAudio();const next=clone(current);next.meta.seed=newSeed();const clip=performClip(next,targets);$('seed').value=clip.meta.seed;finishSession(clip,'Expressie toegepast · Undo herstelt je vorige frase.');}catch(e){sessionMessage(e.message);}};
+const generationBeforePerformance=afterSessionGeneration;afterSessionGeneration=function(previous){generationBeforePerformance(previous);if(current)current=performClip(current);};
+const renderBeforePerformance=renderSession;renderSession=function(){renderBeforePerformance();$('performanceMode').value=sessionConfig.performance||'natural';$('performNow').disabled=!current||sessionConfig.performance==='off';$('performanceHint').textContent=current?.vocalTiming?'Vocal: aanzetten blijven exact':({off:'Originele feel · geen extra expressie',natural:'Subtiele timing · muzikale accenten',pocket:'Ontspannen groove · sterke ankers',bold:'Frase-einden · accenten · articulatie'}[sessionConfig.performance||'natural']);};
+
+/* Four exact, project-portable scene slots. Audio files intentionally remain outside scenes. */
+let sessionScenes=[];
+const SCENE_LIMIT=4,SCENE_BYTES=8*1024*1024;
+function sceneNoteCount(clip){return clip?.parts?.reduce((n,p)=>n+p.events.length,0)||0;}
+function cleanSceneSnapshot(raw){
+ if(!raw||typeof raw!=='object')throw new Error('Ongeldige scene.');
+ const state=normalizeState(raw.state),clip=cleanClip(raw.clip),source=cleanClip(raw.source);
+ if(!clip||!clip.parts.length||clip.meta.bars>32||sceneNoteCount(clip)>20000)throw new Error('Scene is te groot (maximaal 32 maten en 20.000 noten).');
+ const safeSource=source&&source.parts.length?source:clone(clip);
+ if(safeSource.meta.bars>32||sceneNoteCount(safeSource)>20000)throw new Error('Scene-bron is te groot.');
+ return {state,clip,source:safeSource,linked:false};
+}
+function cleanScenes(raw){
+ if(!Array.isArray(raw))return [];
+ const out=Array(SCENE_LIMIT).fill(null);
+ raw.slice(0,SCENE_LIMIT).forEach((entry,i)=>{if(entry){const snap=cleanSceneSnapshot(entry.snapshot);out[i]={name:String(entry.name||('Scene '+(i+1))).slice(0,32),snapshot:snap};}});
+ if(JSON.stringify(out).length>SCENE_BYTES)throw new Error('Scenes zijn samen te groot.');
+ return out;
+}
+function sceneProjectFits(scenes){const payload=projectPayloadBeforeScenes();payload.scenes=scenes;return JSON.stringify(payload).length<=12*1024*1024;}
+const sceneRack=document.createElement('details');sceneRack.id='sceneRack';sceneRack.className='scene-rack';sceneRack.innerHTML='<summary>'+icon('music')+' Scene Launcher <span id="sceneSummary">0 / 4 gevuld</span></summary><div class="scene-head"><div><span class="eyebrow">LIVE IDEAS</span><strong>Bewaar vier volledige versies</strong></div><p>Een scene onthoudt MIDI, locks, mixer en klanken. Starten gebeurt direct.</p></div><div class="scene-grid" id="sceneGrid"></div><p class="hint" id="sceneStatus" role="status">Capture bewaart je huidige sessie exact. Scene-audio start direct en is niet gekwantiseerd.</p>';
+document.querySelector('.rollbox').before(sceneRack);
+function renderScenes(){
+ $('sceneSummary').textContent=sessionScenes.filter(Boolean).length+' / 4 gevuld';
+ $('sceneGrid').innerHTML=Array.from({length:SCENE_LIMIT},(_,i)=>{const s=sessionScenes[i],c=s?.snapshot.clip;return '<article class="scene-slot'+(s?' loaded':' empty')+'" data-scene-slot="'+i+'"><div class="scene-number">'+String(i+1).padStart(2,'0')+'</div><input data-scene-name="'+i+'" maxlength="32" aria-label="Naam scene '+(i+1)+'" '+(s?'':'disabled')+' placeholder="Scene '+(i+1)+'">'+(s?discoveryMini(c)+'<span class="scene-stats">'+c.bpm+' BPM · '+c.meta.bars+' maten · '+c.parts.length+' tracks</span>':'<span class="scene-stats">Leeg slot</span>')+'<div class="scene-actions">'+(s?'<button class="primary" data-scene-launch="'+i+'">'+icon('play')+' Start</button><button data-scene-capture="'+i+'" title="Overschrijf met huidige sessie">Vervang</button><button data-scene-clear="'+i+'" aria-label="Scene '+(i+1)+' wissen">Wis</button>':'<button class="primary" data-scene-capture="'+i+'">'+icon('vary')+' Capture</button>')+'</div></article>';}).join('');
+ sessionScenes.forEach((s,i)=>{const input=document.querySelector('[data-scene-name="'+i+'"]');if(input&&s)input.value=s.name;});
+}
+function captureScene(i){
+ if(!current){$('sceneStatus').textContent='Maak eerst MIDI om een scene vast te leggen.';return;}
+ try{stopAudio();const snap=cleanSceneSnapshot(snapshot());const next=sessionScenes.slice();next[i]={name:next[i]?.name||('Scene '+(i+1)),snapshot:snap};const cleaned=cleanScenes(next);if(!sceneProjectFits(cleaned))throw new Error('Project met scenes is te groot (maximaal 12 MB).');sessionScenes=cleaned;renderScenes();scheduleRecovery();$('sceneStatus').textContent='Scene '+(i+1)+' vastgelegd · MIDI, locks, mixer en klanken.';}catch(e){$('sceneStatus').textContent=e.message;}
+}
+function launchScene(i){
+ const scene=sessionScenes[i];if(!scene)return;
+ try{rememberTake();restoreSnapshot(clone(scene.snapshot));rememberTake();$('sceneStatus').textContent=scene.name+' gestart · Undo keert terug. Start is direct, zonder maat-kwantisatie.';playAll();}catch(e){$('sceneStatus').textContent='Scene kon niet starten: '+e.message;}
+}
+$('sceneGrid').addEventListener('click',e=>{const launch=e.target.closest('[data-scene-launch]'),capture=e.target.closest('[data-scene-capture]'),clear=e.target.closest('[data-scene-clear]');if(launch)launchScene(+launch.dataset.sceneLaunch);else if(capture)captureScene(+capture.dataset.sceneCapture);else if(clear){stopAudio();sessionScenes[+clear.dataset.sceneClear]=null;renderScenes();scheduleRecovery();$('sceneStatus').textContent='Scene gewist.';}});
+$('sceneGrid').addEventListener('change',e=>{if(!e.target.matches('[data-scene-name]'))return;const i=+e.target.dataset.sceneName;if(sessionScenes[i]){sessionScenes[i].name=(e.target.value.trim()||('Scene '+(i+1))).slice(0,32);renderScenes();scheduleRecovery();}});
+const cleanProjectBeforeScenes=cleanProject;
+cleanProject=function(raw){const project=cleanProjectBeforeScenes(raw);project.scenes=cleanScenes(raw.scenes);if(JSON.stringify(project).length>12*1024*1024)throw new Error('Project is te groot.');return project;};
+const projectPayloadBeforeScenes=projectPayload;
+projectPayload=function(){const payload=projectPayloadBeforeScenes();payload.scenes=clone(sessionScenes);return payload;};
+$('saveProject').onclick=()=>{if(!current)return;try{const payload=projectPayload(),json=JSON.stringify(payload,null,2);if(new TextEncoder().encode(json).length>12*1024*1024)throw new Error('Project is groter dan 12 MB. Wis een scene of maak de sessie korter.');downloadText(json,(payload.name.replace(/[^a-z0-9_-]/gi,'_')||'MIDIROOM')+'.midiroom.json');$('projectStatus').textContent='Project gedownload · vocal-audio apart';}catch(e){$('projectStatus').textContent='Project niet bewaard: '+e.message;}};
+const loadProjectBeforeScenes=loadProject;
+loadProject=function(project){sessionScenes=cleanScenes(project.scenes);loadProjectBeforeScenes(project);renderScenes();};
+// projects.js reads recovery before this module is installed; enrich that clean session once.
+if(pendingRecovery){try{const raw=JSON.parse(localStorage.getItem(RECOVERY_KEY)||'null');pendingRecovery.scenes=cleanScenes(raw?.scenes);}catch(e){pendingRecovery=null;recoveryBlocked=true;recovery.firstElementChild.textContent='Lokale kopie niet leesbaar. Begin opnieuw om lokaal bewaren te hervatten.';$('recoverProject').disabled=true;$('projectStatus').textContent='Lokale kopie niet leesbaar. Begin opnieuw om lokaal bewaren te hervatten.';}}
+renderScenes();
+
+/* Local visual preference; independent of musical project state. */
+const skinControl=document.createElement('label');skinControl.className='skin-control';skinControl.innerHTML='<span>WEERGAVE</span><select id="studioSkin" aria-label="Studio-kleurthema"><option value="studio">Studio</option><option value="night">Night</option></select>';
+document.querySelector('header').appendChild(skinControl);
+function setStudioSkin(value){const skin=value==='night'?'night':'studio';document.documentElement.dataset.skin=skin;$('studioSkin').value=skin;try{localStorage.setItem('midiroom.skin',skin);}catch(e){}}
+let storedSkin='studio';try{storedSkin=localStorage.getItem('midiroom.skin')||'studio';}catch(e){}setStudioSkin(storedSkin);
+$('studioSkin').onchange=()=>setStudioSkin($('studioSkin').value);
+document.querySelector('.workspace-heading h2').textContent='MIDI Studio';
+document.querySelector('.sidebar-title .eyebrow')?.replaceChildren(document.createTextNode('TRACK BROWSER'));
+
+(function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else Object.assign(root,api);})(typeof globalThis!=='undefined'?globalThis:this,function(){
+'use strict';
+const BAR=1920,DRUMS=new Set(['kick','clap','hats','drums']);
+function copy(x){return JSON.parse(JSON.stringify(x));}
+function hash(seed){let h=2166136261;for(const c of String(seed))h=Math.imul(h^c.charCodeAt(0),16777619);return h>>>0;}
+function random(seed){let a=hash(seed);return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+function clamp(n,a,b){return Math.max(a,Math.min(b,n));}
+function scalePitch(midi,step,clip){const root=Number(clip.meta&&clip.meta.root)||0,steps=clip.meta&&clip.meta.scale&&clip.meta.scale.steps||[0,2,3,5,7,8,10],pool=[];for(let m=0;m<128;m++)if(steps.includes((m-root+1200)%12))pool.push(m);let i=pool.reduce((best,p,j)=>Math.abs(p-midi)<Math.abs(pool[best]-midi)?j:best,0);return pool[clamp(i+step,0,pool.length-1)];}
+function groups(events){const map=new Map();events.forEach(e=>{if(!map.has(e.tick))map.set(e.tick,[]);map.get(e.tick).push(e);});return [...map.values()].sort((a,b)=>a[0].tick-b[0].tick);}
+function changeGroup(group,action,index,total,clip,part,rng,start,end){
+  if(action==='space'){
+    const phase=Math.floor(rng()*3),shape=.48+rng()*.34;
+    if(total>2&&index%3===phase)return [];
+    return group.map(e=>({...e,dur:Math.max(1,Math.min(end-e.tick,e.dur,Math.round(e.dur*(index%2?shape:Math.min(.9,shape+.16))))),vel:clamp(e.vel+(index%4===phase?5:-3),1,127)}));
+  }
+  if(action==='tension'){
+    const late=index>=Math.max(1,Math.floor(total*(.45+rng()*.2))),accent=rng()>.5?2:1,lift=late?(index%3===1?accent:1):(index%4===3?1:0);
+    return group.map(e=>({...e,midi:DRUMS.has(part.id)?e.midi:scalePitch(e.midi,lift,clip),dur:Math.max(1,Math.min(e.dur,end-e.tick,Math.round(e.dur*(late?.62+rng()*.18:.84+rng()*.12)))),vel:clamp(e.vel+(late?5+Math.floor(rng()*5):1+Math.floor(rng()*3)),1,127)}));
+  }
+  if(action==='answer'){
+    const delay=index%2?[60,120,180][Math.floor(rng()*3)]:0,dir=(index+Math.floor(rng()*3))%4<2?-1:1;
+    return group.map(e=>{const tick=Math.min(e.tick+delay,end-1),dur=Math.max(1,Math.min(e.dur,Math.round(e.dur*(index%2?.52+rng()*.2:.76+rng()*.16)),end-tick));return {...e,tick,dur,midi:DRUMS.has(part.id)?e.midi:scalePitch(e.midi,dir,clip),vel:clamp(e.vel+(index%2?-3-Math.floor(rng()*4):3+Math.floor(rng()*3)),1,127)};});
+  }
+  // Broken rhythm keeps every new onset inside the original note span, so existing silent gaps survive.
+  return group.flatMap(e=>{const room=Math.min(e.dur,end-e.tick),canSplit=room>=180&&rng()>.18;if(!canSplit)return [{...e,dur:Math.max(30,Math.round(room*.68)),vel:clamp(e.vel+3,1,127)}];const offset=Math.max(60,Math.min(room-45,Math.round(room*(index%2?.58:.42)/30)*30));return [{...e,dur:Math.max(30,Math.min(offset-20,Math.round(room*.4))),vel:clamp(e.vel+7,1,127)},{...e,tick:e.tick+offset,dur:Math.max(30,Math.min(Math.round(room*.28),end-e.tick-offset)),vel:clamp(e.vel-8,1,127)}];});
+}
+function sculptPhrase(source,options){
+  const clip=copy(source),o=options||{},partId=String(o.partId||''),action=['space','tension','answer','broken'].includes(o.action)?o.action:'space',bars=Math.max(1,Number(clip.meta&&clip.meta.bars)||1),startBar=clamp(Math.floor(Number(o.startBar)||1),1,bars),endBar=clamp(Math.floor(Number(o.endBar)||startBar),startBar,bars),start=(startBar-1)*BAR,end=endBar*BAR;
+  if(!partId||o.locks&&o.locks[partId])return clip;
+  const part=clip.parts&&clip.parts.find(p=>p.id===partId);if(!part||!Array.isArray(part.events))return clip;
+  const contained=part.events.filter(e=>e.tick>=start&&e.tick+e.dur<=end),untouched=part.events.filter(e=>!(e.tick>=start&&e.tick+e.dur<=end));if(!contained.length)return clip;
+  const onsetGroups=groups(contained),rng=random(String(o.seed||0)+':'+action+':'+partId+':'+startBar+':'+endBar),changed=onsetGroups.flatMap((g,i)=>changeGroup(g,action,i,onsetGroups.length,clip,part,rng,start,end));
+  const normalized=changed.filter(e=>Number.isFinite(e.tick)&&Number.isFinite(e.dur)&&e.dur>0&&e.tick>=start&&e.tick+e.dur<=end).map(e=>({...e,tick:Math.round(e.tick),dur:Math.max(1,Math.round(e.dur)),midi:clamp(Math.round(e.midi),0,127),vel:clamp(Math.round(e.vel),1,127)}));
+  part.events=untouched.concat(normalized).sort((a,b)=>a.tick-b.tick||a.midi-b.midi);
+  const count=clip.parts.reduce((n,p)=>n+p.events.length,0);if(count>50000)throw new Error('Deze sculptuur zou meer dan 50.000 noten maken. Kies een kleiner bereik.');
+  clip.customEdit=true;clip.vocalTiming=false;delete clip.vocalSourceSerial;clip.meta=clip.meta||{};clip.meta.sculpt={partId,action,startBar,endBar,seed:String(o.seed||0)};return clip;
+}
+return {sculptPhrase};
+});
+
+/* Phrase Sculptor: edit one exact bar range while the rest of the session remains untouched. */
+let sculptCandidates=[],sculptFingerprint='',sculptDragStart=null;
+const SCULPT_ACTIONS={space:['Meer ruimte','Snijdt gerichte aanzetten weg en maakt korte ademgaten.'],tension:['Meer spanning','Tilt geselecteerde tonen en maakt het einde dringender.'],answer:['Maak antwoord','Vormt de frase tot een afwisselend muzikaal antwoord.'],broken:['Breek ritme','Splitst noten binnen hun bestaande ruimte tot een onverwacht ritme.']};
+const sculpt=document.createElement('details');sculpt.id='phraseSculptor';sculpt.open=true;sculpt.innerHTML='<summary>'+icon('vary')+' Phrase Sculptor <span>Bewerk alleen je selectie</span></summary><div class="sculpt-body"><div class="sculpt-controls"><label>Track<select id="sculptTrack"></select></label><label>Van maat<input id="sculptStart" type="number" min="1" value="1"></label><label>Tot maat<input id="sculptEnd" type="number" min="1" value="2"></label><label>Richting<select id="sculptAction">'+Object.entries(SCULPT_ACTIONS).map(([id,a])=>'<option value="'+id+'">'+a[0]+'</option>').join('')+'</select></label><button id="sculptMake" class="primary">Maak 3 takes</button></div><p id="sculptHint" class="hint">Sleep over de piano roll of vul maten in. Noten die over een selectierand lopen blijven exact staan.</p><div id="sculptCards"></div></div>';
+$('rollViewport').before(sculpt);
+const sculptOverlay=document.createElement('div');sculptOverlay.id='sculptSelectionOverlay';sculptOverlay.setAttribute('aria-hidden','true');$('rollViewport').appendChild(sculptOverlay);
+function sculptKey(){return current?JSON.stringify({parts:current.parts.map(p=>[p.id,p.events]),meta:current.meta,bpm:current.bpm,locks:sessionConfig.locks}):'';}
+function sculptMessage(s){$('sculptHint').textContent=s;}
+function sculptRange(){const bars=Math.max(1,current?.meta?.bars||1),start=Math.max(1,Math.min(bars,Math.floor(+$('sculptStart').value||1))),end=Math.max(start,Math.min(bars,Math.floor(+$('sculptEnd').value||start)));$('sculptStart').value=start;$('sculptEnd').value=end;return {start,end};}
+function sculptActive(){return sculpt.open&&sculpt.getClientRects().length>0;}
+function drawSculptSelection(){if(!current||!rollMap||!sculptActive()){sculptOverlay.hidden=true;return;}const r=sculptRange(),span=rollMap.W-52,x1=48+((r.start-1)*1920/rollMap.totalTicks)*span,x2=48+(r.end*1920/rollMap.totalTicks)*span;sculptOverlay.hidden=false;sculptOverlay.style.left=x1+'px';sculptOverlay.style.width=Math.max(2,x2-x1)+'px';sculptOverlay.dataset.label='Maat '+r.start+'–'+r.end;}
+function renderSculptTracks(){const el=$('sculptTrack'),old=el.value||selectedInstrument;el.innerHTML=(current?.parts||[]).map(p=>'<option value="'+p.id+'" '+(sessionConfig.locks[p.id]?'disabled':'')+'>'+p.label+(sessionConfig.locks[p.id]?' · locked':'')+'</option>').join('');if([...el.options].some(o=>o.value===old&&!o.disabled))el.value=old;else{const first=[...el.options].find(o=>!o.disabled);if(first)el.value=first.value;}const available=[...el.options].some(o=>!o.disabled);$('sculptMake').disabled=!current||!available;const bars=Math.max(1,current?.meta?.bars||1);$('sculptStart').max=bars;$('sculptEnd').max=bars;sculptRange();drawSculptSelection();}
+function renderSculptCards(){const action=$('sculptAction').value;$('sculptCards').innerHTML=sculptCandidates.map((c,i)=>'<article class="sculpt-card"><span class="eyebrow">TAKE '+(i+1)+'</span><strong>'+SCULPT_ACTIONS[action][0]+'</strong><small>'+SCULPT_ACTIONS[action][1]+'</small><div><button data-sculpt-listen="'+i+'">▶ Luister</button><button data-sculpt-use="'+i+'" class="primary">Gebruik</button></div></article>').join('');}
+$('sculptMake').onclick=()=>{if(!current)return;const partId=$('sculptTrack').value;if(!partId){sculptMessage('Alle tracks staan vast. Ontgrendel minstens één track.');return;}if(sessionConfig.locks[partId]){sculptMessage('Deze track staat vast. Ontgrendel hem eerst.');return;}const r=sculptRange(),seed=newSeed();try{sculptCandidates=[0,1,2].map(i=>sculptPhrase(current,{partId,startBar:r.start,endBar:r.end,action:$('sculptAction').value,seed:seed+':'+i,locks:sessionConfig.locks}));sculptFingerprint=sculptKey();renderSculptCards();sculptMessage('Drie takes klaar voor maat '+r.start+'–'+r.end+'. Luisteren is tijdelijk; Gebruik maakt één Undo-stap.');}catch(e){sculptMessage(e.message);}};
+$('sculptCards').onclick=e=>{const listen=e.target.closest('[data-sculpt-listen]'),use=e.target.closest('[data-sculpt-use]');if(!listen&&!use)return;if(!sculptFingerprint||sculptFingerprint!==sculptKey()){sculptMessage('De sessie is veranderd. Maak opnieuw takes voor deze versie.');return;}const i=Number((listen||use).dataset[listen?'sculptListen':'sculptUse']),clip=sculptCandidates[i];if(listen)listenDiscovery(clip,'Phrase Sculptor · take '+(i+1));else{stopAudio();const next=clone(clip);if(next.vocalSourceSerial!==vocalSourceSerial)vocalLinked=false;finishSession(next,'Phrase Sculptor toegepast op maat '+$('sculptStart').value+'–'+$('sculptEnd').value+'.');sculptFingerprint='';}};
+['sculptStart','sculptEnd'].forEach(id=>$(id).addEventListener('input',()=>{sculptCandidates=[];$('sculptCards').innerHTML='';drawSculptSelection();}));
+$('sculptAction').onchange=()=>{sculptCandidates=[];$('sculptCards').innerHTML='';sculptMessage(SCULPT_ACTIONS[$('sculptAction').value][1]);};
+$('sculptTrack').onchange=()=>{sculptCandidates=[];$('sculptCards').innerHTML='';sculptMessage('Nieuwe track gekozen. Maak drie takes voor deze selectie.');};
+function sculptBarAt(clientX){if(!current||!rollMap)return null;const rect=cv.getBoundingClientRect(),x=Math.max(48,Math.min(rollMap.W,clientX-rect.left)),tick=(x-48)/Math.max(1,rollMap.W-52)*rollMap.totalTicks;return Math.max(1,Math.min(current.meta.bars,Math.floor(tick/1920)+1));}
+cv.addEventListener('pointerdown',e=>{if(e.button!==0||!current||!sculptActive())return;sculptDragStart=sculptBarAt(e.clientX);if(!sculptDragStart)return;try{cv.setPointerCapture?.(e.pointerId);}catch(_){}$('sculptStart').value=sculptDragStart;$('sculptEnd').value=sculptDragStart;drawSculptSelection();});
+cv.addEventListener('pointermove',e=>{if(sculptDragStart==null)return;const bar=sculptBarAt(e.clientX);$('sculptStart').value=Math.min(sculptDragStart,bar);$('sculptEnd').value=Math.max(sculptDragStart,bar);drawSculptSelection();});
+cv.addEventListener('pointerup',e=>{if(sculptDragStart==null)return;sculptDragStart=null;try{cv.releasePointerCapture?.(e.pointerId);}catch(_){}sculptCandidates=[];$('sculptCards').innerHTML='';sculptMessage('Selectie staat klaar. Kies een richting en maak drie takes.');});
+cv.addEventListener('pointercancel',()=>{sculptDragStart=null;});
+$('rollViewport').addEventListener('scroll',drawSculptSelection,{passive:true});
+const drawBeforeSculpt=drawRoll;drawRoll=function(playhead){drawBeforeSculpt(playhead);drawSculptSelection();};
+const renderBeforeSculpt=renderSession;renderSession=function(){renderBeforeSculpt();renderSculptTracks();};
+
+/* Offline Standard MIDI File reader. No dependencies, no uploads. */
+(function(root){
+'use strict';
+const LIMITS={bytes:4*1024*1024,notes:20000,bars:32};
+function fail(message){throw new Error(message);}
+function readMidiFile(input){
+ const b=input instanceof Uint8Array?input:new Uint8Array(input);if(b.length>LIMITS.bytes)fail('MIDI is groter dan 4 MB.');if(b.length<14)fail('Dit bestand is geen volledige MIDI.');let p=0;
+ const u8=()=>{if(p>=b.length)fail('MIDI is onverwacht afgebroken.');return b[p++];},u16=()=>u8()*256+u8(),u32=()=>u8()*0x1000000+u8()*0x10000+u8()*256+u8(),tag=()=>String.fromCharCode(u8(),u8(),u8(),u8());
+ if(tag()!=='MThd')fail('Geen geldig MIDI-bestand.');const hlen=u32();if(hlen<6||p+hlen>b.length)fail('Ongeldige MIDI-header.');const format=u16(),trackCount=u16(),division=u16();p+=hlen-6;
+ if(format>1)fail('MIDI type 2 wordt niet ondersteund.');if((format===0&&trackCount!==1)||!trackCount||trackCount>256)fail('Ongeldig aantal MIDI-tracks.');if(division&0x8000)fail('SMPTE-timing wordt niet ondersteund; exporteer met PPQ.');if(!division)fail('MIDI heeft geen geldige PPQ-resolutie.');
+ const tempos=[],warnings=[],out=[];let totalNotes=0,maxSourceTick=0;
+ for(let ti=0;ti<trackCount;ti++){
+  if(p+8>b.length||tag()!=='MTrk')fail('MIDI-track ontbreekt of is beschadigd.');const len=u32(),end=p+len;if(end>b.length)fail('MIDI-track is onverwacht afgebroken.');let tick=0,running=0,name='Track '+(ti+1);const active=new Map(),held=new Map(),sustain=Array(16).fill(false),channels=new Map();
+  const vlq=()=>{let v=0;for(let i=0;i<4;i++){const x=u8();v=v*128+(x&127);if(!(x&128))return v;}fail('Ongeldige MIDI delta-tijd.');};
+  const bucket=ch=>{if(!channels.has(ch))channels.set(ch,[]);return channels.get(ch);};
+  const close=(ch,n,at)=>{const key=ch+':'+n,stack=active.get(key);if(!stack?.length)return;const hit=stack.shift();if(!stack.length)active.delete(key);if(sustain[ch]){if(!held.has(ch))held.set(ch,[]);held.get(ch).push(hit);}else add(hit,at);};
+  const add=(hit,at)=>{if(totalNotes>=LIMITS.notes)fail('MIDI bevat meer dan 20.000 noten.');bucket(hit.ch).push({tick:hit.tick,dur:Math.max(1,at-hit.tick),midi:hit.note,vel:hit.vel});totalNotes++;};
+  while(p<end){tick+=vlq();maxSourceTick=Math.max(maxSourceTick,tick);if(p>=end)fail('MIDI-event is afgebroken.');let status=b[p];if(status<0x80){if(!running)fail('Ongeldige running status in MIDI.');status=running;}else{p++;if(status<0xf0)running=status;else running=0;}
+   if(status===0xff){const type=u8(),n=vlq();if(p+n>end)fail('MIDI meta-event is afgebroken.');if(type===0x03){name=new TextDecoder().decode(b.slice(p,p+n)).replace(/[\x00-\x1f]/g,' ').trim().slice(0,80)||name;}else if(type===0x51&&n===3){const us=b[p]*65536+b[p+1]*256+b[p+2];if(us)tempos.push({tick,us,bpm:60000000/us});}p+=n;continue;}
+   if(status===0xf0||status===0xf7){const n=vlq();if(p+n>end)fail('MIDI SysEx-event is afgebroken.');p+=n;continue;}if(status>=0xf0)fail('Niet-ondersteund MIDI systeemevent.');
+   const kind=status>>4,ch=status&15,a=u8(),two=!([0xc,0xd].includes(kind)),v=two?u8():0;
+   if(a>127||v>127)fail('Ongeldige MIDI eventdata.');
+   if(kind===9&&v){const key=ch+':'+a;if(!active.has(key))active.set(key,[]);active.get(key).push({ch,note:a,vel:v,tick});}
+   else if(kind===8||kind===9)close(ch,a,tick);
+   else if(kind===11&&a===64){const on=v>=64;if(sustain[ch]&&!on){(held.get(ch)||[]).forEach(hit=>add(hit,tick));held.delete(ch);}sustain[ch]=on;}
+  }
+  if(p!==end)fail('Ongeldige MIDI-tracklengte.');active.forEach(stack=>stack.forEach(hit=>add(hit,tick)));held.forEach(stack=>stack.forEach(hit=>add(hit,tick)));
+  channels.forEach((events,ch)=>{events.sort((a,b)=>a.tick-b.tick||a.midi-b.midi);out.push({index:out.length,sourceTrack:ti,channel:ch,name:(name+(channels.size>1?' · Ch '+(ch+1):'')).slice(0,90),events});});
+ }
+ if(p!==b.length)warnings.push('Data na de laatste MIDI-track is genegeerd.');if(!out.length)fail('Deze MIDI bevat geen noten.');
+ const scale=480/division;out.forEach(t=>t.events=t.events.map(e=>({tick:Math.round(e.tick*scale),dur:Math.max(1,Math.round(e.dur*scale)),midi:e.midi,vel:e.vel})));
+ const maxTick=Math.max(1,...out.flatMap(t=>t.events.map(e=>e.tick+e.dur))),bars=Math.ceil(maxTick/1920);if(bars>LIMITS.bars)fail('MIDI is langer dan 32 maten. Kort hem eerst in je DAW in.');
+ tempos.sort((a,b)=>a.tick-b.tick);const bpm=tempos.length?Math.round(Math.max(40,Math.min(300,tempos[0].bpm))):120;if(tempos.some(t=>Math.abs(t.bpm-tempos[0].bpm)>.01))warnings.push('Tempowisselingen gevonden. De timing wordt als PPQ-groove gelezen; afspelen volgt je MIDIROOM-sessie.');
+ return {format,ppq:division,bpm,bars,tracks:out,tempos,warnings,notes:totalNotes};
+}
+const api={readMidiFile,MIDI_IMPORT_LIMITS:LIMITS};if(typeof module!=='undefined')module.exports=api;Object.assign(root,api);
+})(typeof globalThis!=='undefined'?globalThis:this);
+
+/* Groove DNA: derive feel from imported MIDI and apply it without changing harmony. */
+(function(root){
+'use strict';
+const cp=o=>JSON.parse(JSON.stringify(o));
+function groups(events,tolerance=5){const sorted=cp(events||[]).sort((a,b)=>a.tick-b.tick||a.midi-b.midi),out=[];for(const e of sorted){let g=out.at(-1);if(!g||Math.abs(e.tick-g.tick)>tolerance){g={tick:e.tick,events:[]};out.push(g);}g.events.push(e);}return out;}
+function grooveProfile(events,cycleBars=1){const cycle=Math.max(1,Math.min(4,Number(cycleBars)||1))*1920,all=events||[];if(!all.length)throw new Error('De gekozen MIDI-track bevat geen groove.');const firstWindow=Math.floor(Math.min(...all.map(e=>e.tick))/cycle)*cycle,window=all.filter(e=>e.tick>=firstWindow&&e.tick<firstWindow+cycle).map(e=>({...e,tick:e.tick-firstWindow})),gs=groups(window,12);if(!gs.length)throw new Error('De gekozen cyclus bevat geen groove.');const slots=[];gs.forEach(g=>slots.push({tick:g.tick,dur:Math.max(1,Math.round(g.events.reduce((n,e)=>n+e.dur,0)/g.events.length)),vel:Math.round(g.events.reduce((n,e)=>n+e.vel,0)/g.events.length)}));slots.sort((a,b)=>a.tick-b.tick);return {cycleTicks:cycle,cycleBars:cycle/1920,slots};}
+function applyGrooveDNA(clip,targetId,profile,locks={}){if(!clip?.parts||!profile?.slots?.length)throw new Error('Geen groove beschikbaar.');if(locks[targetId])throw new Error('De doeltrack staat vast.');const next=cp(clip),part=next.parts.find(p=>p.id===targetId);if(!part)throw new Error('Doeltrack ontbreekt.');const harmonic=groups(part.events,40),end=next.meta.bars*1920;if(!harmonic.length)return next;const sourcePatterns=harmonic.map(g=>g.events.map(e=>({midi:e.midi,offset:e.tick-g.tick,ratio:e.dur/Math.max(1,g.events[0].dur)}))),otherCount=next.parts.reduce((n,p)=>n+(p.id===targetId?0:(p.events||[]).length),0),estimated=otherCount+Math.ceil(end/profile.cycleTicks)*profile.slots.length*Math.max(...sourcePatterns.map(p=>p.length));if(estimated>50000)throw new Error('Deze combinatie zou de sessie boven 50.000 noten brengen. Kies een langere cyclus of rustigere brontrack.');const events=[];let slotIndex=0;
+ for(let base=0;base<end;base+=profile.cycleTicks){for(const slot of profile.slots){const tick=base+slot.tick;if(tick>=end)continue;const pat=sourcePatterns[slotIndex++%sourcePatterns.length];pat.forEach(n=>{const placed=Math.max(0,tick+n.offset);if(placed<end)events.push({tick:placed,dur:Math.max(1,Math.min(end-placed,Math.round(slot.dur*n.ratio))),midi:n.midi,vel:Math.max(1,Math.min(127,slot.vel))});});}}
+ part.events=events.filter(e=>e.tick<end).sort((a,b)=>a.tick-b.tick||a.midi-b.midi).filter((e,i,a)=>!i||e.tick!==a[i-1].tick||e.midi!==a[i-1].midi);const lastByPitch=new Map();part.events.forEach(e=>{const prev=lastByPitch.get(e.midi);if(prev&&prev.tick+prev.dur>e.tick)prev.dur=Math.max(1,e.tick-prev.tick);lastByPitch.set(e.midi,e);});if(!['chords','pad','harmony','drums'].includes(part.id)){for(let i=0;i<part.events.length-1;i++){const e=part.events[i],n=part.events[i+1];if(n.tick>e.tick)e.dur=Math.min(e.dur,n.tick-e.tick);}}if(next.parts.reduce((n,p)=>n+p.events.length,0)>50000)throw new Error('De sessie bevat meer dan 50.000 noten.');next.customEdit=true;next.vocalTiming=false;delete next.vocalSourceSerial;next.grooveDNA={targetId,cycleBars:profile.cycleBars};return next;
+}
+function importedTrackEvents(track,endTick){return cp(track?.events||[]).filter(e=>e.tick>=0&&e.tick<endTick).map(e=>({...e,dur:Math.max(1,Math.min(e.dur,endTick-e.tick))}));}
+const api={grooveProfile,applyGrooveDNA,importedTrackEvents,groupMidiEvents:groups};if(typeof module!=='undefined')module.exports=api;Object.assign(root,api);
+})(typeof globalThis!=='undefined'?globalThis:this);
+
+/* Browser interface. Kept in this file so Groove DNA can be moved as one tool panel. */
+if(typeof document!=='undefined'){
+let importedMidi=null,groovePreview=null,grooveImportToken=0;
+const panel=document.createElement('section');panel.id='grooveDNA';panel.className='future-tool groove-dna';panel.innerHTML='<div class="tool-title"><span class="eyebrow">GROOVE DNA</span><h2>Laat jouw MIDI de feel bepalen</h2><p>Importeer een MIDI uit Ableton. Neem de timing, accenten en rust over terwijl de doeltrack zijn eigen noten en akkoorden houdt.</p></div><div class="groove-load"><label class="midi-drop" for="grooveFile"><strong>Sleep of kies MIDI</strong><span>Type 0/1 · maximaal 4 MB, 32 maten en 20.000 noten</span><input id="grooveFile" type="file" accept=".mid,.midi,audio/midi,audio/x-midi"></label><div id="grooveFileMeta" class="groove-file-meta">Nog geen MIDI geladen</div></div><div id="grooveControls" class="groove-controls" hidden><label>Brontrack<select id="grooveTrack"></select></label><label>Doel in MIDIROOM<select id="grooveTarget"></select></label><label>Groove-lus<select id="grooveCycle"><option value="1">1 maat</option><option value="2">2 maten</option><option value="4">4 maten</option></select></label><div class="groove-actions"><button id="grooveListen">▶ Vergelijk groove</button><button id="grooveApply" class="primary">Neem Groove DNA over</button><button id="grooveImport">Importeer als track</button></div></div><p id="grooveStatus" role="status">Je bestand blijft lokaal. Sustain (CC64) wordt verwerkt; overige CC, program changes, aftertouch en pitch bend worden genegeerd.</p>';
+(document.querySelector('.rollbox')||document.querySelector('main')).before(panel);
+const ge=id=>document.getElementById(id),status=s=>ge('grooveStatus').textContent=s;
+function fillGrooveTargets(){const old=ge('grooveTarget').value;ge('grooveTarget').innerHTML=(current?.parts||[]).map(p=>'<option value="'+p.id+'">'+p.label+(sessionConfig.locks[p.id]?' · vast':'')+'</option>').join('');if(current?.parts.some(p=>p.id===old))ge('grooveTarget').value=old;}
+function selectedImportedTrack(){return importedMidi?.tracks[Number(ge('grooveTrack').value)];}
+function buildGrooveCandidate(){if(!current)throw new Error('Genereer eerst een MIDIROOM-loop.');const id=ge('grooveTarget').value;if(sessionConfig.locks[id])throw new Error('Ontgrendel '+PART_DEFS[id].label+' om de groove te wijzigen.');const profile=grooveProfile(selectedImportedTrack()?.events,Number(ge('grooveCycle').value));return applyGrooveDNA(current,id,profile,sessionConfig.locks);}
+async function loadGrooveFile(file){if(!file)return;const token=++grooveImportToken;try{if(file.size>4*1024*1024)throw new Error('MIDI is groter dan 4 MB.');const bytes=await file.arrayBuffer();if(token!==grooveImportToken)return;const parsed=readMidiFile(bytes);if(token!==grooveImportToken)return;importedMidi=parsed;groovePreview=null;ge('grooveTrack').innerHTML=parsed.tracks.map((t,i)=>'<option value="'+i+'">'+escapeHtml(t.name)+' · '+t.events.length+' noten</option>').join('');fillGrooveTargets();ge('grooveControls').hidden=false;ge('grooveFileMeta').innerHTML='<strong>'+escapeHtml(file.name)+'</strong><span>'+parsed.tracks.length+' tracks · '+parsed.notes+' noten · '+parsed.bars+' maten · '+parsed.bpm+' BPM bronbestand</span>';const sessionBpm=current?.meta?.bpm;status((parsed.warnings.join(' ')+' ').trim()+'Timing wordt als PPQ-groove gelezen en speelt '+(sessionBpm?'op '+sessionBpm+' BPM van je MIDIROOM-sessie.':'op het tempo van je MIDIROOM-sessie.')).trim();}catch(err){if(token!==grooveImportToken)return;importedMidi=null;groovePreview=null;ge('grooveControls').hidden=true;ge('grooveFileMeta').textContent='Bestand niet geladen';status(err.message);ge('grooveFile').value='';}}
+ge('grooveFile').onchange=e=>loadGrooveFile(e.target.files?.[0]);const drop=panel.querySelector('.midi-drop');drop.ondragover=e=>{e.preventDefault();drop.classList.add('dragging');};drop.ondragleave=()=>drop.classList.remove('dragging');drop.ondrop=e=>{e.preventDefault();drop.classList.remove('dragging');loadGrooveFile(e.dataTransfer.files?.[0]);};
+ge('grooveListen').onclick=()=>{try{groovePreview=buildGrooveCandidate();listenDiscovery(groovePreview,'Groove DNA');status('Preview speelt met de huidige klanken. Stop of Spatie zet je sessie terug.');}catch(err){status(err.message);}};
+ge('grooveApply').onclick=()=>{try{const next=buildGrooveCandidate();vocalLinked=false;finishSession(next,'Groove DNA toegepast op '+PART_DEFS[ge('grooveTarget').value].label+'. Undo herstelt het origineel.');status('Groove toegepast. Toonhoogtes en akkoordvormen van de doeltrack zijn behouden.');}catch(err){status(err.message);}};
+ge('grooveImport').onclick=()=>{try{if(!current)throw new Error('Genereer eerst een MIDIROOM-loop.');const id=ge('grooveTarget').value;if(sessionConfig.locks[id])throw new Error('Ontgrendel '+PART_DEFS[id].label+' om MIDI te importeren.');const track=selectedImportedTrack();if(!track)throw new Error('Kies een brontrack.');const next=clone(current),part=next.parts.find(p=>p.id===id);if(!part)throw new Error('De doeltrack ontbreekt.');const end=next.meta.bars*1920,imported=importedTrackEvents(track,end),other=next.parts.reduce((n,p)=>n+(p.id===id?0:p.events.length),0);if(other+imported.length>50000)throw new Error('De sessie zou meer dan 50.000 noten bevatten. Kies een rustigere MIDI-track.');part.events=imported;next.customEdit=true;next.vocalTiming=false;delete next.vocalSourceSerial;vocalLinked=false;finishSession(next,'MIDI geïmporteerd in '+PART_DEFS[id].label+'. Undo herstelt het origineel.');const clipped=track.events.some(e=>e.tick+e.dur>end);status('Track geïmporteerd zonder timestretch.'+(clipped?' Noten buiten '+next.meta.bars+' maten zijn afgekapt.':''));}catch(err){status(err.message);}};
+const oldRenderGroove=renderSession;renderSession=function(){oldRenderGroove();if(ge('grooveTarget'))fillGrooveTargets();};
+}
+
+/* Vocal Conversation: deterministic MIDI transforms driven by measured vocal activity. */
+(function(root,factory){const api=factory();if(typeof module!=='undefined'&&module.exports)module.exports=api;else Object.assign(root,api);})(typeof globalThis!=='undefined'?globalThis:this,function(){
+'use strict';
+const clone=o=>o===undefined?undefined:JSON.parse(JSON.stringify(o));
+const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
+function sanitizeSegments(segments,duration){
+ return (Array.isArray(segments)?segments:[]).filter(s=>Number.isFinite(+s.start)&&Number.isFinite(+s.end)&&Number.isFinite(+s.midi)&&+s.end>+s.start).map(s=>({start:clamp(+s.start,0,duration),end:clamp(+s.end,0,duration),midi:clamp(Math.round(+s.midi),0,127)})).filter(s=>s.end>s.start).sort((a,b)=>a.start-b.start||a.end-b.end);
+}
+function vocalWindows(segments,duration,minGap=.28){
+ const active=[];for(const s of segments){const last=active.at(-1);if(last&&s.start<=last.end+.08)last.end=Math.max(last.end,s.end);else active.push({start:s.start,end:s.end});}
+ const gaps=[];let at=0;for(const s of active){if(s.start-at>=minGap)gaps.push({start:at,end:s.start});at=Math.max(at,s.end);}if(duration-at>=minGap)gaps.push({start:at,end:duration});
+ return {active,gaps};
+}
+function snapScale(n,root,steps){let best=clamp(Math.round(n),0,127),distance=999;for(let m=0;m<128;m++){if(steps.includes((m-root+120)%12)&&Math.abs(m-n)<distance){best=m;distance=Math.abs(m-n);}}return best;}
+function tidy(events,total,poly){const out=events.map(e=>({tick:clamp(Math.round(e.tick),0,total-1),dur:Math.max(1,Math.round(e.dur)),midi:clamp(Math.round(e.midi),0,127),vel:clamp(Math.round(e.vel),1,127)})).sort((a,b)=>a.tick-b.tick||a.midi-b.midi),seen=new Set(),clean=[];for(const e of out){const k=e.tick+':'+(poly?e.midi:'mono');if(seen.has(k))continue;seen.add(k);e.dur=Math.min(e.dur,total-e.tick);if(e.dur>0)clean.push(e);}if(poly){let group=0;while(group<clean.length){let after=group+1;while(after<clean.length&&clean[after].tick===clean[group].tick)after++;if(after<clean.length){const room=clean[after].tick-clean[group].tick;for(let i=group;i<after;i++)clean[i].dur=Math.min(clean[i].dur,room);}group=after;}}else for(let i=0;i<clean.length-1;i++)clean[i].dur=Math.min(clean[i].dur,clean[i+1].tick-clean[i].tick);return clean.filter(e=>e.dur>0);}
+function overlaps(e,window,ticksPerSecond){const a=e.tick/ticksPerSecond,b=(e.tick+e.dur)/ticksPerSecond;return a<window.end&&b>window.start;}
+function conversationClip(source,segments,options={}){
+ if(!source||!Array.isArray(source.parts)||!source.meta)throw new Error('Ongeldige bronclip.');
+ if(source.parts.reduce((n,p)=>n+(Array.isArray(p.events)?p.events.length:0),0)>50000)throw new Error('Clip bevat te veel noten.');
+ const bpm=Number(source.bpm)||Number(source.meta.bpm)||120,bars=clamp(Math.round(source.meta.bars)||1,1,256),total=bars*1920,duration=total/(bpm*8),offset=clamp(Number(options.offset)||0,0,30),closeness=clamp(Number(options.closeness)||0,0,100)/100,mode=options.mode==='support'?'support':'converse',rootNote=clamp(Math.round(Number(options.root??source.meta.root)||0),0,11),steps=Array.isArray(options.steps)&&options.steps.length?options.steps:[0,2,3,5,7,8,10],locks=options.locks||{},targets=new Set(Array.isArray(options.targets)?options.targets:[]);
+ const clean=sanitizeSegments(segments,Math.max(0,duration-offset)).slice(0,50000).map(s=>({...s,start:s.start+offset,end:s.end+offset})),windows=vocalWindows(clean,duration),leadIds=new Set(['lead','melody','screech','darkmelody','pluck','arp']),polyIds=new Set(['chords','pad','harmony']),supported=new Set(['bass',...leadIds,...polyIds]);
+ if(!clean.length)throw new Error('Geen bruikbare zangnoten gevonden.');
+ const out=clone(source);out.parts=source.parts.map(part=>{
+  if(locks[part.id]||!supported.has(part.id)||!targets.has(part.id)||closeness===0)return clone(part);
+  const poly=polyIds.has(part.id);let events=clone(part.events||[]);
+  if(leadIds.has(part.id)){
+   // Create breathing room as closeness rises. Converse then places short replies only in measured rests.
+   if(closeness>0){events=events.filter((e,i)=>!windows.active.some(w=>overlaps(e,w,bpm*8))||((i*37+e.tick)%100)/100>closeness*(mode==='converse'?.94:.62));
+   if(mode==='converse')windows.gaps.forEach((gap,g)=>{if(gap.end-gap.start<.34||events.length>=50000)return;const count=Math.min(4,Math.max(1,Math.floor((gap.end-gap.start-.12)/.18))),anchor=(part.events||[]).filter(e=>e.tick/(bpm*8)<=gap.start).at(-1)||(part.events||[])[g%(part.events||[]).length];if(!anchor)return;for(let i=0;i<count&&events.length<50000;i++){if(((g*19+i*31)%100)/100>closeness)continue;const time=gap.start+.07+i*Math.min(.22,(gap.end-gap.start-.14)/count);events.push({tick:time*bpm*8,dur:Math.min(.14,gap.end-time-.03)*bpm*8,midi:snapScale(anchor.midi+[0,2,-2,4][i%4],rootNote,steps),vel:clamp(anchor.vel-4+i*2,52,112)});}});}
+  } else if(poly){
+   // Under active singing, use longer harmonic beds while retaining every original pitch.
+   events=events.map(e=>{const w=windows.active.find(x=>overlaps(e,x,bpm*8));if(!w)return e;const desired=(w.end*bpm*8)-e.tick;return {...e,dur:Math.max(e.dur,Math.round(e.dur+(Math.max(1,desired)-e.dur)*closeness*(mode==='support'?1:.65))),vel:clamp(e.vel-(mode==='support'?8:4)*closeness,1,127)};});
+  } else if(part.id==='bass'){
+   // Pull nearby existing bass notes towards vocal onsets; pitch identity and harmony remain unchanged.
+   const onsets=clean.map(s=>Math.round(s.start*bpm*8/120)*120).filter(t=>t>=0&&t<total);events=events.map(e=>{let nearest=null,dist=241;for(const t of onsets){const d=Math.abs(t-e.tick);if(d<dist){dist=d;nearest=t;}}if(nearest===null||dist>240)return e;return {...e,tick:Math.round(e.tick+(nearest-e.tick)*closeness*(mode==='support'?.7:.4)),vel:clamp(e.vel+Math.round(8*closeness),1,127)};});
+  }
+  return {...clone(part),events:tidy(events,total,poly),part:{...(clone(part.part)||{}),rhythmLabel:'Vocal Conversation · '+mode}};
+ });
+ out.customEdit=true;out.vocalTiming=true;out.vocalConversation={mode,closeness:Math.round(closeness*100),active:windows.active.length,gaps:windows.gaps.length};
+ if(out.parts.reduce((n,p)=>n+p.events.length,0)>50000)throw new Error('Resultaat bevat te veel noten.');
+ return {clip:out,activity:windows};
+}
+return {conversationClip,sanitizeSegments,vocalWindows};
+});
+
+/* Vocal Conversation UI. Loaded after session + discovery. */
+(function(){
+'use strict';
+const host=document.createElement('section');host.id='vocalConversation';host.className='vocal-conversation';host.innerHTML='<div class="conversation-head"><div><span class="eyebrow">VOCAL CONVERSATION</span><h3>Laat je MIDI luisteren</h3><p>De begeleiding reageert op echte zangactiviteit en gemeten stiltes.</p></div><div class="conversation-head-actions"><span id="conversationBadge" class="conversation-badge">Analyse nodig</span><button id="conversationOpenVocal">Vocal laden & analyseren</button></div></div><div id="conversationTimeline" class="conversation-timeline" aria-label="Zangactiviteit en vrije ruimte"></div><div class="conversation-controls"><label>Gedrag<select id="conversationMode"><option value="converse">Vraag & antwoord</option><option value="support">Rustig ondersteunen</option></select></label><label class="conversation-range"><span>Afstand tot vocal <b id="conversationAmount">72%</b></span><input id="conversationCloseness" type="range" min="0" max="100" value="72"><small>Vrijer ← → sterker reageren</small></label></div><div><span class="conversation-label">Tracks laten reageren</span><div id="conversationTargets" class="conversation-targets"></div></div><div id="conversationMismatch" class="conversation-mismatch" hidden><span>De BPM/key hierboven wijkt af van je sessie.</span><button id="conversationAlign">Stem analyse af op sessie</button></div><div class="action-row"><button id="conversationPreview">Preview MIDI</button><button id="conversationApply" class="primary">Pas gesprek toe</button></div><p id="conversationStatus" class="hint" role="status"></p>';
+const tool=$('vocalContent').querySelector('.tool-grid');(tool||$('vocalContent')).after(host);
+const conversationSupported=new Set(['bass','chords','pad','harmony','lead','melody','screech','darkmelody','pluck','arp']);
+const melodic=id=>conversationSupported.has(id);
+let conversationTargetChoice=null,conversationKnownTargets=new Set();
+function scaleId(){return Object.keys(SCALES).find(id=>JSON.stringify(SCALES[id].steps)===JSON.stringify(current?.meta?.scale?.steps));}
+function aligned(){return !!current&&Math.round(+$('vocalBpm').value)===Math.round(current.bpm)&&+$('vocalRoot').value===current.meta.root&&$('vocalScale').value===scaleId();}
+function renderTimeline(){const seg=vocalAnalysis?.segments||[],duration=safelyVocalDuration();if(!seg.length||!duration){$('conversationTimeline').innerHTML='<span>Analyseer je vocal om zang en ruimte te zien.</span>';return;}const clean=sanitizeSegments(seg,duration),w=vocalWindows(clean,duration);$('conversationTimeline').innerHTML='<div class="conversation-lane">'+w.active.map(a=>'<i class="voice" style="left:'+a.start/duration*100+'%;width:'+(a.end-a.start)/duration*100+'%" title="Zang"></i>').join('')+w.gaps.map(a=>'<i class="rest" style="left:'+a.start/duration*100+'%;width:'+(a.end-a.start)/duration*100+'%" title="Vrije ruimte"></i>').join('')+'</div><div class="conversation-legend"><span><i class="voice"></i>Zang</span><span><i class="rest"></i>Antwoordruimte</span><b>'+w.gaps.length+' bruikbare pauzes</b></div>';}
+function renderConversation(){const ready=!!vocalAnalysis?.segments?.length&&!!current,parts=(current?.parts||[]).filter(p=>melodic(p.id));if(parts.length){if(conversationTargetChoice===null)conversationTargetChoice=new Set();for(const p of parts)if(!conversationKnownTargets.has(p.id)&&!sessionConfig.locks[p.id])conversationTargetChoice.add(p.id);conversationKnownTargets=new Set(parts.map(p=>p.id));conversationTargetChoice=new Set([...conversationTargetChoice].filter(id=>parts.some(p=>p.id===id)));}renderTimeline();$('conversationTargets').innerHTML=parts.map(p=>'<label style="--track:'+p.colour+'"><input type="checkbox" data-conversation-target="'+p.id+'" '+(sessionConfig.locks[p.id]?'disabled':conversationTargetChoice.has(p.id)?'checked':'')+'><span>'+p.label+'</span>'+(sessionConfig.locks[p.id]?'<small>Vast</small>':'')+'</label>').join('')||'<span class="hint">Genereer eerst melodische tracks.</span>';$('conversationBadge').textContent=!vocalAnalysis?'Analyse nodig':!current?'MIDI nodig':aligned()?'Klaar om te reageren':'BPM/key controleren';$('conversationBadge').classList.toggle('ready',ready&&aligned());$('conversationMismatch').hidden=!ready||aligned();$('conversationPreview').disabled=!ready||!aligned();$('conversationApply').disabled=!ready||!aligned();}
+function candidate(){const targets=[...document.querySelectorAll('[data-conversation-target]:checked')].map(x=>x.dataset.conversationTarget);if(!targets.length)throw new Error('Kies minstens één vrije track.');const mode=$('conversationMode').value,result=conversationClip(current,vocalAnalysis.segments,{mode,closeness:+$('conversationCloseness').value,targets,locks:sessionConfig.locks,offset:bound($('vocalOffset').value,0,30,0),root:current.meta.root,steps:current.meta.scale.steps});const clip=result.clip;clip.vocalSourceSerial=vocalSourceSerial;clip.vocalRevision=vocalRevision;clip.vocalOffset=bound($('vocalOffset').value,0,30,0);clip.vocalMode=mode==='converse'?'answer':'support';return clip;}
+$('conversationOpenVocal').onclick=()=>{if(typeof selectView==='function')selectView('generator');$('vocalDrawer').open=true;$('vocalDrawer').scrollIntoView({block:'start'});};
+$('conversationCloseness').oninput=()=>{$('conversationAmount').textContent=$('conversationCloseness').value+'%';};
+$('conversationAlign').onclick=()=>{if(!current)return;$('vocalBpm').value=current.bpm;$('vocalRoot').value=current.meta.root;const id=scaleId();if(id){let option=[...$('vocalScale').options].find(o=>o.value===id);if(!option){option=new Option((SCALES[id].label||id)+' · sessie',id);option.dataset.sessionScale='true';$('vocalScale').add(option);}$('vocalScale').value=id;}renderConversation();$('conversationStatus').textContent='Analyse-instellingen volgen nu de sessie. Luister altijd of de geschatte key klopt.';};
+$('conversationPreview').onclick=()=>{try{listenDiscovery(candidate(),'Vocal Conversation');$('conversationStatus').textContent='Alleen de aangepaste MIDI speelt. Stop herstelt je sessie.';}catch(e){$('conversationStatus').textContent=e.message;}};
+$('conversationTargets').onchange=e=>{const id=e.target.dataset.conversationTarget;if(!id)return;if(e.target.checked)conversationTargetChoice.add(id);else conversationTargetChoice.delete(id);};
+$('conversationApply').onclick=()=>{try{const clip=candidate();vocalLinked=!!vocalBuffer;if(vocalLinked)$('loop').checked=false;finishSession(clip,'Vocal Conversation toegepast · zangactiviteit en pauzes sturen de gekozen tracks.');renderConversation();$('conversationStatus').textContent='Toegepast. Undo herstelt de vorige versie.';}catch(e){$('conversationStatus').textContent=e.message;}};
+['vocalBpm','vocalRoot','vocalScale'].forEach(id=>$(id).addEventListener('change',renderConversation));
+const renderBeforeConversation=renderSession;renderSession=function(){renderBeforeConversation();renderConversation();};
+const showBeforeConversation=showVocalAnalysis;showVocalAnalysis=function(){showBeforeConversation();renderConversation();};
+renderConversation();
+})();
+
+/* 3.0: one editing surface, three focused tools, scalable inline brand. */
+const studioMark='<svg class="studio-mark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="16" fill="#16282e"/><path d="M14 46V18h7l11 16 11-16h7v28h-8V32L32 46 22 32v14z" fill="#bdf5df"/><path d="M43 10h11v4H43z" fill="#ff967f"/></svg>';
+document.querySelector('header h1').innerHTML=studioMark+'<span class="studio-wordmark">MIDI<span>ROOM</span><small>COMPOSITION STUDIO</small></span>';
+const favicon=document.createElement('link');favicon.rel='icon';favicon.href='data:image/svg+xml,'+encodeURIComponent(studioMark.replace('class="studio-mark"',''));document.head.appendChild(favicon);
+const studioTools=[['sculptor','Frase Sculptor','phraseSculptor','01'],['groove','Groove DNA','grooveDNA','02'],['vocal','Vocal Conversation','vocalConversation','03']];
+const editingTray=document.createElement('section');editingTray.id='editingTray';editingTray.innerHTML='<div class="editing-heading"><div><span class="eyebrow">IDEA → EXPRESSION</span><h3>Shape your sound.</h3></div><div role="tablist" aria-label="MIDI-bewerking" class="editing-tabs">'+studioTools.map(([key,label,id,n])=>'<button type="button" id="studioTool-'+key+'" role="tab" aria-controls="'+id+'" aria-selected="false" tabindex="-1"><span>'+n+'</span>'+label+'</button>').join('')+'</div></div><div id="editingPanels"></div>';
+const mainRoll=document.querySelector('.rollbox');document.querySelector('.daw-toolbar').after(mainRoll);document.querySelector('#rollViewport').before(editingTray);
+for(const [key,label,id] of studioTools){const panel=$(id);if(panel){$('editingPanels').appendChild(panel);panel.setAttribute('role','tabpanel');panel.setAttribute('aria-labelledby','studioTool-'+key);panel.tabIndex=0;}}
+function selectStudioTool(key){studioTools.forEach(([k,label,id])=>{const on=k===key;$('studioTool-'+k).setAttribute('aria-selected',String(on));$('studioTool-'+k).tabIndex=on?0:-1;if($(id)){$(id).hidden=!on;if(on&&$(id).tagName==='DETAILS')$(id).open=true;}});if(key==='vocal'&&typeof renderConversation==='function')renderConversation();window.dispatchEvent(new Event('resize'));}
+studioTools.forEach(([key],i)=>{const tab=$('studioTool-'+key);tab.onclick=()=>selectStudioTool(key);tab.onkeydown=e=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();const n=e.key==='Home'?0:e.key==='End'?2:(i+(e.key==='ArrowRight'?1:2))%3;selectStudioTool(studioTools[n][0]);$('studioTool-'+studioTools[n][0]).focus();};});
+selectStudioTool('sculptor');
+const exploration=document.createElement('div');exploration.className='exploration-stack';mainRoll.after(exploration);['vocalDrawer','discoveryLab','sceneRack'].forEach(id=>{if($(id))exploration.appendChild($(id));});
+document.querySelector('.workspace-heading h2').innerHTML='Make the next <em>idea.</em>';
+const studioKicker=document.createElement('span');studioKicker.className='studio-kicker';studioKicker.textContent='MIDIROOM / CREATIVE WORKSPACE';document.querySelector('.workspace-heading h2').before(studioKicker);
+mainRoll.after($('exports'));$('exports').after(exploration);mainRoll.before($('meta'));
 
 
 paintMS();

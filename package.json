@@ -1,11 +1,11 @@
 {
   "name": "midiroom",
-  "version": "2.3.0",
+  "version": "3.0.0",
   "description": "Offline MIDI generation and production workspace: hard dance, techno, dubstep, drum & bass and garage.",
   "license": "MIT",
   "scripts": {
     "build": "node build.js",
-    "test": "node build.js && node test/fuzz.js 4000 && node test/domtest.js 400 && node test/audiotest.js && node test/styletest.js && node test/regression.js && node test/vocal.js && node test/composer.js",
+    "test": "node build.js && node test/fuzz.js 4000 && node test/domtest.js 400 && node test/audiotest.js && node test/styletest.js && node test/regression.js && node test/vocal.js && node test/composer.js && node test/discovery-engine.js && node test/arranger.js && node test/expression-engine.js && node test/sculptor-engine.js && node test/midi-import.js && node test/conversation-engine.js",
     "test:fuzz": "node test/fuzz.js 8000",
     "test:ui": "node test/domtest.js 600",
     "test:audio": "node test/audiotest.js",
@@ -16,7 +16,23 @@
     "test:vocal": "node test/vocal.js",
     "test:production": "node test/session-browser.js",
     "test:daw": "node test/session-browser.js",
-    "test:composer": "node test/composer.js"
+    "test:composer": "node test/composer.js",
+    "test:projects": "node test/projects-browser.js",
+    "test:discovery": "node test/discovery-engine.js",
+    "test:discovery:browser": "node test/discovery-browser.js",
+    "test:arranger": "node test/arranger.js",
+    "test:arranger:browser": "node test/arranger-browser.js",
+    "test:expression": "node test/expression-engine.js",
+    "test:expression:browser": "node test/expression-browser.js",
+    "test:skin": "node test/skin-browser.js",
+    "test:scenes": "node test/scenes-browser.js",
+    "test:sculptor": "node test/sculptor-engine.js",
+    "test:sculptor:browser": "node test/sculptor-browser.js",
+    "test:midi-import": "node test/midi-import.js",
+    "test:groove:browser": "node test/groove-browser.js",
+    "test:conversation": "node test/conversation-engine.js",
+    "test:conversation:browser": "node test/conversation-browser.js",
+    "test:studio": "node test/studio-browser.js"
   },
   "devDependencies": {
     "jsdom": "^24.0.0"
