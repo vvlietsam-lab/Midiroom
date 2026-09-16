@@ -115,3 +115,14 @@ if (scoreStats.length) {
   console.log('melodic score: avg ' + avg.toFixed(1) + '  min ' + Math.min(...scoreStats) + '  max ' + Math.max(...scoreStats));
 }
 console.log('empty parts:', emptyParts);
+
+// This suite used to print violations and still exit 0, so CI stayed green while the
+// generator was broken. It now fails the build.
+if (keys.length) {
+  console.error('\nFUZZ GEFAALD: ' + keys.length + ' soorten schending. Zie hierboven.');
+  process.exit(1);
+}
+if (emptyParts) {
+  console.error('\nFUZZ GEFAALD: ' + emptyParts + ' partijen leverden nul noten.');
+  process.exit(1);
+}

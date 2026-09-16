@@ -1,6 +1,6 @@
 {
   "name": "midiroom",
-  "version": "3.0.0",
+  "version": "3.1.3",
   "description": "Offline MIDI generation and production workspace: hard dance, techno, dubstep, drum & bass and garage.",
   "license": "MIT",
   "scripts": {

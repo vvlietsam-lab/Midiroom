@@ -77,6 +77,9 @@
   }
   function expressPart(part, clip, mode, seed, vocalTiming) {
     if (part.id === 'kick') return clone(part);
+    // a part the user pinned to a grid must not be pulled off it again
+    if (part.gridLocked) return clone(part);
+    const keepDurations = part.id === 'arp';
     const cfg = MODES[mode], rand = random(String(seed) + ':expression:' + part.id + ':' + mode);
     const total = barsOf(clip) * BAR, poly = POLY.has(part.id), drums = part.id === 'drums';
     const groups = onsetGroups(part.events || [], poly && !vocalTiming ? 30 : 0), result = [];
@@ -88,6 +91,7 @@
       sorted.forEach((event, ni) => {
         const strum = vocalTiming || drums || !poly ? 0 : ni * cfg.strum;
         const sourceDur = Math.max(1, Math.round(Number(event.dur) || 1));
+        if (keepDurations) { result.push({ ...event, tick: sharedTick, dur: sourceDur }); return; }
         const originalEnd = clamp(Math.round(Number(event.tick) || 0) + sourceDur, 1, total);
         // Moving an onset may shorten the note, but can never extend its original
         // active range into a deliberate breath or across a section boundary.

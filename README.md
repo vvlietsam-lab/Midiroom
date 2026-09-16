@@ -203,6 +203,26 @@ Voor GitHub: commit de uitgepakte projectinhoud inclusief `src/`, `index.html`, 
 
 MIT-licentie zoals in het oorspronkelijke project.
 
+## Trioolscreeches
+
+Zeven stijlen op een echt trioolraster: roll, stoot, gallop, shuffle, zwaar, ademend en
+break. Die laatste schakelt op de laatste tel over naar zestiende-triolen. Kies bij Raster
+`triool` of `triool16` om ze op hun eigen onderverdeling vast te zetten.
+
+## Ritme en raster
+
+Elke toonhoogte-partij heeft een **Raster**-keuze. `Los` laat nootlengtes tussen de
+rasterlijnen vallen zoals in de referentietracks; `16`, `8` of `4` zet aanzet en einde exact
+op die onderverdeling en schakelt swing en timingvariatie voor die partij uit. Lead, melody
+en pluck hebben daarnaast **Altijd een noot op tel 1** voor maten die anders los aanvoelen.
+
+## Kwaliteitspoort
+
+`npm run test:style` meet de generator tegen 111 referentie-MIDI's en faalt de build zodra
+een onderdeel slechter wordt dan `reference/style-baseline.json`. `test/fuzz.js` faalt bij
+elke schending van de invarianten. Zie [docs/HANDOVER.md](docs/HANDOVER.md) voor waarom dat
+nodig bleek.
+
 ## Actuele tests
 
 `npm run test:composer` controleert de nieuwe pure compositiefuncties. `npm run test:browser` gebruikt `test/session-browser.js` voor de geïntegreerde interface; `test:production` en `test:daw` zijn aliassen van dezelfde suite en tellen niet als extra controles. Maak de fixture via `node test/vocal.js` en geef die aan de browsersuite met `VOCAL_FIXTURE=/absoluut/pad/naar/midiroom-vocal-test.wav`. Oudere browserflows staan als historische bron onder `docs/archive/v2.2/tests` en horen bij de oude layout.

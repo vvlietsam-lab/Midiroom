@@ -1,6 +1,11 @@
 const fs = require('fs');
 const C = require('../src/core.js');
-const TARGETS = JSON.parse(fs.readFileSync(require('path').join(__dirname,'..','reference','reference_targets.json'), 'utf8'));
+const path = require('path');
+const TARGETS = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'reference', 'reference_targets.json'), 'utf8'));
+const BASELINE_PATH = path.join(__dirname, '..', 'reference', 'style-baseline.json');
+const UPDATE = process.argv.includes('--update-baseline');
+let BASELINE = { note: '', perComparison: {} };
+try { BASELINE = JSON.parse(fs.readFileSync(BASELINE_PATH, 'utf8')); } catch (e) { /* first run */ }
 
 // which of my parts is judged against which reference group, and with what options
 const MAP = [
@@ -61,17 +66,20 @@ function measure(partId, opts, runs = 60) {
 const KEYS = ['pitchesPerBar', 'notesPerBar', 'uniquePitches', 'ambitus', 'unisonShare'];
 console.log('vergelijking met het referentiecorpus  (mijn waarde / referentie / afwijking)\n');
 let flagged = 0;
+const perComparison = {};
 for (const [partId, refName, opts] of MAP) {
   const ref = TARGETS[refName];
   if (!ref) continue;
   const mine = measure(partId, opts);
+  let flaggedHere = 0;
   const cells = KEYS.map(k => {
     const m = mine[k], r = ref[k];
     const d = r === 0 ? m : (m - r) / Math.abs(r);
     const bad = r === 0 ? Math.abs(m) > 0.2 : Math.abs(d) > 0.45;
-    if (bad) flagged++;
+    if (bad) { flagged++; flaggedHere++; }
     return `${k} ${m}/${r}${bad ? ' ⚠' + (d > 0 ? '+' : '') + Math.round(d * 100) + '%' : ''}`;
   });
+  perComparison[partId + '->' + refName] = flaggedHere;
   console.log(`${partId} → ${refName}`);
   console.log('   ' + cells.join('   '));
   console.log(`   velocity ${mine.velMin}-${mine.velMax} (ref ${ref.velMin}-${ref.velMax})   lengtes ${mine.uniqueLengths} (ref ${ref.uniqueLengths})`);
@@ -80,3 +88,30 @@ for (const [partId, refName, opts] of MAP) {
   }
 }
 console.log('\nafwijkingen groter dan 45%: ' + flagged);
+
+if (UPDATE) {
+  fs.writeFileSync(BASELINE_PATH, JSON.stringify({
+    note: 'Toegestane afwijkingen per vergelijking. Mag alleen omlaag. Bijwerken met: npm run test:style -- --update-baseline',
+    updated: new Date().toISOString().slice(0, 10),
+    total: flagged,
+    perComparison,
+  }, null, 2) + '\n');
+  console.log('baseline bijgewerkt naar ' + flagged + ' afwijkingen');
+  process.exit(0);
+}
+
+// The quality gate has teeth: a comparison may never get worse than the committed baseline.
+const base = BASELINE.perComparison || {};
+const worse = Object.entries(perComparison).filter(([k, v]) => v > (base[k] ?? 0));
+if (worse.length) {
+  console.error('\nSTIJLPOORT GEFAALD — deze vergelijkingen zijn slechter dan de baseline:');
+  worse.forEach(([k, v]) => console.error('  ' + k + ': ' + v + ' afwijkingen, baseline ' + (base[k] ?? 0)));
+  console.error('\nHerstel de regressie, of leg vast waarom dit acceptabel is met:');
+  console.error('  npm run test:style -- --update-baseline');
+  process.exit(1);
+}
+const better = Object.entries(perComparison).filter(([k, v]) => v < (base[k] ?? 0));
+if (better.length) {
+  console.log('verbeterd t.o.v. de baseline: ' + better.map(([k, v]) => k + ' ' + (base[k]) + '->' + v).join(', '));
+  console.log('leg dat vast met: npm run test:style -- --update-baseline');
+}

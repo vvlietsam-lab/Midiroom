@@ -151,6 +151,13 @@ const STYLES = {
     { id: 'broken',    label: 'Gebroken',               w: 1, note: 'vaste maar onregelmatige volgorde' },
   ],
   screech: [
+    { id: 'trioolroll', label: 'Triool - roll', steps: [0.0, 1.3333, 2.6667, 4.0, 5.3333, 6.6667, 8.0, 9.3333, 10.6667, 12.0, 13.3333, 14.6667], lens: [1.3333, 1.3333, 1.3333, 1.3333, 1.3333, 1.3333, 1.3333, 1.3333, 1.3333, 1.3333, 1.3333, 1.3333], w: 2, triplet: true, note: 'alle twaalf achtste-triolen, doorlopend' },
+    { id: 'trioolstoot', label: 'Triool - stoot', steps: [0.0, 2.6667, 4.0, 6.6667, 8.0, 10.6667, 12.0, 14.6667], lens: [2.6667, 1.3333, 2.6667, 1.3333, 2.6667, 1.3333, 2.6667, 1.3333], w: 3, triplet: true, note: 'eerste en derde van elke triool - de klassieke swingstoot' },
+    { id: 'trioolgallop', label: 'Triool - gallop', steps: [0.0, 1.3333, 4.0, 5.3333, 8.0, 9.3333, 12.0, 13.3333], lens: [1.3333, 2.6667, 1.3333, 2.6667, 1.3333, 2.6667, 1.3333, 2.6667], w: 3, triplet: true, note: 'paren met een gat, rollend vooruit' },
+    { id: 'trioolshuffle', label: 'Triool - shuffle', steps: [0.0, 2.6667, 5.3333, 8.0, 10.6667, 13.3333], lens: [2.6667, 2.6667, 2.6667, 2.6667, 2.6667, 2.6667], w: 2, triplet: true, note: 'elke tweede triool, shufflegevoel' },
+    { id: 'trioolzwaar', label: 'Triool - zwaar', steps: [0.0, 4.0, 6.6667, 8.0, 12.0, 14.6667], lens: [4.0, 2.6667, 1.3333, 4.0, 2.6667, 1.3333], w: 2, triplet: true, note: 'lang-medium-kort, twee keer per maat' },
+    { id: 'trioolademend', label: 'Triool - ademend', steps: [0.0, 4.0, 8.0, 13.3333], lens: [4.0, 4.0, 5.3333, 2.6667], w: 2, triplet: true, note: 'vier noten, veel ruimte' },
+    { id: 'trioolbreak', label: 'Triool - break', steps: [0.0, 4.0, 8.0, 12.0, 12.6667, 13.3333, 14.0, 14.6667, 15.3333], lens: [4.0, 4.0, 4.0, 0.6667, 0.6667, 0.6667, 0.6667, 0.6667, 0.6667], w: 1, triplet: true, note: 'laatste tel in zestiende-triolen' },
     { id: 'callresponse', label: 'Call & response', steps: [0, 2, 6, 8, 11, 14], lens: [1.6, 2.8, 1, 2.5, 1, 1.4], w: 3, modern: true, note: 'herkenbare vraag, gevarieerd antwoord over twee maten' },
     { id: 'tripletburst', label: 'Triplet bursts', steps: [0, 4/3, 8/3, 8, 28/3, 32/3, 14], lens: [1, 1, 2, 1, 1, 2, 1], w: 2, modern: true, note: 'echte triolen: exact 160 ticks tussen aanslagen bij 480 PPQ' },
     { id: 'machine', label: 'Machine stutter', steps: [0, .5, 1, 1.5, 4, 8, 8.5, 9, 12, 14], lens: [.45, .45, .45, .45, 2, .45, .45, 1.5, 1, 1], w: 2, modern: true, note: '32ste bursts afgewisseld met gaten' },
@@ -382,10 +389,19 @@ function varyMotif(rng, notes, opts, kind, partKind) {
 function anchorClasses(deg, scaleSteps, size, rootMidi, colour) {
   return chordToneClasses(deg, scaleSteps, colour ? size + 2 : size, rootMidi);
 }
-function displace(notes, d) {
-  return notes.map(n => ({ ...n, step: n.step + d }))
-              .filter(n => n.step >= 0 && n.step < 16)
-              .sort((a, b) => a.step - b.step);
+function displace(notes, d, wrap) {
+  // Truncating dropped whatever fell past the bar line, which cost the bar its downbeat
+  // in about one bar in forty and read as a mistake rather than as syncopation.
+  // Rotating keeps every note and every note length inside the bar.
+  if (wrap === false) {
+    return notes.map(n => ({ ...n, step: n.step + d }))
+                .filter(n => n.step >= 0 && n.step < 16)
+                .sort((a, b) => a.step - b.step);
+  }
+  const seen = new Set();
+  return notes.map(n => ({ ...n, step: ((n.step + d) % 16 + 16) % 16 }))
+              .sort((a, b) => a.step - b.step)
+              .filter(n => { if (seen.has(n.step)) return false; seen.add(n.step); return true; });
 }
 function generateMelodic(rng, cfg) {
   const { scaleSteps, rootMidi, prog, bars, chordSize, kind } = cfg;
@@ -446,6 +462,12 @@ function generateMelodic(rng, cfg) {
     const seen = new Set();
     notes = notes.filter(n => { if (seen.has(n.step)) return false; seen.add(n.step); return true; })
                  .sort((a, b) => a.step - b.step);
+    // Without an onset in the first beat a bar reads as adrift rather than as syncopated.
+    // Off by default: plenty of styles are deliberately anticipated.
+    if (cfg.anchorDownbeat && !notes.some(n => n.step < 4)) {
+      const first = notes[0];
+      if (first) notes = [{ ...first, step: 0 }, ...notes.slice(1)].sort((a, x) => a.step - x.step);
+    }
     barsOut.push({ bar: b, notes });
   }
   const last = barsOut[barsOut.length - 1];
@@ -761,7 +783,7 @@ function generateScreech(rng, cfg) {
   // reference material sits on the root 86% of the time; movement is the exception, not the rule
   const moveChance = cfg.wander ? 0.28 : 0.08;
   const octChance = cfg.octaveAccent ? 0.11 : 0;
-  const keep = cfg.density === 'dicht' ? 1 : cfg.density === 'normaal' ? 0.62 : 0.42;
+  const keep = cfg.density === 'dicht' ? 1 : cfg.density === 'normaal' ? 0.62 : 0.30;
   const tonic = nearestDegree(base, base, scaleSteps);
   const barsOut = [];
   for (let b = 0; b < bars; b++) {
@@ -813,7 +835,7 @@ function generateScreechPhrase(rng, cfg, style) {
     const answer = phrase !== 'fixed' && b % 2 === 1;
     let hits = baseNotes.map(n=>({...n}));
     if(answer) hits = hits.filter((n,i)=> i !== 1).map(n=>({...n,step:Math.min(15.5,n.step + (n.step>=8 && style.id !== 'tripletburst' ? .5 : 0))}));
-    if(cfg.density === 'sober') hits = hits.filter((n,i)=>i%2===0);
+    if(cfg.density === 'sober') hits = hits.filter((n,i)=>i%4===0 || i===hits.length-1);
     else if(cfg.density === 'normaal') hits = hits.filter((n,i)=>i!==3 || style.id==='tripletburst');
     if(phrase==='evolving' && b%4===3 && cfg.density!=='sober') {
       hits=hits.filter(n=>n.step<14);
@@ -824,9 +846,9 @@ function generateScreechPhrase(rng, cfg, style) {
       if(movement==='tonal') degree=shape[(n.index+(answer?2:0))%shape.length];
       if(movement==='rising' || style.id==='rising') degree=Math.min(6,Math.floor(i/2));
       if(movement==='falling') degree=Math.max(0,4-Math.floor(i/2));
-      if(movement==='root') degree=cfg.wander && i%4===3 ? 1 : 0;
+      if(movement==='root') degree=cfg.wander && i%6===5 ? 1 : (rng.chance(0.14) ? rng.pick([2,2,3]) : 0);
       let midi=rootMidi+degToSemi(home+degree,scaleSteps);
-      if(cfg.octaveAccent && i===hits.length-1 && b%2===1) midi+=12;
+      if(cfg.octaveAccent && i===hits.length-1 && b%2===1 && rng.chance(0.22)) midi+=12;
       return {step:n.step,midi,len:Math.min(n.len,16-n.step)};
     });
     barsOut.push({bar:b,notes});
@@ -949,7 +971,8 @@ function generateArp(rng, cfg) {
         // the reference arps average 10.4 notes per bar, not a full 16 — they breathe
         if (st !== 0 && cfg.gaps !== false && rng.chance(0.3)) continue;
         let midi = base + degToSemi(deg, scaleSteps);
-        if (midi === lastMidi) { deg += rng.chance(0.5) ? 1 : -1; midi = base + degToSemi(deg, scaleSteps); }
+        if (lastMidi != null && rng.chance(0.022)) { midi = lastMidi; }
+        else if (midi === lastMidi) { deg += rng.chance(0.5) ? 1 : -1; midi = base + degToSemi(deg, scaleSteps); }
         lastMidi = midi;
         if (cfg.rise && bars > 1) midi += 12 * Math.floor(b / Math.max(1, Math.ceil(bars / 2)));
         notes.push({ step: st, midi, len: rate });
@@ -1072,8 +1095,12 @@ function renderPart(part, cfg, rng) {
   const nextOf = {};
   onsets.forEach((o, i) => { nextOf[o] = onsets[i + 1] ?? total; });
   const spread = cfg.humanize === false ? 0 : 6;
-  const swing = Math.max(0, Math.min(0.6, cfg.swing || 0));
-  const drift = cfg.timingHumanize ? Math.round(TICK16 * 0.06) : 0;
+  // 'grid' pins onsets and note ends to a subdivision. Without it, lengths are the gap
+  // minus a fixed release, so ends land between the lines — musical, but it can read as sloppy.
+  const GRID_Q = { '16': 1, '8': 2, '4': 4, 'triool': 4 / 3, 'triool16': 2 / 3 };
+  const gridQ = GRID_Q[cfg.grid] || 0;
+  const swing = gridQ ? 0 : Math.max(0, Math.min(0.6, cfg.swing || 0));
+  const drift = (!gridQ && cfg.timingHumanize) ? Math.round(TICK16 * 0.06) : 0;
   const art = cfg.articulation || 'auto';
   const events = flat.map(f => {
     const span = Math.max(0.25, nextOf[f.abs] - f.abs);
@@ -1086,6 +1113,7 @@ function renderPart(part, cfg, rng) {
     else if (art === 'groove') lenSteps = base >= 3 ? base - 0.35 : base * 0.5;
     else lenSteps = base - (cfg.release ?? 0.45);
     lenSteps = Math.max(0.2, lenSteps);
+    if (gridQ) lenSteps = Math.max(gridQ, Math.round(lenSteps / gridQ) * gridQ);
     let tick = f.abs * TICK16;
     if (swing && (f.abs % 2 === 1)) tick += Math.round(swing * TICK16 * 0.5);
     if (drift) tick += Math.round(rng.range(-drift, drift));
@@ -1104,7 +1132,9 @@ function renderPart(part, cfg, rng) {
   const lastByPitch = new Map();
   events.slice().sort((a, b) => a.tick - b.tick).forEach(e => {
     const prev = lastByPitch.get(e.midi);
-    if (prev && prev.tick + prev.dur > e.tick) prev.dur = Math.max(1, e.tick - prev.tick - 1);
+    if (prev && prev.tick + prev.dur > e.tick) {
+      prev.dur = Math.max(1, e.tick - prev.tick - (gridQ ? 0 : 1));
+    }
     lastByPitch.set(e.midi, e);
   });
   // Bass and screech are monophonic phrases, including when pitches change.
@@ -1170,32 +1200,43 @@ function buildMidi(tracks, tempo, totalTicks = 0) {
 const EXTRAS = {
   kick: [{ key: 'tonal', label: 'Toonhoogte volgt het akkoord', def: true },
          { key: 'rolls', label: 'Roll in de vierde maat', def: true }],
-  bass: [{ key: 'avoidKick', label: 'Wijkt voor de kick', def: true },
+  bass: [{ key: 'grid', label: 'Raster', options: ['los', '16', '8', '4', 'triool', 'triool16'], def: 'los' },
+         { key: 'avoidKick', label: 'Wijkt voor de kick', def: true },
          { key: 'movement', label: 'Beweging op de turnaround', def: true },
          { key: 'octaveJump', label: 'Octaafsprongen', def: false }],
   pad:  [{ key: 'followChords', label: 'Zelfde akkoorden als Chords', def: false }],
-  arp:  [{ key: 'gaps', label: 'Gaten laten vallen', def: true },
+  arp:  [{ key: 'grid', label: 'Raster', options: ['los', '16', '8', '4', 'triool', 'triool16'], def: 'los' },
+         { key: 'gaps', label: 'Gaten laten vallen', def: true },
          { key: 'rise', label: 'Octaaf omhoog in tweede helft', def: false },
          { key: 'eighths', label: 'Achtsten in plaats van zestienden', def: false }],
   drums: [{ key: 'fills', label: 'Fill in de vierde maat', def: true },
            { key: 'noDoubleKick', label: 'Geen kick als de Kick-partij aanstaat', def: true }],
-  screech: [{ key: 'density', label: 'Dichtheid', options: ['sober', 'normaal', 'dicht'], def: 'normaal' },
-            { key: 'phrase', label: 'Frase • nieuwe stijlen', options: ['fixed', 'call-response', 'evolving'], def: 'evolving' },
-            { key: 'motion', label: 'Toonbeweging • nieuwe stijlen', options: ['root', 'tonal', 'rising', 'falling'], def: 'tonal' },
+  screech: [{ key: 'grid', label: 'Raster', options: ['los', '16', '8', '4', 'triool', 'triool16'], def: 'los' },
+         { key: 'density', label: 'Dichtheid', options: ['sober', 'normaal', 'dicht'], def: 'normaal' },
+            { key: 'phrase', label: 'Frase • nieuwe stijlen', options: ['fixed', 'call-response', 'evolving'], def: 'fixed' },
+            { key: 'motion', label: 'Toonbeweging • nieuwe stijlen', options: ['root', 'tonal', 'rising', 'falling'], def: 'root' },
             { key: 'followChords', label: 'Volgt het akkoordenschema', def: false },
             { key: 'wander', label: 'Meer notenwisseling', def: false },
-            { key: 'octaveAccent', label: 'Octaafaccenten', def: true }],
-  lead: [{ key: 'dyad', label: 'Dubbele noten', options: ['uit', 'terts', 'kwart', 'kwint', 'octaaf'], def: 'uit' },
+            { key: 'octaveAccent', label: 'Octaafaccenten', def: false }],
+  lead: [{ key: 'anchorDownbeat', label: 'Altijd een noot op tel 1', def: false },
+         { key: 'grid', label: 'Raster', options: ['los', '16', '8', '4', 'triool', 'triool16'], def: 'los' },
+         { key: 'dyad', label: 'Dubbele noten', options: ['uit', 'terts', 'kwart', 'kwint', 'octaaf'], def: 'uit' },
          { key: 'colour', label: 'Kleurnoten toestaan (none, kwart)', def: true },
          { key: 'displace', label: 'Motief ritmisch verschuiven', def: true },
          { key: 'tension', label: 'Chromatische aanloopnoten', def: false }],
-  melody: [{ key: 'colour', label: 'Kleurnoten toestaan', def: true }],
-  pluck: [{ key: 'dyad', label: 'Dubbele noten', options: ['uit', 'terts', 'kwart', 'kwint', 'octaaf'], def: 'uit' },
+  melody: [{ key: 'anchorDownbeat', label: 'Altijd een noot op tel 1', def: false },
+         { key: 'grid', label: 'Raster', options: ['los', '16', '8', '4', 'triool', 'triool16'], def: 'los' },
+         { key: 'colour', label: 'Kleurnoten toestaan', def: true }],
+  pluck: [{ key: 'anchorDownbeat', label: 'Altijd een noot op tel 1', def: false },
+         { key: 'grid', label: 'Raster', options: ['los', '16', '8', '4', 'triool', 'triool16'], def: 'los' },
+         { key: 'dyad', label: 'Dubbele noten', options: ['uit', 'terts', 'kwart', 'kwint', 'octaaf'], def: 'uit' },
           { key: 'colour', label: 'Kleurnoten toestaan', def: true },
           { key: 'displace', label: 'Motief ritmisch verschuiven', def: false }],
-  chords: [{ key: 'bassNote', label: 'Grondtoon een octaaf lager erbij', def: false },
+  chords: [{ key: 'grid', label: 'Raster', options: ['los', '16', '8', '4', 'triool', 'triool16'], def: 'los' },
+         { key: 'bassNote', label: 'Grondtoon een octaaf lager erbij', def: false },
            { key: 'followLead', label: 'Zelfde ritme als de lead', def: false }],
-  darkmelody: [{ key: 'chromatic', label: 'Chromatische buurnoten', def: true },
+  darkmelody: [{ key: 'grid', label: 'Raster', options: ['los', '16', '8', '4', 'triool', 'triool16'], def: 'los' },
+         { key: 'chromatic', label: 'Chromatische buurnoten', def: true },
                { key: 'followChords', label: 'Volgt het akkoordenschema', def: false }],
   harmony: [{ key: 'sixths', label: 'Sext in plaats van terts', def: false }],
 };
@@ -1341,6 +1382,7 @@ const ARTICULATIONS = [
   { id: 'legato', label: 'Legato' },
   { id: 'staccato', label: 'Staccato' },
 ];
+const GRID_LOCK = { '16': 1, '8': 1, '4': 1, 'triool': 1, 'triool16': 1 };
 const PART_ORDER = ['drums', 'kick', 'bass', 'chords', 'pad', 'lead', 'harmony', 'screech', 'darkmelody', 'melody', 'pluck', 'arp'];
 
 function generateSection(params) {
@@ -1433,7 +1475,7 @@ function generateSection(params) {
     if (id === 'kick') kickCache = part;
     if (!emit.has(id)) continue;
     const events = renderPart(part, cfg, rng);
-    out.parts.push({ id, label: def.label, colour: def.colour, part, events, cfg });
+    out.parts.push({ id, label: def.label, colour: def.colour, part, events, cfg, gridLocked: !!GRID_LOCK[cfg.grid] });
   }
   out.parts.sort((a, b) => PART_ORDER.indexOf(a.id) - PART_ORDER.indexOf(b.id));
   return out;
