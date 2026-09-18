@@ -1390,7 +1390,10 @@ function generateSection(params) {
   const scaleSteps = scaleDef.steps;
   const rootMidi = 12 * (params.octave ?? 5) + (params.root || 0);
   const progDef = PROGRESSIONS.find(p => p.id === params.progression) || PROGRESSIONS[0];
-  let prog = progDef.degs;
+  // a progression detected from imported MIDI overrides the picked one
+  let prog = (Array.isArray(params.customDegrees) && params.customDegrees.length)
+    ? params.customDegrees.slice()
+    : progDef.degs;
   const hold = Math.max(1, Math.min(4, params.chordBars || 1));
   if (hold > 1) prog = prog.flatMap(d => Array(hold).fill(d));
   const bars = Math.max(1, params.bars || 8);
@@ -1579,6 +1582,135 @@ function generateArrangement(params, structureId, genre) {
   };
 }
 
+
+/* ============================================================
+   HARMONY DETECTION — read a chord progression out of imported MIDI
+   so the generator can build around chords the user already wrote.
+   Also the recovery path when an Ableton session is lost.
+   ============================================================ */
+function detectHarmony(events, opts) {
+  const o = opts || {};
+  const ticksPerBar = o.ticksPerBar || TPQ * 4;
+  const notes = (events || []).filter(e => Number.isFinite(e.tick) && Number.isFinite(e.midi));
+  if (notes.length < 3) return { ok: false, reason: 'Te weinig noten om akkoorden te herkennen.' };
+
+  // 1. segment: a new chord starts where the sounding pitch-class set changes
+  const barCount = Math.max(1, Math.ceil((Math.max(...notes.map(e => e.tick + (e.dur || 1)))) / ticksPerBar));
+  const segments = [];
+  for (let b = 0; b < barCount; b++) {
+    const from = b * ticksPerBar, to = from + ticksPerBar;
+    // every note sounding anywhere inside the bar, weighted by how long it sounds
+    const weight = new Map();
+    let lowest = 127;
+    notes.forEach(e => {
+      const end = e.tick + Math.max(1, e.dur || 1);
+      const overlap = Math.min(end, to) - Math.max(e.tick, from);
+      if (overlap <= 0) return;
+      const pc = ((e.midi % 12) + 12) % 12;
+      weight.set(pc, (weight.get(pc) || 0) + overlap);
+      if (e.tick < to && end > from && e.midi < lowest) lowest = e.midi;
+    });
+    if (!weight.size) { segments.push(null); continue; }
+    segments.push({ bar: b, weight, bass: lowest === 127 ? null : ((lowest % 12) + 12) % 12, size: weight.size });
+  }
+  const filled = segments.filter(Boolean);
+  if (!filled.length) return { ok: false, reason: 'Geen klinkende noten gevonden.' };
+
+  // 2. key: score every root and scale on how much of the weight falls inside it
+  let best = null;
+  const ranked = [];
+  for (let root = 0; root < 12; root++) {
+    for (const [id, def] of Object.entries(SCALES)) {
+      const allowed = new Set(def.steps.map(st => (root + st) % 12));
+      let inside = 0, total = 0;
+      filled.forEach(seg => seg.weight.forEach((w, pc) => { total += w; if (allowed.has(pc)) inside += w; }));
+      // a tonic that actually sounds, and sounds in the bass, is worth something
+      const tonicWeight = filled.reduce((a, seg) => a + (seg.weight.get(root) || 0), 0);
+      const bassTonic = filled.filter(seg => seg.bass === root).length / filled.length;
+      // A minor key and its relative major hold the same notes, so fit alone cannot tell
+      // them apart. What does: a progression almost always opens on its tonic, and hard
+      // dance closes on the tonic or its seventh.
+      const first = filled[0];
+      const last = filled[filled.length - 1];
+      // A cadence is stronger evidence than an opening: VI-VII-i-i never starts on its
+      // tonic but lands there twice, and that is what identifies the key.
+      const W = o.weights || DETECT_WEIGHTS;
+      const opensOnTonic = first && (first.bass === root || (first.weight.get(root) || 0) >= Math.max(...first.weight.values())) ? W.open : 0;
+      const closesHome = last && (last.bass === root || last.bass === (root + 10) % 12 || last.bass === (root + 7) % 12) ? W.close : 0;
+      const score = inside / (total || 1) + tonicWeight / (total || 1) * W.tonic + bassTonic * W.bass
+                  + opensOnTonic + closesHome
+                  - def.steps.length * W.simple;
+      const cand = { root, scale: id, score, fit: inside / (total || 1) };
+      ranked.push(cand);
+      if (!best || score > best.score) best = cand;
+    }
+  }
+
+  // 3. per bar: which scale degree is the chord built on
+  const steps = SCALES[best.scale].steps;
+  const degrees = [], chords = [];
+  let carry = 0;
+  segments.forEach((seg, b) => {
+    if (!seg) { degrees.push(carry); chords.push(null); return; }
+    let bestDeg = null;
+    for (let d = 0; d < steps.length; d++) {
+      const triad = chordToneClasses(d, steps, 3, best.root);
+      let hit = 0, miss = 0;
+      seg.weight.forEach((w, pc) => { if (triad.includes(pc)) hit += w; else miss += w; });
+      // the bass note usually is the chord root, so reward that
+      const bonus = seg.bass != null && seg.bass === triad[0] ? hit * 0.35 : 0;
+      const score = hit + bonus - miss * 0.5;
+      if (bestDeg === null || score > bestDeg.score) bestDeg = { d, score, triad };
+    }
+    carry = bestDeg.d;
+    degrees.push(bestDeg.d);
+    chords.push({
+      bar: b, degree: bestDeg.d,
+      root: NOTE_NAMES[(best.root + degToSemi(bestDeg.d, steps)) % 12],
+      notes: [...seg.weight.keys()].sort((a, x) => a - x).map(pc => NOTE_NAMES[pc]),
+      pitches: [...seg.weight.keys()],
+    });
+  });
+
+  // 4. collapse to the shortest repeating cycle, so 8 bars of i-VI-III-VII become four
+  let cycle = degrees.slice();
+  for (const len of [1, 2, 4, 8]) {
+    if (len < degrees.length && degrees.every((d, i) => d === degrees[i % len])) { cycle = degrees.slice(0, len); break; }
+  }
+  const chordBars = (() => {
+    for (const hold of [4, 2]) {
+      if (cycle.length % hold === 0 && cycle.every((d, i) => d === cycle[Math.floor(i / hold) * hold])) {
+        return hold;
+      }
+    }
+    return 1;
+  })();
+  const collapsed = chordBars > 1 ? cycle.filter((_, i) => i % chordBars === 0) : cycle;
+  const avgSize = filled.reduce((a, s) => a + s.size, 0) / filled.length;
+
+  return {
+    ok: true,
+    root: best.root, rootName: NOTE_NAMES[best.root],
+    scale: best.scale, scaleName: SCALES[best.scale].name,
+    fit: Math.round(best.fit * 100),
+    bars: barCount,
+    degrees: collapsed,
+    chordBars,
+    chordSize: Math.max(2, Math.min(5, Math.round(avgSize))),
+    chords: chords.filter(Boolean),
+    label: collapsed.map(d => ROMAN[d] || String(d + 1)).join(' – '),
+    // A minor key and its relative major contain the same notes. Rather than guess,
+    // hand back the ranked alternatives so the user confirms in one click.
+    candidates: ranked.sort((a, x) => x.score - a.score).slice(0, 5).map(c => ({
+      root: c.root, rootName: NOTE_NAMES[c.root], scale: c.scale, scaleName: SCALES[c.scale].name,
+      fit: Math.round(c.fit * 100), score: Math.round(c.score * 1000) / 1000,
+    })),
+  };
+}
+const ROMAN = ['i', 'ii', 'III', 'iv', 'v', 'VI', 'VII'];
+// fitted on 312 round-trip cases; see test/harmony-detect.js
+const DETECT_WEIGHTS = { tonic: 0.15, bass: 0, open: 0.1, close: 0.1, simple: 0.004 };
+
 /* ============================================================
    STUDIO TOOLS — not generation, but what you do with the result
    ============================================================ */
@@ -1719,6 +1851,6 @@ function buildNotesMd(st) {
 }
 
 if (typeof module !== 'undefined') {
-  module.exports = { RNG, SCALES, PROGRESSIONS, STYLES, CONTOURS, PART_DEFS, PART_ORDER, EXTRAS, DRUM_MAP, ARTICULATIONS, GENRES, ENERGY, STRUCTURES, generateArrangement, noteFreq, kickTuning, delayTimes, camelot, spellScale, spellProgression, buildNotesMd,
+  module.exports = { RNG, SCALES, PROGRESSIONS, STYLES, CONTOURS, PART_DEFS, PART_ORDER, EXTRAS, DRUM_MAP, ARTICULATIONS, GENRES, ENERGY, STRUCTURES, generateArrangement, detectHarmony, DETECT_WEIGHTS, noteFreq, kickTuning, delayTimes, camelot, spellScale, spellProgression, buildNotesMd,
                      generateSection, buildMidi, midiName, NOTE_NAMES, TPQ };
 }

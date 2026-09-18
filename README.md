@@ -203,6 +203,16 @@ Voor GitHub: commit de uitgepakte projectinhoud inclusief `src/`, `index.html`, 
 
 MIT-licentie zoals in het oorspronkelijke project.
 
+## Akkoorden importeren uit een bestaande track
+
+Exporteer je akkoorden uit Ableton als MIDI (clip naar de verkenner slepen), laad hem in het
+Groove DNA-paneel en klik **Neem akkoorden over**. MIDIROOM leest de toonsoort, het schema,
+het harmonisch ritme en de akkoordgrootte, en bouwt daarna lead, harmonie, bas en arp om
+jouw akkoorden heen. Ook de weg terug als een sessie kwijt is.
+
+Bevestig de toonsoort in de keuzelijst: relatieve majeur en mineur bevatten dezelfde noten.
+De akkoordnoten zelf worden voor 100% exact herkend.
+
 ## Trioolscreeches
 
 Zeven stijlen op een echt trioolraster: roll, stoot, gallop, shuffle, zwaar, ademend en

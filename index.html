@@ -1721,7 +1721,10 @@ function generateSection(params) {
   const scaleSteps = scaleDef.steps;
   const rootMidi = 12 * (params.octave ?? 5) + (params.root || 0);
   const progDef = PROGRESSIONS.find(p => p.id === params.progression) || PROGRESSIONS[0];
-  let prog = progDef.degs;
+  // a progression detected from imported MIDI overrides the picked one
+  let prog = (Array.isArray(params.customDegrees) && params.customDegrees.length)
+    ? params.customDegrees.slice()
+    : progDef.degs;
   const hold = Math.max(1, Math.min(4, params.chordBars || 1));
   if (hold > 1) prog = prog.flatMap(d => Array(hold).fill(d));
   const bars = Math.max(1, params.bars || 8);
@@ -1909,6 +1912,135 @@ function generateArrangement(params, structureId, genre) {
     arrangement: true,
   };
 }
+
+
+/* ============================================================
+   HARMONY DETECTION — read a chord progression out of imported MIDI
+   so the generator can build around chords the user already wrote.
+   Also the recovery path when an Ableton session is lost.
+   ============================================================ */
+function detectHarmony(events, opts) {
+  const o = opts || {};
+  const ticksPerBar = o.ticksPerBar || TPQ * 4;
+  const notes = (events || []).filter(e => Number.isFinite(e.tick) && Number.isFinite(e.midi));
+  if (notes.length < 3) return { ok: false, reason: 'Te weinig noten om akkoorden te herkennen.' };
+
+  // 1. segment: a new chord starts where the sounding pitch-class set changes
+  const barCount = Math.max(1, Math.ceil((Math.max(...notes.map(e => e.tick + (e.dur || 1)))) / ticksPerBar));
+  const segments = [];
+  for (let b = 0; b < barCount; b++) {
+    const from = b * ticksPerBar, to = from + ticksPerBar;
+    // every note sounding anywhere inside the bar, weighted by how long it sounds
+    const weight = new Map();
+    let lowest = 127;
+    notes.forEach(e => {
+      const end = e.tick + Math.max(1, e.dur || 1);
+      const overlap = Math.min(end, to) - Math.max(e.tick, from);
+      if (overlap <= 0) return;
+      const pc = ((e.midi % 12) + 12) % 12;
+      weight.set(pc, (weight.get(pc) || 0) + overlap);
+      if (e.tick < to && end > from && e.midi < lowest) lowest = e.midi;
+    });
+    if (!weight.size) { segments.push(null); continue; }
+    segments.push({ bar: b, weight, bass: lowest === 127 ? null : ((lowest % 12) + 12) % 12, size: weight.size });
+  }
+  const filled = segments.filter(Boolean);
+  if (!filled.length) return { ok: false, reason: 'Geen klinkende noten gevonden.' };
+
+  // 2. key: score every root and scale on how much of the weight falls inside it
+  let best = null;
+  const ranked = [];
+  for (let root = 0; root < 12; root++) {
+    for (const [id, def] of Object.entries(SCALES)) {
+      const allowed = new Set(def.steps.map(st => (root + st) % 12));
+      let inside = 0, total = 0;
+      filled.forEach(seg => seg.weight.forEach((w, pc) => { total += w; if (allowed.has(pc)) inside += w; }));
+      // a tonic that actually sounds, and sounds in the bass, is worth something
+      const tonicWeight = filled.reduce((a, seg) => a + (seg.weight.get(root) || 0), 0);
+      const bassTonic = filled.filter(seg => seg.bass === root).length / filled.length;
+      // A minor key and its relative major hold the same notes, so fit alone cannot tell
+      // them apart. What does: a progression almost always opens on its tonic, and hard
+      // dance closes on the tonic or its seventh.
+      const first = filled[0];
+      const last = filled[filled.length - 1];
+      // A cadence is stronger evidence than an opening: VI-VII-i-i never starts on its
+      // tonic but lands there twice, and that is what identifies the key.
+      const W = o.weights || DETECT_WEIGHTS;
+      const opensOnTonic = first && (first.bass === root || (first.weight.get(root) || 0) >= Math.max(...first.weight.values())) ? W.open : 0;
+      const closesHome = last && (last.bass === root || last.bass === (root + 10) % 12 || last.bass === (root + 7) % 12) ? W.close : 0;
+      const score = inside / (total || 1) + tonicWeight / (total || 1) * W.tonic + bassTonic * W.bass
+                  + opensOnTonic + closesHome
+                  - def.steps.length * W.simple;
+      const cand = { root, scale: id, score, fit: inside / (total || 1) };
+      ranked.push(cand);
+      if (!best || score > best.score) best = cand;
+    }
+  }
+
+  // 3. per bar: which scale degree is the chord built on
+  const steps = SCALES[best.scale].steps;
+  const degrees = [], chords = [];
+  let carry = 0;
+  segments.forEach((seg, b) => {
+    if (!seg) { degrees.push(carry); chords.push(null); return; }
+    let bestDeg = null;
+    for (let d = 0; d < steps.length; d++) {
+      const triad = chordToneClasses(d, steps, 3, best.root);
+      let hit = 0, miss = 0;
+      seg.weight.forEach((w, pc) => { if (triad.includes(pc)) hit += w; else miss += w; });
+      // the bass note usually is the chord root, so reward that
+      const bonus = seg.bass != null && seg.bass === triad[0] ? hit * 0.35 : 0;
+      const score = hit + bonus - miss * 0.5;
+      if (bestDeg === null || score > bestDeg.score) bestDeg = { d, score, triad };
+    }
+    carry = bestDeg.d;
+    degrees.push(bestDeg.d);
+    chords.push({
+      bar: b, degree: bestDeg.d,
+      root: NOTE_NAMES[(best.root + degToSemi(bestDeg.d, steps)) % 12],
+      notes: [...seg.weight.keys()].sort((a, x) => a - x).map(pc => NOTE_NAMES[pc]),
+      pitches: [...seg.weight.keys()],
+    });
+  });
+
+  // 4. collapse to the shortest repeating cycle, so 8 bars of i-VI-III-VII become four
+  let cycle = degrees.slice();
+  for (const len of [1, 2, 4, 8]) {
+    if (len < degrees.length && degrees.every((d, i) => d === degrees[i % len])) { cycle = degrees.slice(0, len); break; }
+  }
+  const chordBars = (() => {
+    for (const hold of [4, 2]) {
+      if (cycle.length % hold === 0 && cycle.every((d, i) => d === cycle[Math.floor(i / hold) * hold])) {
+        return hold;
+      }
+    }
+    return 1;
+  })();
+  const collapsed = chordBars > 1 ? cycle.filter((_, i) => i % chordBars === 0) : cycle;
+  const avgSize = filled.reduce((a, s) => a + s.size, 0) / filled.length;
+
+  return {
+    ok: true,
+    root: best.root, rootName: NOTE_NAMES[best.root],
+    scale: best.scale, scaleName: SCALES[best.scale].name,
+    fit: Math.round(best.fit * 100),
+    bars: barCount,
+    degrees: collapsed,
+    chordBars,
+    chordSize: Math.max(2, Math.min(5, Math.round(avgSize))),
+    chords: chords.filter(Boolean),
+    label: collapsed.map(d => ROMAN[d] || String(d + 1)).join(' – '),
+    // A minor key and its relative major contain the same notes. Rather than guess,
+    // hand back the ranked alternatives so the user confirms in one click.
+    candidates: ranked.sort((a, x) => x.score - a.score).slice(0, 5).map(c => ({
+      root: c.root, rootName: NOTE_NAMES[c.root], scale: c.scale, scaleName: SCALES[c.scale].name,
+      fit: Math.round(c.fit * 100), score: Math.round(c.score * 1000) / 1000,
+    })),
+  };
+}
+const ROMAN = ['i', 'ii', 'III', 'iv', 'v', 'VI', 'VII'];
+// fitted on 312 round-trip cases; see test/harmony-detect.js
+const DETECT_WEIGHTS = { tonic: 0.15, bass: 0, open: 0.1, close: 0.1, simple: 0.004 };
 
 /* ============================================================
    STUDIO TOOLS — not generation, but what you do with the result
@@ -2492,6 +2624,7 @@ function generate(event){
       humanize:$('humanize').checked,
       timingHumanize:$('timingHum').checked,
       swing:(+$('swing').value||0)/100,
+      customDegrees: window.__midiroomCustomDegrees || null,
       bpm, parts, partOpts, tries:120,
   };
   try{
@@ -4195,8 +4328,8 @@ const api={grooveProfile,applyGrooveDNA,importedTrackEvents,groupMidiEvents:grou
 
 /* Browser interface. Kept in this file so Groove DNA can be moved as one tool panel. */
 if(typeof document!=='undefined'){
-let importedMidi=null,groovePreview=null,grooveImportToken=0;
-const panel=document.createElement('section');panel.id='grooveDNA';panel.className='future-tool groove-dna';panel.innerHTML='<div class="tool-title"><span class="eyebrow">GROOVE DNA</span><h2>Laat jouw MIDI de feel bepalen</h2><p>Importeer een MIDI uit Ableton. Neem de timing, accenten en rust over terwijl de doeltrack zijn eigen noten en akkoorden houdt.</p></div><div class="groove-load"><label class="midi-drop" for="grooveFile"><strong>Sleep of kies MIDI</strong><span>Type 0/1 · maximaal 4 MB, 32 maten en 20.000 noten</span><input id="grooveFile" type="file" accept=".mid,.midi,audio/midi,audio/x-midi"></label><div id="grooveFileMeta" class="groove-file-meta">Nog geen MIDI geladen</div></div><div id="grooveControls" class="groove-controls" hidden><label>Brontrack<select id="grooveTrack"></select></label><label>Doel in MIDIROOM<select id="grooveTarget"></select></label><label>Groove-lus<select id="grooveCycle"><option value="1">1 maat</option><option value="2">2 maten</option><option value="4">4 maten</option></select></label><div class="groove-actions"><button id="grooveListen">▶ Vergelijk groove</button><button id="grooveApply" class="primary">Neem Groove DNA over</button><button id="grooveImport">Importeer als track</button></div></div><p id="grooveStatus" role="status">Je bestand blijft lokaal. Sustain (CC64) wordt verwerkt; overige CC, program changes, aftertouch en pitch bend worden genegeerd.</p>';
+let importedMidi=null,groovePreview=null,grooveImportToken=0,harmonyResult=null;
+const panel=document.createElement('section');panel.id='grooveDNA';panel.className='future-tool groove-dna';panel.innerHTML='<div class="tool-title"><span class="eyebrow">GROOVE DNA</span><h2>Laat jouw MIDI de feel bepalen</h2><p>Importeer een MIDI uit Ableton. Neem de timing, accenten en rust over terwijl de doeltrack zijn eigen noten en akkoorden houdt.</p></div><div class="groove-load"><label class="midi-drop" for="grooveFile"><strong>Sleep of kies MIDI</strong><span>Type 0/1 · maximaal 4 MB, 32 maten en 20.000 noten</span><input id="grooveFile" type="file" accept=".mid,.midi,audio/midi,audio/x-midi"></label><div id="grooveFileMeta" class="groove-file-meta">Nog geen MIDI geladen</div></div><div id="grooveControls" class="groove-controls" hidden><label>Brontrack<select id="grooveTrack"></select></label><label>Doel in MIDIROOM<select id="grooveTarget"></select></label><label>Groove-lus<select id="grooveCycle"><option value="1">1 maat</option><option value="2">2 maten</option><option value="4">4 maten</option></select></label><div class="groove-actions"><button id="grooveListen">▶ Vergelijk groove</button><button id="grooveApply" class="primary">Neem Groove DNA over</button><button id="grooveImport">Importeer als track</button><button id="grooveHarmony">Neem akkoorden over</button></div></div><div id="grooveHarmonyBox" class="groove-controls" hidden><label>Toonsoort<select id="grooveHarmonyKey"></select></label><p id="grooveHarmonyInfo" class="groove-file-meta"></p><div class="groove-actions"><button id="grooveHarmonyUse" class="primary">Bouw hierop verder</button></div></div><p id="grooveStatus" role="status">Je bestand blijft lokaal. Sustain (CC64) wordt verwerkt; overige CC, program changes, aftertouch en pitch bend worden genegeerd.</p>';
 (document.querySelector('.rollbox')||document.querySelector('main')).before(panel);
 const ge=id=>document.getElementById(id),status=s=>ge('grooveStatus').textContent=s;
 function fillGrooveTargets(){const old=ge('grooveTarget').value;ge('grooveTarget').innerHTML=(current?.parts||[]).map(p=>'<option value="'+p.id+'">'+p.label+(sessionConfig.locks[p.id]?' · vast':'')+'</option>').join('');if(current?.parts.some(p=>p.id===old))ge('grooveTarget').value=old;}
@@ -4205,6 +4338,28 @@ function buildGrooveCandidate(){if(!current)throw new Error('Genereer eerst een 
 async function loadGrooveFile(file){if(!file)return;const token=++grooveImportToken;try{if(file.size>4*1024*1024)throw new Error('MIDI is groter dan 4 MB.');const bytes=await file.arrayBuffer();if(token!==grooveImportToken)return;const parsed=readMidiFile(bytes);if(token!==grooveImportToken)return;importedMidi=parsed;groovePreview=null;ge('grooveTrack').innerHTML=parsed.tracks.map((t,i)=>'<option value="'+i+'">'+escapeHtml(t.name)+' · '+t.events.length+' noten</option>').join('');fillGrooveTargets();ge('grooveControls').hidden=false;ge('grooveFileMeta').innerHTML='<strong>'+escapeHtml(file.name)+'</strong><span>'+parsed.tracks.length+' tracks · '+parsed.notes+' noten · '+parsed.bars+' maten · '+parsed.bpm+' BPM bronbestand</span>';const sessionBpm=current?.meta?.bpm;status((parsed.warnings.join(' ')+' ').trim()+'Timing wordt als PPQ-groove gelezen en speelt '+(sessionBpm?'op '+sessionBpm+' BPM van je MIDIROOM-sessie.':'op het tempo van je MIDIROOM-sessie.')).trim();}catch(err){if(token!==grooveImportToken)return;importedMidi=null;groovePreview=null;ge('grooveControls').hidden=true;ge('grooveFileMeta').textContent='Bestand niet geladen';status(err.message);ge('grooveFile').value='';}}
 ge('grooveFile').onchange=e=>loadGrooveFile(e.target.files?.[0]);const drop=panel.querySelector('.midi-drop');drop.ondragover=e=>{e.preventDefault();drop.classList.add('dragging');};drop.ondragleave=()=>drop.classList.remove('dragging');drop.ondrop=e=>{e.preventDefault();drop.classList.remove('dragging');loadGrooveFile(e.dataTransfer.files?.[0]);};
 ge('grooveListen').onclick=()=>{try{groovePreview=buildGrooveCandidate();listenDiscovery(groovePreview,'Groove DNA');status('Preview speelt met de huidige klanken. Stop of Spatie zet je sessie terug.');}catch(err){status(err.message);}};
+ge('grooveHarmony').onclick=()=>{try{
+ if(!importedMidi)throw new Error('Laad eerst een MIDI-bestand.');
+ const tr=importedMidi.tracks[Number(ge('grooveTrack').value)];
+ if(!tr||!tr.notes||!tr.notes.length)throw new Error('De gekozen track bevat geen noten.');
+ const h=detectHarmony(tr.notes,{});
+ if(!h.ok)throw new Error(h.reason);
+ harmonyResult=h;
+ ge('grooveHarmonyKey').innerHTML=h.candidates.map((c,i)=>'<option value="'+i+'">'+c.rootName+' '+c.scaleName+' ('+c.fit+'% passend)</option>').join('');
+ ge('grooveHarmonyInfo').textContent=h.label+'  \u00b7  '+h.bars+' maten  \u00b7  akkoord duurt '+h.chordBars+' maat/maten  \u00b7  '+h.chordSize+' noten per akkoord';
+ ge('grooveHarmonyBox').hidden=false;
+ status('Akkoorden herkend. Bevestig de toonsoort: relatieve majeur en mineur bevatten dezelfde noten, dus alleen jij weet welke klopt.');
+}catch(err){status(err.message);}};
+ge('grooveHarmonyUse').onclick=()=>{try{
+ const h=harmonyResult;if(!h)throw new Error('Herken eerst de akkoorden.');
+ const c=h.candidates[Number(ge('grooveHarmonyKey').value)]||h.candidates[0];
+ const set=(id,v)=>{const el=document.getElementById(id);if(el&&v!=null){el.value=String(v);el.dispatchEvent(new Event('change',{bubbles:true}));}};
+ window.__midiroomCustomDegrees=h.degrees.slice();
+ set('root',c.root);set('scale',c.scale);set('chordBars',h.chordBars);set('chordSize',h.chordSize);
+ if(h.bpm)set('bpm',Math.round(h.bpm));
+ if(typeof generate==='function')generate();
+ status('Overgenomen: '+c.rootName+' '+c.scaleName+' \u00b7 '+h.label+'. Alle partijen worden nu om jouw akkoorden heen gebouwd.');
+}catch(err){status(err.message);}};
 ge('grooveApply').onclick=()=>{try{const next=buildGrooveCandidate();vocalLinked=false;finishSession(next,'Groove DNA toegepast op '+PART_DEFS[ge('grooveTarget').value].label+'. Undo herstelt het origineel.');status('Groove toegepast. Toonhoogtes en akkoordvormen van de doeltrack zijn behouden.');}catch(err){status(err.message);}};
 ge('grooveImport').onclick=()=>{try{if(!current)throw new Error('Genereer eerst een MIDIROOM-loop.');const id=ge('grooveTarget').value;if(sessionConfig.locks[id])throw new Error('Ontgrendel '+PART_DEFS[id].label+' om MIDI te importeren.');const track=selectedImportedTrack();if(!track)throw new Error('Kies een brontrack.');const next=clone(current),part=next.parts.find(p=>p.id===id);if(!part)throw new Error('De doeltrack ontbreekt.');const end=next.meta.bars*1920,imported=importedTrackEvents(track,end),other=next.parts.reduce((n,p)=>n+(p.id===id?0:p.events.length),0);if(other+imported.length>50000)throw new Error('De sessie zou meer dan 50.000 noten bevatten. Kies een rustigere MIDI-track.');part.events=imported;next.customEdit=true;next.vocalTiming=false;delete next.vocalSourceSerial;vocalLinked=false;finishSession(next,'MIDI geïmporteerd in '+PART_DEFS[id].label+'. Undo herstelt het origineel.');const clipped=track.events.some(e=>e.tick+e.dur>end);status('Track geïmporteerd zonder timestretch.'+(clipped?' Noten buiten '+next.meta.bars+' maten zijn afgekapt.':''));}catch(err){status(err.message);}};
 const oldRenderGroove=renderSession;renderSession=function(){oldRenderGroove();if(ge('grooveTarget'))fillGrooveTargets();};

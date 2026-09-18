@@ -575,6 +575,7 @@ function generate(event){
       humanize:$('humanize').checked,
       timingHumanize:$('timingHum').checked,
       swing:(+$('swing').value||0)/100,
+      customDegrees: window.__midiroomCustomDegrees || null,
       bpm, parts, partOpts, tries:120,
   };
   try{
