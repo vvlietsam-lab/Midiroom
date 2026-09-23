@@ -203,6 +203,15 @@ Voor GitHub: commit de uitgepakte projectinhoud inclusief `src/`, `index.html`, 
 
 MIT-licentie zoals in het oorspronkelijke project.
 
+## Pack bouwen op je eigen akkoorden
+
+Sleep je akkoord-MIDI in het Groove DNA-paneel (tabblad MIDI, onder *Shape your sound*),
+klik **Neem akkoorden over**, bevestig de toonsoort en klik **Maak pack van deze akkoorden**.
+Alle instrumenten worden om jouw progressie heen gebouwd, in jouw toonsoort en over de
+volle lengte van je bestand. Met het vinkje aan blijven je eigen akkoorden exact staan in
+de Chords-track; alleen de partijen eromheen zijn nieuw. Exporteer daarna per instrument
+of als één bestand.
+
 ## Akkoorden importeren uit een bestaande track
 
 Exporteer je akkoorden uit Ableton als MIDI (clip naar de verkenner slepen), laad hem in het

@@ -15,7 +15,7 @@ const api={grooveProfile,applyGrooveDNA,importedTrackEvents,groupMidiEvents:grou
 /* Browser interface. Kept in this file so Groove DNA can be moved as one tool panel. */
 if(typeof document!=='undefined'){
 let importedMidi=null,groovePreview=null,grooveImportToken=0,harmonyResult=null;
-const panel=document.createElement('section');panel.id='grooveDNA';panel.className='future-tool groove-dna';panel.innerHTML='<div class="tool-title"><span class="eyebrow">GROOVE DNA</span><h2>Laat jouw MIDI de feel bepalen</h2><p>Importeer een MIDI uit Ableton. Neem de timing, accenten en rust over terwijl de doeltrack zijn eigen noten en akkoorden houdt.</p></div><div class="groove-load"><label class="midi-drop" for="grooveFile"><strong>Sleep of kies MIDI</strong><span>Type 0/1 · maximaal 4 MB, 32 maten en 20.000 noten</span><input id="grooveFile" type="file" accept=".mid,.midi,audio/midi,audio/x-midi"></label><div id="grooveFileMeta" class="groove-file-meta">Nog geen MIDI geladen</div></div><div id="grooveControls" class="groove-controls" hidden><label>Brontrack<select id="grooveTrack"></select></label><label>Doel in MIDIROOM<select id="grooveTarget"></select></label><label>Groove-lus<select id="grooveCycle"><option value="1">1 maat</option><option value="2">2 maten</option><option value="4">4 maten</option></select></label><div class="groove-actions"><button id="grooveListen">▶ Vergelijk groove</button><button id="grooveApply" class="primary">Neem Groove DNA over</button><button id="grooveImport">Importeer als track</button><button id="grooveHarmony">Neem akkoorden over</button></div></div><div id="grooveHarmonyBox" class="groove-controls" hidden><label>Toonsoort<select id="grooveHarmonyKey"></select></label><p id="grooveHarmonyInfo" class="groove-file-meta"></p><div class="groove-actions"><button id="grooveHarmonyUse" class="primary">Bouw hierop verder</button></div></div><p id="grooveStatus" role="status">Je bestand blijft lokaal. Sustain (CC64) wordt verwerkt; overige CC, program changes, aftertouch en pitch bend worden genegeerd.</p>';
+const panel=document.createElement('section');panel.id='grooveDNA';panel.className='future-tool groove-dna';panel.innerHTML='<div class="tool-title"><span class="eyebrow">GROOVE DNA</span><h2>Laat jouw MIDI de feel bepalen</h2><p>Importeer een MIDI uit Ableton. Neem de timing, accenten en rust over terwijl de doeltrack zijn eigen noten en akkoorden houdt.</p></div><div class="groove-load"><label class="midi-drop" for="grooveFile"><strong>Sleep of kies MIDI</strong><span>Type 0/1 · maximaal 4 MB, 32 maten en 20.000 noten</span><input id="grooveFile" type="file" accept=".mid,.midi,audio/midi,audio/x-midi"></label><div id="grooveFileMeta" class="groove-file-meta">Nog geen MIDI geladen</div></div><div id="grooveControls" class="groove-controls" hidden><label>Brontrack<select id="grooveTrack"></select></label><label>Doel in MIDIROOM<select id="grooveTarget"></select></label><label>Groove-lus<select id="grooveCycle"><option value="1">1 maat</option><option value="2">2 maten</option><option value="4">4 maten</option></select></label><div class="groove-actions"><button id="grooveListen">▶ Vergelijk groove</button><button id="grooveApply" class="primary">Neem Groove DNA over</button><button id="grooveImport">Importeer als track</button><button id="grooveHarmony">Neem akkoorden over</button></div></div><div id="grooveHarmonyBox" class="groove-controls" hidden><label>Toonsoort<select id="grooveHarmonyKey"></select></label><p id="grooveHarmonyInfo" class="groove-file-meta"></p><div class="groove-actions"><button id="grooveHarmonyUse" class="primary">Bouw hierop verder</button><button id="grooveHarmonyPack">Maak pack van deze akkoorden</button></div><label class="check" style="margin-top:6px"><input type="checkbox" id="grooveKeepChords" checked> mijn eigen akkoorden behouden als Chords-track</label></div><p id="grooveStatus" role="status">Je bestand blijft lokaal. Sustain (CC64) wordt verwerkt; overige CC, program changes, aftertouch en pitch bend worden genegeerd.</p>';
 (document.querySelector('.rollbox')||document.querySelector('main')).before(panel);
 const ge=id=>document.getElementById(id),status=s=>ge('grooveStatus').textContent=s;
 function fillGrooveTargets(){const old=ge('grooveTarget').value;ge('grooveTarget').innerHTML=(current?.parts||[]).map(p=>'<option value="'+p.id+'">'+p.label+(sessionConfig.locks[p.id]?' · vast':'')+'</option>').join('');if(current?.parts.some(p=>p.id===old))ge('grooveTarget').value=old;}
@@ -27,26 +27,75 @@ ge('grooveListen').onclick=()=>{try{groovePreview=buildGrooveCandidate();listenD
 ge('grooveHarmony').onclick=()=>{try{
  if(!importedMidi)throw new Error('Laad eerst een MIDI-bestand.');
  const tr=importedMidi.tracks[Number(ge('grooveTrack').value)];
- if(!tr||!tr.notes||!tr.notes.length)throw new Error('De gekozen track bevat geen noten.');
- const h=detectHarmony(tr.notes,{});
+ const src=(tr&&(tr.events||tr.notes))||[];
+ if(!src.length)throw new Error('De gekozen track bevat geen noten.');
+ const r=importedMidi;
+ const h=detectHarmony(src,{});
  if(!h.ok)throw new Error(h.reason);
+ h.sourceEvents=src.map(e=>({tick:e.tick,dur:e.dur,midi:e.midi,vel:e.vel}));
+ if(r&&r.bpm)h.bpm=r.bpm;
  harmonyResult=h;
+ if(typeof window!=='undefined')window.__midiroomHarmony=h;
  ge('grooveHarmonyKey').innerHTML=h.candidates.map((c,i)=>'<option value="'+i+'">'+c.rootName+' '+c.scaleName+' ('+c.fit+'% passend)</option>').join('');
  ge('grooveHarmonyInfo').textContent=h.label+'  \u00b7  '+h.bars+' maten  \u00b7  akkoord duurt '+h.chordBars+' maat/maten  \u00b7  '+h.chordSize+' noten per akkoord';
  ge('grooveHarmonyBox').hidden=false;
  status('Akkoorden herkend. Bevestig de toonsoort: relatieve majeur en mineur bevatten dezelfde noten, dus alleen jij weet welke klopt.');
 }catch(err){status(err.message);}};
+function setControl(id,v){const el=document.getElementById(id);if(el&&v!=null){el.value=String(v);el.dispatchEvent(new Event('change',{bubbles:true}));}}
+function applyHarmonyToSession(h,c,barOverride){
+ window.__midiroomCustomDegrees=h.degrees.slice();
+ setControl('root',c.root);setControl('scale',c.scale);
+ setControl('chordBars',h.chordBars);setControl('chordSize',h.chordSize);
+ if(h.bpm)setControl('bpm',Math.round(h.bpm));
+ // match the imported length, otherwise a 16-bar progression gets cut to the 8-bar default
+ const barsEl=document.getElementById('bars');
+ if(barsEl&&barOverride){
+  const want=String(Math.min(32,Math.max(1,barOverride)));
+  const has=Array.from(barsEl.options||[]).some(o=>o.value===want);
+  if(!has&&barsEl.options){const o=document.createElement('option');o.value=want;o.textContent=want;barsEl.appendChild(o);}
+  setControl('bars',want);
+ }
+}
+// Keep the user's own chord notes instead of a regenerated approximation of them.
+function restoreOwnChords(h){
+ if(!current||!h.sourceEvents||!h.sourceEvents.length)return false;
+ const part=current.parts.find(p=>p.id==='chords');
+ if(!part)return false;
+ const end=current.meta.bars*1920;
+ part.events=h.sourceEvents.filter(e=>e.tick<end)
+   .map(e=>({tick:e.tick,dur:Math.max(1,Math.min(e.dur,end-e.tick)),midi:e.midi,vel:e.vel}));
+ current.customEdit=true;
+ return part.events.length>0;
+}
 ge('grooveHarmonyUse').onclick=()=>{try{
  const h=harmonyResult;if(!h)throw new Error('Herken eerst de akkoorden.');
  const c=h.candidates[Number(ge('grooveHarmonyKey').value)]||h.candidates[0];
- const set=(id,v)=>{const el=document.getElementById(id);if(el&&v!=null){el.value=String(v);el.dispatchEvent(new Event('change',{bubbles:true}));}};
- window.__midiroomCustomDegrees=h.degrees.slice();
- set('root',c.root);set('scale',c.scale);set('chordBars',h.chordBars);set('chordSize',h.chordSize);
- if(h.bpm)set('bpm',Math.round(h.bpm));
+ applyHarmonyToSession(h,c,h.bars);
  if(typeof generate==='function')generate();
- status('Overgenomen: '+c.rootName+' '+c.scaleName+' \u00b7 '+h.label+'. Alle partijen worden nu om jouw akkoorden heen gebouwd.');
+ let msg='Overgenomen: '+c.rootName+' '+c.scaleName+' \u00b7 '+h.label+' \u00b7 '+h.bars+' maten.';
+ if(ge('grooveKeepChords').checked&&restoreOwnChords(h)){
+  if(typeof finishSession==='function')finishSession(current,'Jouw akkoorden staan in de Chords-track.');
+  msg+=' Je eigen akkoorden staan onaangeroerd in de Chords-track.';
+ }
+ status(msg);
 }catch(err){status(err.message);}};
-ge('grooveApply').onclick=()=>{try{const next=buildGrooveCandidate();vocalLinked=false;finishSession(next,'Groove DNA toegepast op '+PART_DEFS[ge('grooveTarget').value].label+'. Undo herstelt het origineel.');status('Groove toegepast. Toonhoogtes en akkoordvormen van de doeltrack zijn behouden.');}catch(err){status(err.message);}};
+ge('grooveHarmonyPack').onclick=()=>{try{
+ const h=harmonyResult;if(!h)throw new Error('Herken eerst de akkoorden.');
+ const c=h.candidates[Number(ge('grooveHarmonyKey').value)]||h.candidates[0];
+ // switch every complementary instrument on; the chords themselves stay the user's
+ const want=['drums','kick','bass','chords','pad','lead','harmony','pluck','arp'];
+ document.querySelectorAll('[data-part]').forEach(cb=>{
+  const on=want.includes(cb.dataset.part);
+  if(cb.checked!==on){cb.checked=on;cb.dispatchEvent(new Event('change',{bubbles:true}));}
+ });
+ applyHarmonyToSession(h,c,h.bars);
+ if(typeof generate==='function')generate();
+ const kept=ge('grooveKeepChords').checked&&restoreOwnChords(h);
+ if(kept&&typeof finishSession==='function')finishSession(current,'Pack gebouwd op jouw akkoorden.');
+ const made=current&&current.parts?current.parts.length:0;
+ status('Pack gebouwd: '+made+' partijen in '+c.rootName+' '+c.scaleName+' \u00b7 '+h.label+' \u00b7 '+h.bars+' maten.'
+  +(kept?' Je eigen akkoorden zijn behouden.':'')+' Exporteer hieronder per partij of als \u00e9\u00e9n bestand.');
+}catch(err){status(err.message);}};ge('grooveApply').onclick=()=>{try{const next=buildGrooveCandidate();vocalLinked=false;finishSession(next,'Groove DNA toegepast op '+PART_DEFS[ge('grooveTarget').value].label+'. Undo herstelt het origineel.');status('Groove toegepast. Toonhoogtes en akkoordvormen van de doeltrack zijn behouden.');}catch(err){status(err.message);}};
 ge('grooveImport').onclick=()=>{try{if(!current)throw new Error('Genereer eerst een MIDIROOM-loop.');const id=ge('grooveTarget').value;if(sessionConfig.locks[id])throw new Error('Ontgrendel '+PART_DEFS[id].label+' om MIDI te importeren.');const track=selectedImportedTrack();if(!track)throw new Error('Kies een brontrack.');const next=clone(current),part=next.parts.find(p=>p.id===id);if(!part)throw new Error('De doeltrack ontbreekt.');const end=next.meta.bars*1920,imported=importedTrackEvents(track,end),other=next.parts.reduce((n,p)=>n+(p.id===id?0:p.events.length),0);if(other+imported.length>50000)throw new Error('De sessie zou meer dan 50.000 noten bevatten. Kies een rustigere MIDI-track.');part.events=imported;next.customEdit=true;next.vocalTiming=false;delete next.vocalSourceSerial;vocalLinked=false;finishSession(next,'MIDI geïmporteerd in '+PART_DEFS[id].label+'. Undo herstelt het origineel.');const clipped=track.events.some(e=>e.tick+e.dur>end);status('Track geïmporteerd zonder timestretch.'+(clipped?' Noten buiten '+next.meta.bars+' maten zijn afgekapt.':''));}catch(err){status(err.message);}};
 const oldRenderGroove=renderSession;renderSession=function(){oldRenderGroove();if(ge('grooveTarget'))fillGrooveTargets();};
 }

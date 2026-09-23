@@ -582,16 +582,7 @@ function generate(event){
     if(structureId){
       const g=GENRES.find(x=>x.id===activeGenre&&!x.free);
       current=generateArrangement(baseParams,structureId,g);
-    }else current=generateSection({
-      seed:$('seed').value||'x',
-      root:+$('root').value, octave:5, scale:$('scale').value,
-      progression:$('prog').value, bars:+$('bars').value,
-      chordSize:+$('chordSize').value, chordBars:+$('chordBars').value,
-      humanize:$('humanize').checked,
-      timingHumanize:$('timingHum').checked,
-      swing:(+$('swing').value||0)/100,
-      bpm, parts, partOpts, tries:120,
-    });
+    }else current=generateSection(baseParams);
     current.bpm=bpm;
     if(typeof afterSessionGeneration==='function')afterSessionGeneration(previous);
     vocalLinked=false;
