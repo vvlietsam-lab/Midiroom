@@ -180,6 +180,48 @@ main{padding:22px;gap:14px;background:radial-gradient(ellipse at 100% 0%,#7acdb2
 @media(min-width:1400px){.wrap{grid-template-columns:250px minmax(0,1fr) 250px}.inspector-closed .wrap{grid-template-columns:250px minmax(0,1fr)}}@media(max-width:1190px){.editing-heading{align-items:start;flex-direction:column;gap:10px}.workspace-heading h2{font-size:25px}.workspace-heading .action-row #generate{padding:8px 11px}}@media(max-width:760px){header{padding:10px 12px 0;min-height:65px;gap:12px}.studio-mark{width:32px;height:32px}.studio-wordmark{font-size:16px}.studio-wordmark small{font-size:6px}.topnav{height:46px;gap:3px}.topnav button{height:34px;min-height:34px;padding:0 9px}.studio-dock{padding:9px 12px}.workspace-heading{grid-template-columns:1fr}.workspace-heading h2{font-size:26px}.workspace-heading .action-row{grid-column:1;grid-row:3;justify-content:flex-start;margin-top:7px}.studio-kicker{font-size:7px}main{padding:15px 10px;gap:12px}.session-controls{padding:10px}.editing-heading h3{font-size:16px}.editing-tabs{width:100%;gap:4px}.editing-tabs button{flex:1;min-width:0;justify-content:center;font-size:9px;padding:7px 5px;line-height:1.3}.editing-tabs button span{display:none}#editingTray{padding:12px}.rollbox{padding:10px}.roll-title{margin:-10px -10px 0}#editingTray{margin:0 -10px}#editingPanels .action-row{gap:5px}#editingPanels input[type=file]{width:100%;font-size:10px}#editingPanels svg{max-width:100%}.sculptor-candidates{flex-direction:column}.performance-bar>span{font-size:9px}.tool-view h2{font-size:23px}}
 .sculpt-controls{display:flex;gap:8px;flex-wrap:wrap;align-items:end}.sculpt-controls label{display:flex;flex-direction:column;gap:5px}#sculptCards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-top:10px}.sculpt-card{padding:10px;background:var(--surface-dark);border:1px solid var(--line);border-radius:5px;min-width:0}.sculpt-card strong,.sculpt-card small{display:block}.sculpt-card strong{font-size:12px;font-weight:500;margin:6px 0}.sculpt-card small{font-size:10px;color:var(--dim);line-height:1.5}.sculpt-card>div{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}#sculptSelectionOverlay{position:absolute;top:0;bottom:0;pointer-events:none;z-index:2;background:#bdf5df0b;border-left:1px solid #bdf5df99;border-right:1px solid #bdf5df99}#sculptSelectionOverlay::before{content:attr(data-label);position:absolute;top:5px;left:5px;font:9px monospace;color:#bdf5df;background:#16282ee6;padding:3px 5px;border-radius:3px}.midi-drop{display:flex;flex-direction:column;gap:7px;padding:12px;border:1px dashed #739e8e;border-radius:6px;background:#bdf5df05}.midi-drop strong{font-size:12px;color:var(--signal)}.midi-drop span{font-size:10px}.groove-file-meta{display:flex;flex-direction:column;gap:5px;font-size:10px;margin:10px 0;color:var(--dim);overflow-wrap:anywhere}.groove-file-meta strong{color:var(--bone)}.groove-actions{display:flex;flex-wrap:wrap;gap:6px}.conversation-head{display:flex;align-items:start;justify-content:space-between;gap:12px}.conversation-head-actions{display:flex;align-items:center;flex-wrap:wrap;gap:7px}.conversation-badge{font-size:10px;color:var(--coral)}.conversation-badge.ready{color:var(--signal)}.conversation-timeline{height:auto;padding:8px;margin:9px 0}.conversation-lane{height:24px;position:relative;overflow:hidden;background:#17232a;border-radius:3px}.conversation-lane i{position:absolute;top:4px;height:16px;border-radius:2px}.conversation-lane .voice{background:#bdf5df}.conversation-lane .rest{background:#9aabdc66;border:1px solid #9aabdc99}.conversation-legend{display:flex;gap:12px;font-size:9px;color:var(--dim);margin-top:6px;flex-wrap:wrap}.conversation-legend span{display:flex;align-items:center;gap:4px}.conversation-legend i{width:6px;height:6px;background:#bdf5df}.conversation-legend i.rest{background:#9aabdc}.conversation-legend b{font-weight:400;margin-left:auto}.conversation-targets{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 12px}.conversation-targets label{display:flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:4px;padding:6px}.conversation-targets label span{color:var(--track)}.conversation-label{font-size:9px;color:var(--dim)}.conversation-range input{width:180px}.conversation-mismatch{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:8px;background:#ffac9610;font-size:10px;color:var(--coral);margin:8px 0}@media(max-width:760px){#sculptCards{grid-template-columns:1fr}.sculpt-controls label:first-child{flex:1}.conversation-head{flex-direction:column}.conversation-head-actions{width:100%}.conversation-range input{width:100%}.conversation-legend b{margin-left:0}.groove-controls label{max-width:100%;min-width:0}.groove-controls select{width:100%}.groove-controls{flex-direction:column;align-items:stretch}}
 
+/* --- 3.4 cleanup: one toolbar, roll first, stem splitter --- */
+.workbar{display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:8px 10px;margin:2px 0;
+ background:#1a1e23;border:1px solid #2c333b;border-radius:6px}
+.workbar>.composition-strip,.workbar>.performance-bar,.workbar>.daw-toolbar{display:contents}
+.workbar .action-row{display:contents}
+.workbar label{display:flex;align-items:center;gap:5px;font-size:10px;color:#9caabd;white-space:nowrap}
+.workbar select{font-size:11px;min-height:28px;padding:3px 6px;max-width:130px}
+.workbar button{font-size:10px;min-height:28px;padding:4px 8px}
+.workbar #sessionNotice{flex-basis:100%;margin:0}
+.workbar:before{content:'';flex-basis:0}
+#editingTray{margin-top:4px;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
+#editingTray .editing-heading{padding:12px 16px;border-bottom:1px solid var(--line)}
+#editingPanels{padding:16px}
+#rollViewport{min-height:420px}
+.stem-progress{flex-basis:100%;height:5px;border-radius:3px;background:#222a31;overflow:hidden;margin-top:8px}
+.stem-progress>i{display:block;height:100%;width:0;background:var(--signal);transition:width .15s linear}
+.stem-list{display:grid;gap:6px;margin:14px 0}
+.stem-row{display:grid;grid-template-columns:minmax(88px,1fr) minmax(70px,2fr) 62px auto auto;
+ gap:10px;align-items:center;padding:9px 12px;background:#1b2027;border:1px solid #2d343c;border-radius:6px}
+.stem-row strong{font-size:12px;font-weight:500}
+.stem-meter{height:6px;border-radius:3px;background:#252c34;overflow:hidden}
+.stem-meter>i{display:block;height:100%;width:0;background:var(--steel)}
+.stem-db{font:10px monospace;color:var(--dim);text-align:right}
+.stem-row button{font-size:10px;min-height:28px;padding:4px 9px}
+.stem-row button.on{background:var(--signal);border-color:var(--signal);color:#16210c}
+.stem-splitter .tool-title h2{font-size:17px;font-weight:500;margin:4px 0 6px}
+.stem-splitter .tool-title p{font-size:12px;color:var(--dim);line-height:1.6}
+@media(max-width:760px){.stem-row{grid-template-columns:1fr auto auto;gap:7px}.stem-meter,.stem-db{grid-column:1/-1}}
+
+.topline{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.topline>.workspace-heading{flex:1 1 320px;min-width:0}
+.topline>.projectbar{flex:0 1 auto;margin:0}
+.studio-kicker{display:none}
+.workspace-heading h2{font-size:17px}
+@media(max-width:900px){.topline{flex-direction:column;align-items:stretch}}
+
+/* visual grouping inside the merged toolbar */
+.workbar>.performance-bar>:first-child,.workbar .action-row>:first-child{
+ border-left:1px solid #333c45;padding-left:11px;margin-left:5px}
+.workbar #historyHint{margin-left:auto;font-size:10px}
+.topline>.projectbar{align-self:center}
+
 </style>
 </head>
 <body>
@@ -4475,21 +4517,502 @@ const showBeforeConversation=showVocalAnalysis;showVocalAnalysis=function(){show
 renderConversation();
 })();
 
+/* Offline stem separation. Pure DSP, no model, no network.
+   Harmonic/percussive separation by median filtering the spectrogram (Fitzgerald 2010),
+   combined with per-bin centre detection from the stereo image.
+   Masks are normalised so the stems sum back to the input — see test/stem-engine.js. */
+(function (root) {
+'use strict';
+
+/* ---------- radix-2 FFT, in place ---------- */
+function fft(re, im, inverse) {
+  const n = re.length;
+  for (let i = 1, j = 0; i < n; i++) {
+    let bit = n >> 1;
+    for (; j & bit; bit >>= 1) j ^= bit;
+    j ^= bit;
+    if (i < j) { let t = re[i]; re[i] = re[j]; re[j] = t; t = im[i]; im[i] = im[j]; im[j] = t; }
+  }
+  for (let len = 2; len <= n; len <<= 1) {
+    const ang = (inverse ? 2 : -2) * Math.PI / len;
+    const wr = Math.cos(ang), wi = Math.sin(ang);
+    for (let i = 0; i < n; i += len) {
+      let cr = 1, ci = 0;
+      for (let k = 0; k < len / 2; k++) {
+        const ar = re[i + k], ai = im[i + k];
+        const br = re[i + k + len / 2], bi = im[i + k + len / 2];
+        const tr = br * cr - bi * ci, ti = br * ci + bi * cr;
+        re[i + k] = ar + tr; im[i + k] = ai + ti;
+        re[i + k + len / 2] = ar - tr; im[i + k + len / 2] = ai - ti;
+        const ncr = cr * wr - ci * wi;
+        ci = cr * wi + ci * wr; cr = ncr;
+      }
+    }
+  }
+  if (inverse) for (let i = 0; i < n; i++) { re[i] /= n; im[i] /= n; }
+}
+
+function hann(n) {
+  const w = new Float32Array(n);
+  for (let i = 0; i < n; i++) w[i] = 0.5 - 0.5 * Math.cos(2 * Math.PI * i / n);
+  return w;
+}
+
+/* ---------- STFT / ISTFT with Hann analysis and synthesis ---------- */
+function stft(sig, frame, hop, win) {
+  const frames = Math.max(1, Math.ceil(sig.length / hop));
+  const bins = frame / 2 + 1;
+  const re = new Float32Array(frames * bins), im = new Float32Array(frames * bins);
+  const br = new Float64Array(frame), bi = new Float64Array(frame);
+  for (let f = 0; f < frames; f++) {
+    const start = f * hop - (frame >> 1);
+    for (let i = 0; i < frame; i++) {
+      const s = start + i;
+      br[i] = (s >= 0 && s < sig.length) ? sig[s] * win[i] : 0;
+      bi[i] = 0;
+    }
+    fft(br, bi, false);
+    for (let k = 0; k < bins; k++) { re[f * bins + k] = br[k]; im[f * bins + k] = bi[k]; }
+  }
+  return { re, im, frames, bins };
+}
+
+function istft(re, im, frames, bins, frame, hop, win, length) {
+  const out = new Float64Array(length + frame);
+  const norm = new Float64Array(length + frame);
+  const br = new Float64Array(frame), bi = new Float64Array(frame);
+  for (let f = 0; f < frames; f++) {
+    for (let k = 0; k < bins; k++) {
+      br[k] = re[f * bins + k]; bi[k] = im[f * bins + k];
+      if (k > 0 && k < frame / 2) { br[frame - k] = re[f * bins + k]; bi[frame - k] = -im[f * bins + k]; }
+    }
+    br[frame / 2] = re[f * bins + bins - 1]; bi[frame / 2] = 0;
+    fft(br, bi, true);
+    const start = f * hop - (frame >> 1);
+    for (let i = 0; i < frame; i++) {
+      const s = start + i;
+      if (s < 0 || s >= length) continue;
+      out[s] += br[i] * win[i];
+      norm[s] += win[i] * win[i];
+    }
+  }
+  const sig = new Float32Array(length);
+  for (let i = 0; i < length; i++) sig[i] = norm[i] > 1e-8 ? out[i] / norm[i] : 0;
+  return sig;
+}
+
+/* ---------- median of a small window ---------- */
+function medianOf(buf, count) {
+  const a = buf.subarray(0, count);
+  // insertion sort: count is small (typically 17 or 31)
+  for (let i = 1; i < count; i++) {
+    const v = a[i]; let j = i - 1;
+    while (j >= 0 && a[j] > v) { a[j + 1] = a[j]; j--; }
+    a[j + 1] = v;
+  }
+  return count & 1 ? a[count >> 1] : (a[(count >> 1) - 1] + a[count >> 1]) / 2;
+}
+
+/* Harmonic content is steady over time, percussive content is steady over frequency:
+   median-filter one way for each and compare. */
+function hpssMasks(mag, frames, bins, kTime, kFreq, power) {
+  const harm = new Float32Array(frames * bins);
+  const perc = new Float32Array(frames * bins);
+  const buf = new Float32Array(Math.max(kTime, kFreq));
+  const hT = kTime >> 1, hF = kFreq >> 1;
+  for (let k = 0; k < bins; k++) {
+    for (let f = 0; f < frames; f++) {
+      let c = 0;
+      for (let d = -hT; d <= hT; d++) {
+        const ff = f + d;
+        if (ff >= 0 && ff < frames) buf[c++] = mag[ff * bins + k];
+      }
+      harm[f * bins + k] = medianOf(buf, c);
+    }
+  }
+  for (let f = 0; f < frames; f++) {
+    for (let k = 0; k < bins; k++) {
+      let c = 0;
+      for (let d = -hF; d <= hF; d++) {
+        const kk = k + d;
+        if (kk >= 0 && kk < bins) buf[c++] = mag[f * bins + kk];
+      }
+      perc[f * bins + k] = medianOf(buf, c);
+    }
+  }
+  // soft Wiener-style masks
+  for (let i = 0; i < harm.length; i++) {
+    const h = Math.pow(harm[i], power), p = Math.pow(perc[i], power);
+    const s = h + p;
+    harm[i] = s > 1e-12 ? h / s : 0.5;
+    perc[i] = s > 1e-12 ? p / s : 0.5;
+  }
+  return { harm, perc };
+}
+
+/* ---------- smooth band edges so a stem never has a hard spectral cut ---------- */
+function ramp(x, lo, hi) {
+  if (x <= lo) return 0;
+  if (x >= hi) return 1;
+  const t = (x - lo) / (hi - lo);
+  return t * t * (3 - 2 * t);
+}
+
+const DEFAULTS = {
+  frame: 2048, hop: 512, kTime: 17, kFreq: 17, power: 2,
+  bassTop: 260,        // Hz: everything harmonic below this becomes the bass stem
+  voiceLow: 180, voiceHigh: 7000,
+  maxSeconds: 45,
+};
+
+/* Separate into drums / bass / vocals / other.
+   left and right are Float32Array; mono input may pass the same array twice. */
+function splitStems(left, right, sampleRate, options, onProgress) {
+  const o = Object.assign({}, DEFAULTS, options || {});
+  if (!left || !left.length) throw new Error('Geen audio om te splitsen.');
+  const limit = Math.min(left.length, Math.floor(o.maxSeconds * sampleRate));
+  const L = left.subarray(0, limit);
+  const R = (right && right.length ? right : left).subarray(0, limit);
+  const win = hann(o.frame);
+  const report = p => { if (onProgress) onProgress(Math.max(0, Math.min(1, p))); };
+
+  report(0.05);
+  const sl = stft(L, o.frame, o.hop, win);
+  report(0.2);
+  const sr = stft(R, o.frame, o.hop, win);
+  report(0.35);
+
+  const { frames, bins } = sl;
+  const n = frames * bins;
+  const mono = new Float32Array(n);
+  for (let i = 0; i < n; i++) {
+    const mr = (sl.re[i] + sr.re[i]) / 2, mi = (sl.im[i] + sr.im[i]) / 2;
+    mono[i] = Math.hypot(mr, mi);
+  }
+  report(0.45);
+  const { harm, perc } = hpssMasks(mono, frames, bins, o.kTime, o.kFreq, o.power);
+  report(0.7);
+
+  // per-bin band weights, precomputed once
+  const binHz = sampleRate / o.frame;
+  const lowW = new Float32Array(bins), voxW = new Float32Array(bins);
+  for (let k = 0; k < bins; k++) {
+    const hz = k * binHz;
+    lowW[k] = 1 - ramp(hz, o.bassTop * 0.55, o.bassTop);
+    voxW[k] = ramp(hz, o.voiceLow * 0.6, o.voiceLow) * (1 - ramp(hz, o.voiceHigh, o.voiceHigh * 1.5));
+  }
+
+  const names = ['drums', 'bass', 'vocals', 'other'];
+  const acc = {};
+  names.forEach(k => { acc[k] = { lre: new Float32Array(n), lim: new Float32Array(n), rre: new Float32Array(n), rim: new Float32Array(n) }; });
+
+  for (let f = 0; f < frames; f++) {
+    for (let k = 0; k < bins; k++) {
+      const i = f * bins + k;
+      const lr = sl.re[i], li = sl.im[i], rr = sr.re[i], ri = sr.im[i];
+      // centre detection: identical in both channels means centre-panned
+      const diff = Math.hypot(lr - rr, li - ri);
+      const sum = Math.hypot(lr, li) + Math.hypot(rr, ri);
+      const centre = sum > 1e-9 ? Math.max(0, 1 - diff / sum) : 1;
+
+      const pm = perc[i], hm = harm[i];
+      let mDrums = pm;
+      let mBass = hm * lowW[k];
+      let mVox = hm * (1 - lowW[k]) * voxW[k] * centre;
+      let mOther = hm - mBass - mVox;
+      if (mOther < 0) mOther = 0;
+      // normalise so nothing is created or lost
+      const tot = mDrums + mBass + mVox + mOther;
+      if (tot > 1e-9) {
+        const g = 1 / tot;
+        mDrums *= g; mBass *= g; mVox *= g; mOther *= g;
+      } else { mDrums = mBass = mVox = mOther = 0.25; }
+
+      const ms = [mDrums, mBass, mVox, mOther];
+      for (let s = 0; s < 4; s++) {
+        const a = acc[names[s]], m = ms[s];
+        a.lre[i] = lr * m; a.lim[i] = li * m;
+        a.rre[i] = rr * m; a.rim[i] = ri * m;
+      }
+    }
+  }
+  report(0.8);
+
+  const out = {};
+  names.forEach((name, idx) => {
+    const a = acc[name];
+    out[name] = {
+      l: istft(a.lre, a.lim, frames, bins, o.frame, o.hop, win, limit),
+      r: istft(a.rre, a.rim, frames, bins, o.frame, o.hop, win, limit),
+    };
+    report(0.8 + 0.05 * (idx + 1));
+  });
+  out.sampleRate = sampleRate;
+  out.length = limit;
+  report(1);
+  return out;
+}
+
+/* ---------- 16-bit WAV writer so a stem can be downloaded ---------- */
+function encodeWav(l, r, sampleRate) {
+  const channels = r ? 2 : 1, n = l.length;
+  const bytes = 44 + n * channels * 2;
+  const buf = new ArrayBuffer(bytes), view = new DataView(buf);
+  const str = (off, s) => { for (let i = 0; i < s.length; i++) view.setUint8(off + i, s.charCodeAt(i)); };
+  str(0, 'RIFF'); view.setUint32(4, bytes - 8, true); str(8, 'WAVE');
+  str(12, 'fmt '); view.setUint32(16, 16, true); view.setUint16(20, 1, true);
+  view.setUint16(22, channels, true); view.setUint32(24, sampleRate, true);
+  view.setUint32(28, sampleRate * channels * 2, true); view.setUint16(32, channels * 2, true);
+  view.setUint16(34, 16, true); str(36, 'data'); view.setUint32(40, n * channels * 2, true);
+  let p = 44;
+  const clip = v => Math.max(-1, Math.min(1, v));
+  for (let i = 0; i < n; i++) {
+    view.setInt16(p, clip(l[i]) * 32767, true); p += 2;
+    if (r) { view.setInt16(p, clip(r[i]) * 32767, true); p += 2; }
+  }
+  return new Uint8Array(buf);
+}
+
+/* peak and RMS, for showing how much ended up in each stem */
+function levelOf(sig) {
+  let peak = 0, sum = 0;
+  for (let i = 0; i < sig.length; i++) { const v = Math.abs(sig[i]); if (v > peak) peak = v; sum += sig[i] * sig[i]; }
+  return { peak, rms: Math.sqrt(sum / Math.max(1, sig.length)) };
+}
+
+/* Self-contained worker source, built from the very functions tested above:
+   there is no second implementation that could drift from this one. */
+function workerScript() {
+  return [fft, hann, stft, istft, medianOf, hpssMasks, ramp]
+      .map(f => f.toString()).join('\n')
+    + '\nconst DEFAULTS=' + JSON.stringify(DEFAULTS) + ';\n'
+    + splitStems.toString()
+    + '\nonmessage=function(e){try{'
+    + 'var d=e.data;'
+    + 'var out=splitStems(d.l,d.r,d.sampleRate,d.options,function(p){postMessage({progress:p});});'
+    + 'var keys=["drums","bass","vocals","other"];var pay={sampleRate:out.sampleRate,length:out.length};'
+    + 'var moves=[];keys.forEach(function(k){pay[k]={l:out[k].l,r:out[k].r};moves.push(out[k].l.buffer,out[k].r.buffer);});'
+    + 'postMessage({done:pay},moves);'
+    + '}catch(err){postMessage({error:err.message});}};';
+}
+
+const api = { fft, stft, istft, hpssMasks, splitStems, encodeWav, levelOf, hann, workerScript, DEFAULTS };
+if (typeof module !== 'undefined') module.exports = api;
+Object.assign(root, { MidiroomStems: api });
+})(typeof globalThis !== 'undefined' ? globalThis : this);
+
+/* Stem Splitter panel. Decodes an audio file, separates it off the main thread,
+   and offers each stem for listening and download. Everything stays on the device. */
+if (typeof document !== 'undefined') {
+(function () {
+'use strict';
+const STEMS = [['drums', 'Drums'], ['bass', 'Bas'], ['vocals', 'Zang / midden'], ['other', 'Rest']];
+
+const panel = document.createElement('section');
+panel.id = 'stemSplitter';
+panel.className = 'future-tool stem-splitter';
+panel.hidden = true;
+panel.innerHTML =
+ '<div class="tool-title"><span class="eyebrow">STEM SPLITTER</span>'
+ + '<h2>Haal een track uit elkaar</h2>'
+ + '<p>Kies een audiobestand. Drums, bas, zang en de rest worden op je eigen apparaat gescheiden — er gaat niets naar een server.</p></div>'
+ + '<div class="groove-load"><label class="midi-drop" for="stemFile"><strong>Sleep of kies audio</strong>'
+ + '<span>wav, mp3, flac of ogg · de eerste 45 seconden worden verwerkt</span>'
+ + '<input id="stemFile" type="file" accept="audio/*"></label>'
+ + '<div id="stemFileMeta" class="groove-file-meta">Nog geen audio geladen</div></div>'
+ + '<div id="stemControls" class="groove-controls" hidden>'
+ + '<div class="groove-actions"><button id="stemRun" class="primary">Splits in stems</button>'
+ + '<button id="stemStop">Stop met luisteren</button></div>'
+ + '<div id="stemProgress" class="stem-progress" hidden><i></i></div></div>'
+ + '<div id="stemList" class="stem-list" hidden>'
+ + STEMS.map(([k, label]) =>
+     '<div class="stem-row" data-stem="' + k + '"><strong>' + label + '</strong>'
+     + '<span class="stem-meter"><i id="stemBar-' + k + '"></i></span>'
+     + '<span class="stem-db" id="stemDb-' + k + '">—</span>'
+     + '<button data-play="' + k + '">Luister</button>'
+     + '<button data-save="' + k + '">WAV</button></div>').join('')
+ + '</div>'
+ + '<p id="stemStatus" role="status">Dit is signaalbewerking (spectrale scheiding), geen getraind model. '
+ + 'Op strakke, breed gemixte tracks werkt het goed; op dichte mixen lekken de stems in elkaar. '
+ + 'Bruikbaar om een drumloop te pakken, het laag te isoleren of een mix te ontleden — niet om een release van te maken.</p>';
+
+const host = document.getElementById('editingPanels') || document.querySelector('main');
+if (host) host.appendChild(panel);
+
+const ge = id => document.getElementById(id);
+const setStatus = t => { const el = ge('stemStatus'); if (el) el.textContent = t; };
+
+let audioBuffer = null, stems = null, worker = null, loadToken = 0;
+let playCtx = null, playSource = null;
+
+function fmtTime(s) { const m = Math.floor(s / 60); return m + ':' + String(Math.floor(s % 60)).padStart(2, '0'); }
+function dbOf(x) { return x > 1e-6 ? 20 * Math.log10(x) : -Infinity; }
+
+ge('stemFile').addEventListener('change', async e => {
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+  const token = ++loadToken;
+  stopPlayback();
+  stems = null;
+  ge('stemList').hidden = true;
+  ge('stemFileMeta').textContent = 'Laden…';
+  try {
+    if (file.size > 60 * 1024 * 1024) throw new Error('Bestand is groter dan 60 MB.');
+    const bytes = await file.arrayBuffer();
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx) throw new Error('Deze browser ondersteunt geen Web Audio.');
+    const ctx = new Ctx();
+    const buf = await ctx.decodeAudioData(bytes);
+    ctx.close();
+    if (token !== loadToken) return;
+    audioBuffer = buf;
+    ge('stemFileMeta').textContent = file.name + ' · ' + fmtTime(buf.duration)
+      + ' · ' + Math.round(buf.sampleRate / 100) / 10 + ' kHz · '
+      + (buf.numberOfChannels > 1 ? 'stereo' : 'mono');
+    ge('stemControls').hidden = false;
+    setStatus('Klaar om te splitsen. Dit duurt een paar seconden en gebeurt op je eigen apparaat.');
+  } catch (err) {
+    if (token !== loadToken) return;
+    audioBuffer = null;
+    ge('stemControls').hidden = true;
+    ge('stemFileMeta').textContent = 'Nog geen audio geladen';
+    setStatus('Kon dit bestand niet lezen: ' + err.message);
+  }
+});
+
+function showProgress(p) {
+  const box = ge('stemProgress');
+  box.hidden = false;
+  box.firstElementChild.style.width = Math.round(p * 100) + '%';
+}
+
+ge('stemRun').addEventListener('click', () => {
+  if (!audioBuffer) { setStatus('Kies eerst een audiobestand.'); return; }
+  if (worker) { worker.terminate(); worker = null; }
+  stopPlayback();
+  ge('stemRun').disabled = true;
+  showProgress(0);
+  setStatus('Bezig met scheiden…');
+  const l = audioBuffer.getChannelData(0).slice();
+  const r = audioBuffer.numberOfChannels > 1 ? audioBuffer.getChannelData(1).slice() : l.slice();
+  let url = null;
+  try {
+    url = URL.createObjectURL(new Blob([MidiroomStems.workerScript()], { type: 'text/javascript' }));
+    worker = new Worker(url);
+  } catch (err) {
+    ge('stemRun').disabled = false;
+    ge('stemProgress').hidden = true;
+    setStatus('Kon de achtergrondtaak niet starten: ' + err.message);
+    return;
+  }
+  URL.revokeObjectURL(url);
+  worker.onmessage = ev => {
+    const d = ev.data || {};
+    if (d.progress != null) { showProgress(d.progress); return; }
+    if (d.error) {
+      ge('stemRun').disabled = false; ge('stemProgress').hidden = true;
+      setStatus('Splitsen mislukt: ' + d.error);
+      worker.terminate(); worker = null; return;
+    }
+    if (d.done) {
+      stems = d.done;
+      window.__midiroomStems = stems;   // readable by the browser test
+      ge('stemRun').disabled = false;
+      ge('stemProgress').hidden = true;
+      ge('stemList').hidden = false;
+      let loudest = 0;
+      STEMS.forEach(([k]) => { loudest = Math.max(loudest, MidiroomStems.levelOf(stems[k].l).rms); });
+      STEMS.forEach(([k]) => {
+        const lv = MidiroomStems.levelOf(stems[k].l);
+        const rel = loudest > 0 ? lv.rms / loudest : 0;
+        ge('stemBar-' + k).style.width = Math.round(Math.sqrt(rel) * 100) + '%';
+        const d2 = dbOf(lv.rms);
+        ge('stemDb-' + k).textContent = isFinite(d2) ? d2.toFixed(1) + ' dB' : 'stil';
+      });
+      setStatus('Klaar. Luister per stem, of download als WAV. Spectrale scheiding lekt altijd iets — '
+        + 'beoordeel het met je eigen oren voordat je het gebruikt.');
+      worker.terminate(); worker = null;
+    }
+  };
+  worker.onerror = err => {
+    ge('stemRun').disabled = false; ge('stemProgress').hidden = true;
+    setStatus('Splitsen mislukt: ' + (err.message || 'onbekende fout'));
+    if (worker) { worker.terminate(); worker = null; }
+  };
+  worker.postMessage({ l, r, sampleRate: audioBuffer.sampleRate, options: {} }, [l.buffer, r.buffer]);
+});
+
+function stopPlayback() {
+  if (playSource) { try { playSource.stop(0); } catch (e) {} playSource = null; }
+  if (playCtx) { try { playCtx.close(); } catch (e) {} playCtx = null; }
+  document.querySelectorAll('[data-play]').forEach(b => b.classList.remove('on'));
+}
+ge('stemStop').addEventListener('click', () => { stopPlayback(); setStatus('Gestopt.'); });
+
+ge('stemList').addEventListener('click', ev => {
+  const play = ev.target.closest('[data-play]');
+  const save = ev.target.closest('[data-save]');
+  if (play) {
+    const k = play.dataset.play;
+    if (!stems || !stems[k]) return;
+    const wasOn = play.classList.contains('on');
+    stopPlayback();
+    if (wasOn) return;
+    try {
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      playCtx = new Ctx();
+      const buf = playCtx.createBuffer(2, stems[k].l.length, stems.sampleRate);
+      buf.copyToChannel(stems[k].l, 0); buf.copyToChannel(stems[k].r, 1);
+      playSource = playCtx.createBufferSource();
+      playSource.buffer = buf;
+      playSource.connect(playCtx.destination);
+      playSource.onended = () => { play.classList.remove('on'); };
+      playSource.start();
+      play.classList.add('on');
+      setStatus('Speelt: ' + (STEMS.find(s => s[0] === k) || [])[1] + '. Klik nog eens om te stoppen.');
+    } catch (err) { setStatus('Afspelen mislukt: ' + err.message); }
+    return;
+  }
+  if (save) {
+    const k = save.dataset.save;
+    if (!stems || !stems[k]) return;
+    try {
+      const wav = MidiroomStems.encodeWav(stems[k].l, stems[k].r, stems.sampleRate);
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([wav], { type: 'audio/wav' }));
+      a.download = 'stem-' + k + '.wav';
+      document.body.appendChild(a); a.click();
+      setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 400);
+      setStatus('WAV opgeslagen.');
+    } catch (err) { setStatus('Opslaan mislukt: ' + err.message); }
+  }
+});
+})();
+}
+
 /* 3.0: one editing surface, three focused tools, scalable inline brand. */
 const studioMark='<svg class="studio-mark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="16" fill="#16282e"/><path d="M14 46V18h7l11 16 11-16h7v28h-8V32L32 46 22 32v14z" fill="#bdf5df"/><path d="M43 10h11v4H43z" fill="#ff967f"/></svg>';
 document.querySelector('header h1').innerHTML=studioMark+'<span class="studio-wordmark">MIDI<span>ROOM</span><small>COMPOSITION STUDIO</small></span>';
 const favicon=document.createElement('link');favicon.rel='icon';favicon.href='data:image/svg+xml,'+encodeURIComponent(studioMark.replace('class="studio-mark"',''));document.head.appendChild(favicon);
-const studioTools=[['sculptor','Frase Sculptor','phraseSculptor','01'],['groove','Groove DNA','grooveDNA','02'],['vocal','Vocal Conversation','vocalConversation','03']];
+const studioTools=[['sculptor','Frase Sculptor','phraseSculptor','01'],['groove','Groove DNA','grooveDNA','02'],['vocal','Vocal Conversation','vocalConversation','03'],['stems','Stem Splitter','stemSplitter','04']];
 const editingTray=document.createElement('section');editingTray.id='editingTray';editingTray.innerHTML='<div class="editing-heading"><div><span class="eyebrow">IDEA → EXPRESSION</span><h3>Shape your sound.</h3></div><div role="tablist" aria-label="MIDI-bewerking" class="editing-tabs">'+studioTools.map(([key,label,id,n])=>'<button type="button" id="studioTool-'+key+'" role="tab" aria-controls="'+id+'" aria-selected="false" tabindex="-1"><span>'+n+'</span>'+label+'</button>').join('')+'</div></div><div id="editingPanels"></div>';
-const mainRoll=document.querySelector('.rollbox');document.querySelector('.daw-toolbar').after(mainRoll);document.querySelector('#rollViewport').before(editingTray);
+const mainRoll=document.querySelector('.rollbox');document.querySelector('.daw-toolbar').after(mainRoll);mainRoll.after(editingTray);
 for(const [key,label,id] of studioTools){const panel=$(id);if(panel){$('editingPanels').appendChild(panel);panel.setAttribute('role','tabpanel');panel.setAttribute('aria-labelledby','studioTool-'+key);panel.tabIndex=0;}}
 function selectStudioTool(key){studioTools.forEach(([k,label,id])=>{const on=k===key;$('studioTool-'+k).setAttribute('aria-selected',String(on));$('studioTool-'+k).tabIndex=on?0:-1;if($(id)){$(id).hidden=!on;if(on&&$(id).tagName==='DETAILS')$(id).open=true;}});if(key==='vocal'&&typeof renderConversation==='function')renderConversation();window.dispatchEvent(new Event('resize'));}
-studioTools.forEach(([key],i)=>{const tab=$('studioTool-'+key);tab.onclick=()=>selectStudioTool(key);tab.onkeydown=e=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();const n=e.key==='Home'?0:e.key==='End'?2:(i+(e.key==='ArrowRight'?1:2))%3;selectStudioTool(studioTools[n][0]);$('studioTool-'+studioTools[n][0]).focus();};});
+studioTools.forEach(([key],i)=>{const tab=$('studioTool-'+key);tab.onclick=()=>selectStudioTool(key);tab.onkeydown=e=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();const L=studioTools.length;const n=e.key==='Home'?0:e.key==='End'?L-1:(i+(e.key==='ArrowRight'?1:L-1))%L;selectStudioTool(studioTools[n][0]);$('studioTool-'+studioTools[n][0]).focus();};});
 selectStudioTool('sculptor');
 const exploration=document.createElement('div');exploration.className='exploration-stack';mainRoll.after(exploration);['vocalDrawer','discoveryLab','sceneRack'].forEach(id=>{if($(id))exploration.appendChild($(id));});
 document.querySelector('.workspace-heading h2').innerHTML='Make the next <em>idea.</em>';
+const topline=document.createElement('div');topline.className='topline';
+const pb=document.querySelector('.projectbar'),wh=document.querySelector('.workspace-heading');
+if(pb&&wh){wh.before(topline);topline.appendChild(wh);topline.appendChild(pb);}
 const studioKicker=document.createElement('span');studioKicker.className='studio-kicker';studioKicker.textContent='MIDIROOM / CREATIVE WORKSPACE';document.querySelector('.workspace-heading h2').before(studioKicker);
-mainRoll.after($('exports'));$('exports').after(exploration);mainRoll.before($('meta'));
+mainRoll.after($('exports'));$('exports').after(editingTray);editingTray.after(exploration);mainRoll.before($('meta'));
+/* One toolbar instead of four stacked strips: the strips keep their own elements and
+   handlers, display:contents flattens them into a single row. */
+const workbar=document.createElement('div');workbar.className='workbar';
+const strips=['.composition-strip','.performance-bar','.daw-toolbar'].map(sel=>document.querySelector(sel)).filter(Boolean);
+if(strips.length){strips[0].before(workbar);strips.forEach(el=>workbar.appendChild(el));}
 
 
 paintMS();

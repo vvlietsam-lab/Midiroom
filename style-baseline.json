@@ -1,0 +1,15 @@
+{
+  "note": "Toegestane afwijkingen per vergelijking. Mag alleen omlaag. Bijwerken met: npm run test:style -- --update-baseline",
+  "updated": "2026-09-15",
+  "total": 1,
+  "perComparison": {
+    "screech->screech": 0,
+    "screech->gabber": 1,
+    "arp->arp": 0,
+    "darkmelody->darkmelody": 0,
+    "lead->lead": 0,
+    "chords->chords": 0,
+    "bass->bass": 0,
+    "pad->pad": 0
+  }
+}

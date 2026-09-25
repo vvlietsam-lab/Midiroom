@@ -203,6 +203,16 @@ Voor GitHub: commit de uitgepakte projectinhoud inclusief `src/`, `index.html`, 
 
 MIT-licentie zoals in het oorspronkelijke project.
 
+## Stem splitter
+
+Tabblad MIDI, tool **04 Stem Splitter**. Kies een audiobestand en je krijgt vier stems:
+drums, bas, zang/midden en de rest. Luisteren kan per stem, downloaden als WAV. De eerste
+45 seconden worden verwerkt, alles op je eigen apparaat.
+
+Dit is spectrale scheiding, geen getraind model. Op strakke, breed gemixte tracks werkt het
+goed; op dichte mixen lekken de stems in elkaar. Bedoeld om een drumloop te pakken, het laag
+te isoleren of een mix te ontleden — niet om een release van te maken.
+
 ## Pack bouwen op je eigen akkoorden
 
 Sleep je akkoord-MIDI in het Groove DNA-paneel (tabblad MIDI, onder *Shape your sound*),

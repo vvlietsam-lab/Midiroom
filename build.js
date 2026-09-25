@@ -17,6 +17,8 @@ const out = shell.replace('/*__CORE__*/', core+'\n'+vocal+'\n'+fs.readFileSync(p
   .replace('/*__GROOVE__*/', fs.readFileSync(path.join(root,'src/groove.js'),'utf8'))
   .replace('/*__CONVERSATION_ENGINE__*/', fs.readFileSync(path.join(root,'src/conversation-engine.js'),'utf8'))
   .replace('/*__CONVERSATION__*/', fs.readFileSync(path.join(root,'src/conversation.js'),'utf8'))
+  .replace('/*__STEM_ENGINE__*/', fs.readFileSync(path.join(root,'src/stem-engine.js'),'utf8'))
+  .replace('/*__STEMS__*/', fs.readFileSync(path.join(root,'src/stems.js'),'utf8'))
   .replace('/*__STUDIO__*/', fs.readFileSync(path.join(root,'src/studio.js'),'utf8'))
   .replace('/*__SKIN__*/', fs.readFileSync(path.join(root,'src/skin.js'),'utf8'))
   .replace('/*__DISCOVERY_ENGINE__*/', fs.readFileSync(path.join(root,'src/discovery-engine.js'),'utf8'))
