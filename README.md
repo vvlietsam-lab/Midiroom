@@ -1,4 +1,4 @@
-# MIDIROOM 3.0
+# MIDIROOM 4.0
 
 Offline MIDI-generator en productiewerkruimte. Voor hard dance, techno, house, dubstep, drum & bass UK garage, disco en Italo. Gebouwd op de aangeleverde KICKROOM 1.1-code.
 
@@ -9,6 +9,20 @@ Offline MIDI-generator en productiewerkruimte. Voor hard dance, techno, house, d
 3. Kies een genre, toonsoort en instrumenten. Download MIDI en sleep het in je DAW.
 
 Geen installatie, account, API-key of internet nodig om de app te gebruiken. Alle code en vormgeving zitten in `index.html`. De browserpreview gebruikt eenvoudige synths; het MIDI-bestand bevat geen Serum-preset, audio of effectautomatisering.
+
+## Nieuw in 4.0 — Plasma
+
+Volledig nieuwe vormgeving; alle functies, knoppen en sneltoetsen blijven waar ze waren.
+
+- **Kleur:** bijna-zwart met blauwe ondertoon, grafietpanelen en één signatuur: een plasmaverloop (ultraviolet → magenta → amber). IJsblauw alleen voor afspeelkop, focus en "actief". Nieuwe trackkleuren, verder uit elkaar zodat je ze in de roll direct herkent.
+- **Piano roll:** gloeiende noten met highlight, kleurspoor per track, maatbalk met plasma-lijn, sectielabels als capsules, afspeelkop met lichtspoor. Hoogte schaalt mee met je scherm. Grote packs tekenen direct (glow in één laag, geen blur per noot).
+- **Transport:** LCD-positie, afspeelknop met draaiende ring tijdens afspelen, loop/metronoom als schakelaars, volume als draaiknop.
+- **Controls:** draaiknoppen in Sound Lab (slepen omhoog/omlaag, Shift = fijn, dubbelklik = standaard, scrollwiel, pijltjes), panknoppen en echte faders in de mixer, schakelaars in plaats van vinkjes, sliders met kleurvulling.
+- **Tracks:** LED-aan/uit, M/S-toetsen, live niveaumeter onder elke track tijdens afspelen.
+- **Beweging:** schuivende indicator onder de tabs, lades die inschuiven, knoppen met verloop dat meeloopt. Respecteert "minder beweging" in je systeem.
+- **Leesbaarheid:** geen tekst meer onder 12 px. Lettertypen (Barlow Semi Condensed, JetBrains Mono) zitten ingebouwd — nog steeds volledig offline. Licentie: `LICENSES/OFL-fonts.txt`.
+
+Studio en Night blijven als weergave te kiezen (rechtsboven).
 
 ## Nieuw in 3.0 — drie tools, één piano roll
 
@@ -202,6 +216,16 @@ Voor GitHub: commit de uitgepakte projectinhoud inclusief `src/`, `index.html`, 
 - `docs/ROADMAP.md` — kritisch vervolgplan richting een productieassistent.
 
 MIT-licentie zoals in het oorspronkelijke project.
+
+## Stem splitter
+
+Tabblad MIDI, tool **04 Stem Splitter**. Kies een audiobestand en je krijgt vier stems:
+drums, bas, zang/midden en de rest. Luisteren kan per stem, downloaden als WAV. De eerste
+45 seconden worden verwerkt, alles op je eigen apparaat.
+
+Dit is spectrale scheiding, geen getraind model. Op strakke, breed gemixte tracks werkt het
+goed; op dichte mixen lekken de stems in elkaar. Bedoeld om een drumloop te pakken, het laag
+te isoleren of een mix te ontleden — niet om een release van te maken.
 
 ## Pack bouwen op je eigen akkoorden
 
